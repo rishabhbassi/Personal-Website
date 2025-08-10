@@ -121,4 +121,25 @@ html {
   scroll-behavior: smooth;
 }
 
+.pill-button {
+  color: #ffffff;
+  border: 2px solid #919191ff;
+  padding: 1.55rem 2rem;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 100px;
+  background: linear-gradient(to top, transparent 50%, #5d0dff 50%);
+  background-size: 100% 200%;
+  background-position: bottom;
+  transition: background-position 0.3s ease, color 0.3s ease;
+  display: inline-block;
+  font-family: 'Dennis Sans', sans-serif;
+  cursor: pointer;
+}
+
+.pill-button:hover {
+  background-position: top;
+  color: #fff;
+}
+
 

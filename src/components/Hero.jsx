@@ -3,7 +3,6 @@ import bgSvg from "../assets/finalimage.svg";
 import globeSvg from "../assets/globe 1.svg";
 import ScrollVelocity from "./ScrollVelocity";
 
-
 export default function Hero() {
   return (
     <div
@@ -85,36 +84,35 @@ export default function Hero() {
         }}
       >
         <div style={{ pointerEvents: "auto" }}>
-        <CopyrightLogo />
-        <TopRightNav />
+          <CopyrightLogo />
+          <TopRightNav />
         </div>
         <ScrollVelocity
-  texts={["Design — Development — Analytics —"]}
-  // texts={["Rishabh Bassi —"]}
-  velocity={100}
-  parallaxStyle={{
-  position: "absolute",
-  bottom: "7%",
-  left: 0,
-  width: "100vw",
-  zIndex: 999,
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  overflow: "hidden", // prevents scroll overflow
-}}
-  scrollerStyle={{
-  fontFamily: "'Dennis Sans', sans-serif",
-  color: "white",
-  fontWeight: 500,
-  fontSize: "10rem",
-  lineHeight: 1.2, // ensures proper vertical sizing
-  whiteSpace: "nowrap",
-  display: "inline-block", // helps container measure height correctly
-}}
-/>
-
+          texts={["Design — Development — Analytics —"]}
+          // texts={["Rishabh Bassi —"]}
+          velocity={100}
+          parallaxStyle={{
+            position: "absolute",
+            bottom: "7%",
+            left: 0,
+            width: "100vw",
+            zIndex: 999,
+            pointerEvents: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden", // prevents scroll overflow
+          }}
+          scrollerStyle={{
+            fontFamily: "'Dennis Sans', sans-serif",
+            color: "white",
+            fontWeight: 500,
+            fontSize: "10rem",
+            lineHeight: 1.2, // ensures proper vertical sizing
+            whiteSpace: "nowrap",
+            display: "inline-block", // helps container measure height correctly
+          }}
+        />
       </div>
     </div>
   );
@@ -123,7 +121,14 @@ export default function Hero() {
 // Your SVG shape with optional fill color prop
 function MyShape({ fillColor = "white" }) {
   return (
-    <div style={{ position: "relative", width: 300, height: 120, overflow: "visible" }}>
+    <div
+      style={{
+        position: "relative",
+        width: 300,
+        height: 120,
+        overflow: "visible",
+      }}
+    >
       {/* Your SVG shape */}
       <svg
         width="300"
@@ -153,14 +158,14 @@ function MyShape({ fillColor = "white" }) {
 
       {/* Globe positioned inside the shape */}
       <FloatingGlobeWithTooltip
-  src={globeSvg}
-  style={{
-    top: "35px",
-    left: "215px",
-    width: "50px",
-    height: "50px",
-  }}
-/>
+        src={globeSvg}
+        style={{
+          top: "35px",
+          left: "215px",
+          width: "50px",
+          height: "50px",
+        }}
+      />
     </div>
   );
 }
@@ -295,7 +300,7 @@ function CopyrightLogo() {
             flexShrink: 0,
           }}
         >
-          ©
+          &copy;
         </span>
 
         <div
@@ -411,7 +416,6 @@ const buttonStyle = {
   fontSize: "1.1rem",
   outline: "none",
 };
-
 
 function FloatingGlobeWithTooltip({ src, style }) {
   const [hovered, setHovered] = useState(false);
