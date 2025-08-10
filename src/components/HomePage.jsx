@@ -44,7 +44,7 @@ export default function HomePage() {
       const sectionHeight = sectionRef.current.offsetHeight;
 
       // Allow full travel area (e.g. 50% of section height)
-      const travelDistance = sectionHeight * 0.1;
+      const travelDistance = sectionHeight * 0.5;
 
       setMaxOffset(travelDistance);
     };
