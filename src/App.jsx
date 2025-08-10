@@ -16,6 +16,8 @@ export default function App() {
 
       {/* Loader overlays everything, removed only after animation */}
       {!loadingDone && <Loader onFinish={() => setLoadingDone(true)} />}
+        <Analytics />
+        <SpeedInsights />
     </>
   );
 }
