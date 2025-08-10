@@ -90,7 +90,8 @@ export default function Hero() {
         </div>
         <ScrollVelocity
   texts={["Design — Development — Analytics —"]}
-  velocity={60}
+  // texts={["Rishabh Bassi —"]}
+  velocity={100}
   parallaxStyle={{
   position: "absolute",
   bottom: "7%",
@@ -107,7 +108,7 @@ export default function Hero() {
   fontFamily: "'Dennis Sans', sans-serif",
   color: "white",
   fontWeight: 500,
-  fontSize: "12rem",
+  fontSize: "10rem",
   lineHeight: 1.2, // ensures proper vertical sizing
   whiteSpace: "nowrap",
   display: "inline-block", // helps container measure height correctly
