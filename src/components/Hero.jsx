@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import bgSvg from "../assets/finalimage.svg";
 import globeSvg from "../assets/globe 1.svg";
+import ScrollVelocity from "./ScrollVelocity";
+
 
 export default function Hero() {
   return (
@@ -86,7 +88,32 @@ export default function Hero() {
         <CopyrightLogo />
         <TopRightNav />
         </div>
-        <ScrollingName />
+        <ScrollVelocity
+  texts={["Design — Development — Analytics —"]}
+  velocity={60}
+  parallaxStyle={{
+  position: "absolute",
+  bottom: "10%",
+  left: 0,
+  width: "100vw",
+  zIndex: 999,
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  overflow: "hidden", // prevents scroll overflow
+}}
+  scrollerStyle={{
+  fontFamily: "'Dennis Sans', sans-serif",
+  color: "white",
+  fontWeight: 500,
+  fontSize: 120,
+  lineHeight: 1.2, // ensures proper vertical sizing
+  whiteSpace: "nowrap",
+  display: "inline-block", // helps container measure height correctly
+}}
+/>
+
       </div>
     </div>
   );
@@ -383,102 +410,6 @@ const buttonStyle = {
   fontSize: "1.1rem",
   outline: "none",
 };
-
-
-function ScrollingName() {
-  const text = "Design — Development — Analytics — ";
-  const containerRef = useRef(null);
-  const contentRef = useRef(null);
-  const [direction, setDirection] = useState(1); // 1 = left to right (default), -1 = right to left
-  const position = useRef(0);
-  const speed = 1.7;
-
-  // Duplicate text enough times to cover container width
-  const repeatCount = 20; // increase if needed
-
-  // Scroll direction detection
-  const lastScrollY = useRef(window.scrollY);
-  useEffect(() => {
-    const onScroll = () => {
-      if (window.scrollY < lastScrollY.current) {
-        setDirection(1);
-      } else if (window.scrollY > lastScrollY.current) {
-        setDirection(-1);
-      }
-      lastScrollY.current = window.scrollY;
-    };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    let animationFrameId;
-
-    const animate = () => {
-      if (!contentRef.current || !containerRef.current) {
-        animationFrameId = requestAnimationFrame(animate);
-        return;
-      }
-
-      const containerWidth = containerRef.current.offsetWidth;
-      const contentWidth = contentRef.current.scrollWidth; // use scrollWidth for full width
-
-      position.current += speed * direction;
-
-      // Loop logic:
-      if (direction === 1 && position.current > 0) {
-        // When moving left to right, reset when text fully visible at left edge
-        position.current = -contentWidth / 2;
-      }
-      if (direction === -1 && position.current < -contentWidth / 2) {
-        // When moving right to left, reset when half text fully moved left
-        position.current = 0;
-      }
-
-      contentRef.current.style.transform = `translateX(${position.current}px)`;
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animationFrameId = requestAnimationFrame(animate);
-
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [direction]);
-
-  return (
-    <div
-      ref={containerRef}
-      style={{
-        position: "absolute",
-        bottom: "3%",
-        left: 0,
-        width: "100vw",
-        overflow: "hidden",
-        whiteSpace: "nowrap",
-        pointerEvents: "none",
-        zIndex: 999,
-      }}
-    >
-      <div
-        ref={contentRef}
-        style={{
-          display: "inline-block",
-          fontSize: "13rem",
-          fontWeight: "400",
-          color: "white",
-          fontFamily: "'Dennis Sans', sans-serif",
-          letterSpacing: "0.00em",
-          willChange: "transform",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {[...Array(repeatCount)].map((_, i) => (
-          <span key={i}>{text}</span>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 
 function FloatingGlobeWithTooltip({ src, style }) {

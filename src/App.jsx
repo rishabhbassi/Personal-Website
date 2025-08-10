@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Loader from "./components/Loader";
 import Hero from "./components/Hero";
-import WhiteSection from "./components/WhiteSection"; // ⬅️ Add this line
+import HomePage from "./components/HomePage"; // ⬅️ Add this line
 
 export default function App() {
   const [loadingDone, setLoadingDone] = useState(false);
@@ -12,7 +12,7 @@ export default function App() {
       {loadingDone && (
         <>
           <Hero />
-          <WhiteSection /> {/* ⬅️ Add this below Hero */}
+          <HomePage /> {/* ⬅️ Add this below Hero */}
         </>
       )}
     </>
