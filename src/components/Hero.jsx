@@ -93,7 +93,7 @@ export default function Hero() {
   velocity={60}
   parallaxStyle={{
   position: "absolute",
-  bottom: "10%",
+  bottom: "7%",
   left: 0,
   width: "100vw",
   zIndex: 999,
@@ -107,7 +107,7 @@ export default function Hero() {
   fontFamily: "'Dennis Sans', sans-serif",
   color: "white",
   fontWeight: 500,
-  fontSize: 120,
+  fontSize: "12rem",
   lineHeight: 1.2, // ensures proper vertical sizing
   whiteSpace: "nowrap",
   display: "inline-block", // helps container measure height correctly
@@ -180,7 +180,7 @@ function ArrowAndText({ arrowColor = "white", textColor = "white" }) {
       }}
     >
       {/* Arrow with shifted Y axis and bigger size, rotated right */}
-      <div style={{ transform: "translateY(-90px)" }}>
+      <div style={{ transform: "translateY(-40px)" }}>
         <svg
           width="30"
           height="30"
