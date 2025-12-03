@@ -59,7 +59,38 @@
   font-weight: 400;
   color:#060010;
   font-size: 13vh;
+}
 
+@media (max-width: 768px) {
+  .menu__item-link {
+    font-size: 8vh !important;
+  }
+
+  .marquee span {
+    font-size: 3vh !important;
+  }
+
+  .marquee__img {
+    width: 150px !important;
+    height: 5vh !important;
+    margin: 1em 1vw !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu__item-link {
+    font-size: 6vh !important;
+  }
+
+  .marquee span {
+    font-size: 2.5vh !important;
+  }
+
+  .marquee__img {
+    width: 120px !important;
+    height: 4vh !important;
+    margin: 0.5em 0.5vw !important;
+  }
 }
 
 .menu__item-link:hover {

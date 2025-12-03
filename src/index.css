@@ -29,11 +29,30 @@ body {
   min-width: 320px;
   min-height: 100vh;
   font-family: 'Dennis Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2em;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5em;
+  }
 }
 
 button {
@@ -140,6 +159,20 @@ html {
 .pill-button:hover {
   background-position: top;
   color: #fff;
+}
+
+@media (max-width: 768px) {
+  .pill-button {
+    padding: 1.2rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pill-button {
+    padding: 1rem 1.2rem;
+    font-size: 0.85rem;
+  }
 }
 
 

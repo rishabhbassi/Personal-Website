@@ -2,19 +2,19 @@ import React from 'react';
 import { gsap } from 'gsap';
 import './FlowingMenu.css'; // Make sure this path is correct
 
-function FlowingMenu({ items = [] }) {
+function FlowingMenu({ items = [], onItemClick }) {
   return (
     <div className="menu-wrap">
       <nav className="menu">
         {items.map((item, idx) => (
-          <MenuItem key={idx} {...item} />
+          <MenuItem key={idx} {...item} onItemClick={onItemClick} />
         ))}
       </nav>
     </div>
   );
 }
 
-function MenuItem({ link, text, image }) {
+function MenuItem({ link, text, image, onItemClick }) {
   const itemRef = React.useRef(null);
   const marqueeRef = React.useRef(null);
   const marqueeInnerRef = React.useRef(null);
@@ -72,6 +72,13 @@ function MenuItem({ link, text, image }) {
     </React.Fragment>
   ));
 
+  const handleClick = (e) => {
+    if (onItemClick) {
+      e.preventDefault();
+      onItemClick(text);
+    }
+  };
+
   return (
     <div className="menu__item" ref={itemRef}>
       <a
@@ -79,6 +86,7 @@ function MenuItem({ link, text, image }) {
         href={link}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
       >
         {text}
       </a>

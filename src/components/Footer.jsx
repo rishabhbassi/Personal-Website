@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./Footer.css";
 
 export default function Footer() {
   const [time, setTime] = useState("");
@@ -24,6 +25,7 @@ export default function Footer() {
 
   return (
     <footer
+      id="contact"
       style={{
         height: "100vh",
         width: "100vw",
@@ -38,10 +40,11 @@ export default function Footer() {
         fontFamily: "'Dennis Sans', sans-serif",
         textAlign: "left",
       }}
+      className="footer-container"
     >
       {/* Large heading and arrow */}
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        <h2 style={{ fontWeight: 400, fontSize: "4rem", marginBottom: "1rem" }}>
+      <div style={{ display: "flex", alignItems: "anchor-center", justifyContent: "space-between", gap: "1rem" }} className="footer-heading-wrapper">
+        <h2 style={{ fontWeight: 400, fontSize: "4rem", marginBottom: "1rem", marginTop: 0 }} className="footer-heading">
           Let's Build Something Great Together
         </h2>
 
@@ -53,7 +56,8 @@ export default function Footer() {
           fill="none"
           stroke="#fff"
           strokeWidth="1.5"
-          style={{ flexShrink: 0, transform: "rotate(180deg)" }}
+          style={{ flexShrink: 0, transform: "rotate(180deg)", marginTop: "0.5rem" }}
+          className="footer-arrow"
         >
           <polyline points="2.769 0 12 0 12 9.23" />
           <line x1="12" y1="0" x2="0" y2="12" />
@@ -76,8 +80,7 @@ export default function Footer() {
             style={{
               position: "absolute",
               top: "-84px",
-              right: "1%",
-              transform: "translateX(-50%)",
+              right: "2rem",
               width: "170px",
               height: "170px",
               borderRadius: "50%",
@@ -95,6 +98,7 @@ export default function Footer() {
               transition: "background-position 0.4s ease-in-out, color 0.4s ease",
               zIndex: 2,
             }}
+            className="footer-contact-button"
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundPosition = "top";
               e.currentTarget.style.color = "#000";
@@ -104,7 +108,7 @@ export default function Footer() {
               e.currentTarget.style.color = "#fff";
             }}
             onClick={() => {
-              window.location.href = "mailto:you@example.com";
+              window.dispatchEvent(new CustomEvent('openContactPopup'));
             }}
           >
             Get in touch
@@ -113,7 +117,7 @@ export default function Footer() {
       </div>
 
       {/* Email + Phone buttons */}
-      <div style={{ marginTop: "2rem", display: "flex", gap: "2rem" }}>
+      <div style={{ marginTop: "2rem", display: "flex", gap: "2rem" }} className="footer-contact-buttons">
         <a
           href="mailto:rishabhb.career@gmail.com"
           className = "pill-button"
@@ -145,8 +149,9 @@ export default function Footer() {
           alignItems: "center",
           fontSize: "1rem",
         }}
+        className="footer-metadata"
       >
-        <div style={{ display: "flex", gap: "3rem", alignItems: "center" }}>
+        <div style={{ display: "flex", gap: "3rem", alignItems: "center" }} className="footer-metadata-left">
           <div>
             <div
               style={{
@@ -176,7 +181,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div>
+        <div className="footer-metadata-right">
           <div
             style={{
               color: "#919191ff",
@@ -187,29 +192,64 @@ export default function Footer() {
           >
             SOCIALS
           </div>
-          <div style={{ display: "flex", gap: "2rem", fontWeight: "700" }}>
-            {["Awwwards", "Instagram", "Twitter", "LinkedIn"].map((social, i) => (
-              <a
-                key={i}
-                href={`https://${social.toLowerCase()}.com`}
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  color: "#fff",
-                  textDecoration: "none",
-                  borderBottom: "2px solid transparent",
-                  transition: "border-bottom 0.3s ease",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderBottom = "2px solid #fff")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.borderBottom = "2px solid transparent")
-                }
-              >
-                {social}
-              </a>
-            ))}
+          <div style={{ display: "flex", gap: "2rem", fontWeight: "700" }} className="footer-socials">
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                color: "#fff",
+                textDecoration: "none",
+                borderBottom: "2px solid transparent",
+                transition: "border-bottom 0.3s ease",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.borderBottom = "2px solid #fff")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.borderBottom = "2px solid transparent")
+              }
+            >
+              Instagram
+            </a>
+            <a
+              href="https://www.twitter.com"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                color: "#fff",
+                textDecoration: "none",
+                borderBottom: "2px solid transparent",
+                transition: "border-bottom 0.3s ease",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.borderBottom = "2px solid #fff")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.borderBottom = "2px solid transparent")
+              }
+            >
+              Twitter
+            </a>
+            <a
+              href="https://www.linkedin.com/in/rishabh-bassi-5981a9223/"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                color: "#fff",
+                textDecoration: "none",
+                borderBottom: "2px solid transparent",
+                transition: "border-bottom 0.3s ease",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.borderBottom = "2px solid #fff")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.borderBottom = "2px solid transparent")
+              }
+            >
+              LinkedIn
+            </a>
           </div>
         </div>
       </div>

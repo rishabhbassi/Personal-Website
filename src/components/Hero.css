@@ -1,0 +1,389 @@
+/* Mobile Responsive Styles for Hero Component */
+
+/* Nav container to ensure same top margin for both nav elements */
+.hero-nav-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Fix 1: Consistent font sizes for nav bar components */
+.copyright-logo {
+  font-size: 1rem;
+  top: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.top-right-nav {
+  top: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.copyright-symbol {
+  font-size: 1rem !important;
+  line-height: 1;
+}
+
+.copyright-text {
+  font-size: 1rem !important;
+  line-height: 1.5rem;
+}
+
+.top-right-nav button {
+  font-size: 1rem !important;
+  line-height: 1.5rem;
+  font-family: 'Dennis Sans', sans-serif !important;
+  font-weight: 500 !important;
+}
+
+/* Fix 7: Ensure Located in India component stays at middle left with no left space */
+.hero-left-container {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  left: 0 !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Ensure my-shape-container is on extreme left with no space */
+.my-shape-container {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative;
+  overflow: visible !important;
+}
+
+/* Remove any left spacing from the SVG shape itself */
+.my-shape-svg {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  display: block;
+  overflow: visible !important;
+}
+
+/* Ensure text is fully visible */
+.located-text {
+  overflow: visible !important;
+  white-space: pre !important;
+}
+
+/* Fix 2: Globe positioning with percentage-based values that scale properly and adaptively */
+.floating-globe {
+  position: absolute !important;
+  top: 50% !important; /* Center vertically in the circle */
+  left: 80% !important; /* Positioned more to the right, closer to the circle center */
+  width: 20% !important; /* Larger on desktop - scales with container */
+  height: 50% !important; /* Larger on desktop - scales with container */
+  min-width: 50px; /* Larger minimum size for desktop */
+  min-height: 50px;
+  max-width: 60px; /* Larger maximum size for desktop */
+  max-height: 60px;
+  transform: translate(-50%, -50%) !important;
+  /* Animation will be applied via CSS, transform combines with animation */
+}
+
+/* Fix: Make Located in India text larger */
+.located-text {
+  font-size: 24px !important;
+  font-weight: 400 !important;
+}
+
+.my-shape-svg text {
+  font-size: 24px !important;
+  font-weight: 400 !important;
+}
+
+.my-shape-svg .located-text {
+  font-size: 24px !important;
+}
+
+/* Arrow and Text styling */
+.arrow-and-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.arrow-container {
+  transform: translateY(-40px);
+  margin-bottom: -20px;
+}
+
+.arrow-svg {
+  transform: rotate(90deg);
+  flex-shrink: 0;
+}
+
+.arrow-heading {
+  margin: 0;
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.arrow-subheading {
+  margin: 0;
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+/* Fix 3: Background image positioning */
+.hero-background {
+  background-position: center bottom !important;
+  background-size: 60% !important;
+}
+
+@media (max-width: 768px) {
+  .hero-background {
+    background-size: 80% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-background {
+    background-size: 90% !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-left-container {
+    gap: 25px !important;
+    left: 0 !important;
+  }
+
+  .my-shape-container {
+    width: 250px !important;
+    height: 100px !important;
+  }
+
+  .my-shape-svg {
+    width: 250px !important;
+    height: 100px !important;
+  }
+
+  .my-shape-svg text {
+    font-size: 20px !important;
+  }
+
+  .floating-globe {
+    top: 50% !important; /* Center in circle */
+    left: 80% !important;
+    width: 18% !important; /* Medium size for tablet */
+    height: 45% !important; /* Medium size for tablet */
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 50px;
+    max-height: 50px;
+  }
+
+  .arrow-heading,
+  .arrow-subheading {
+    font-size: 1.5rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Reduce hero height on mobile */
+  .hero-container {
+    height: 80vh !important;
+    min-height: 600px !important;
+  }
+
+  .hero-left-container {
+    left: 0 !important;
+    gap: 20px !important;
+    top: 50% !important;
+    bottom: auto !important;
+    transform: translateY(-50%) !important;
+    padding-left: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  .hero-right-container {
+    position: absolute !important;
+    top: 20% !important;
+    left: 20px !important;
+    right: auto !important;
+    transform: none !important;
+    padding-right: 0 !important;
+    align-items: flex-start !important;
+  }
+
+  .arrow-and-text {
+    align-items: flex-start !important;
+    padding-right: 0 !important;
+    gap: 0.5rem !important;
+  }
+
+  .arrow-heading {
+    font-size: 3rem !important;
+  }
+
+  .arrow-subheading {
+    font-size: 2rem !important;
+  }
+
+  .my-shape-container {
+    width: 200px !important;
+    height: 80px !important;
+  }
+
+  .my-shape-svg {
+    width: 200px !important;
+    height: 80px !important;
+  }
+
+  .my-shape-svg text {
+    font-size: 18px !important;
+  }
+
+  .floating-globe {
+    top: 50% !important; /* Center in circle */
+    left: 80% !important;
+    width: 18% !important; /* Smaller for mobile */
+    height: 45% !important; /* Smaller for mobile */
+    min-width: 24px;
+    min-height: 24px;
+    max-width: 32px;
+    max-height: 32px;
+  }
+
+  .arrow-container {
+    transform: translateY(0) !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .copyright-logo {
+    top: 20px !important;
+    left: 20px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .top-right-nav {
+    top: 20px !important;
+  }
+
+  .copyright-symbol {
+    font-size: 0.9rem !important;
+  }
+
+  .copyright-text {
+    font-size: 0.9rem !important;
+  }
+
+  .top-right-nav {
+    top: 20px !important;
+    right: 20px !important;
+    gap: 1rem !important;
+    flex-wrap: wrap;
+  }
+
+  .top-right-nav button {
+    font-size: 0.9rem !important;
+  }
+
+  .hero-scroll-velocity .scroller {
+    font-size: 2rem !important;
+  }
+
+  .hero-scroll-velocity .parallax {
+    bottom: 5% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further reduce hero height on small mobile */
+  .hero-container {
+    height: 70vh !important;
+    min-height: 500px !important;
+  }
+
+  .hero-left-container {
+    left: 0 !important;
+    top: 50% !important;
+    bottom: auto !important;
+    transform: translateY(-50%) !important;
+    padding-left: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  .hero-right-container {
+    top: 15% !important;
+    left: 15px !important;
+  }
+
+  .arrow-heading {
+    font-size: 3.5rem !important;
+  }
+
+  .arrow-subheading {
+    font-size: 1.5rem !important;
+  }
+
+  .my-shape-container {
+    width: 150px !important;
+    height: 60px !important;
+  }
+
+  .my-shape-svg {
+    width: 150px !important;
+    height: 60px !important;
+  }
+
+  .my-shape-svg text {
+    font-size: 16px !important;
+  }
+
+  .floating-globe {
+    top: 50% !important; /* Center in circle */
+    left: 80% !important;
+    width: 20% !important; /* Smallest for small mobile */
+    height: 50% !important; /* Smallest for small mobile */
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 28px;
+    max-height: 28px;
+  }
+
+  .arrow-heading {
+    font-size: 2.5rem !important;
+  }
+
+  .arrow-subheading {
+    font-size: 1.5rem !important;
+  }
+
+  .copyright-logo {
+    font-size: 0.8rem !important;
+  }
+
+  .copyright-symbol {
+    font-size: 0.8rem !important;
+  }
+
+  .copyright-text {
+    font-size: 0.8rem !important;
+  }
+
+  .top-right-nav {
+    gap: 0.75rem !important;
+  }
+
+  .top-right-nav button {
+    font-size: 0.8rem !important;
+  }
+
+  .hero-scroll-velocity .scroller {
+    font-size: 1.5rem !important;
+  }
+}
+

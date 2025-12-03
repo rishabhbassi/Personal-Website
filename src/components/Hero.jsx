@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import bgSvg from "../assets/finalimage.svg";
 import globeSvg from "../assets/globe 1.svg";
 import ScrollVelocity from "./ScrollVelocity";
+import "./Hero.css";
 
 export default function Hero() {
   return (
@@ -13,6 +14,7 @@ export default function Hero() {
         overflow: "hidden",
         zIndex: 0,
       }}
+      className="hero-container"
     >
       {/* Background SVG */}
       <div
@@ -22,10 +24,11 @@ export default function Hero() {
           backgroundColor: "#999D9E",
           backgroundImage: `url(${bgSvg})`,
           backgroundRepeat: "no-repeat",
-          backgroundSize: "contain",
-          backgroundPosition: "center",
+          backgroundSize: "60%",
+          backgroundPosition: "center bottom",
           zIndex: 0,
         }}
+        className="hero-background"
       />
 
       {/* Uncomment this div below if you want a dark overlay */}
@@ -43,14 +46,15 @@ export default function Hero() {
         style={{
           position: "absolute",
           top: "50%",
-          left: "0", // adjust left margin here
-          transform: "translateY(-50%)", // center vertically only
+          left: "0",
+          transform: "translateY(-50%)",
           display: "flex",
           alignItems: "center",
-          gap: "40px", // space between SVG and arrow+text container
+          gap: "40px",
           zIndex: 1,
-          color: "black", // default color for SVG (MyShape uses currentColor)
+          color: "black",
         }}
+        className="hero-left-container"
       >
         <MyShape fillColor="black" />
       </div>
@@ -58,18 +62,19 @@ export default function Hero() {
       <div
         style={{
           position: "absolute",
-          top: "47%",
+          top: "50%",
           right: 0,
           transform: "translateY(-50%)",
-          paddingRight: "50px", // optional padding from right edge
+          paddingRight: "50px",
           zIndex: 1,
         }}
+        className="hero-right-container"
       >
         <ArrowAndText
           arrowColor="white"
           textColor="white"
-          heading="Freelance"
-          subtext="Designer & Developer"
+          heading="Rishabh Bassi"
+          subtext="AI | Analytics | Design"
         />
       </div>
 
@@ -83,36 +88,38 @@ export default function Hero() {
           pointerEvents: "none",
         }}
       >
-        <div style={{ pointerEvents: "auto" }}>
+        <div style={{ pointerEvents: "auto" }} className="hero-nav-container">
           <CopyrightLogo />
           <TopRightNav />
         </div>
-        <ScrollVelocity
-          texts={["Design — Development — Analytics —"]}
-          // texts={["Rishabh Bassi —"]}
-          velocity={100}
-          parallaxStyle={{
-            position: "absolute",
-            bottom: "7%",
-            left: 0,
-            width: "100vw",
-            zIndex: 999,
-            pointerEvents: "none",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            overflow: "hidden", // prevents scroll overflow
-          }}
-          scrollerStyle={{
-            fontFamily: "'Dennis Sans', sans-serif",
-            color: "white",
-            fontWeight: 500,
-            fontSize: "10rem",
-            lineHeight: 1.2, // ensures proper vertical sizing
-            whiteSpace: "nowrap",
-            display: "inline-block", // helps container measure height correctly
-          }}
-        />
+        <div className="hero-scroll-velocity">
+          <ScrollVelocity
+            texts={["Design — Development — Analytics —"]}
+            // texts={["Rishabh Bassi —"]}
+            velocity={100}
+            parallaxStyle={{
+              position: "absolute",
+              bottom: "7%",
+              left: 0,
+              width: "100vw",
+              zIndex: 999,
+              pointerEvents: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              overflow: "hidden", // prevents scroll overflow
+            }}
+            scrollerStyle={{
+              fontFamily: "'Dennis Sans', sans-serif",
+              color: "white",
+              fontWeight: 500,
+              fontSize: "10rem",
+              lineHeight: 1.2, // ensures proper vertical sizing
+              whiteSpace: "nowrap",
+              display: "inline-block", // helps container measure height correctly
+            }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -128,6 +135,7 @@ function MyShape({ fillColor = "white" }) {
         height: 120,
         overflow: "visible",
       }}
+      className="my-shape-container"
     >
       {/* Your SVG shape */}
       <svg
@@ -137,20 +145,23 @@ function MyShape({ fillColor = "white" }) {
         fill={fillColor}
         xmlns="http://www.w3.org/2000/svg"
         style={{ display: "block" }}
+        className="my-shape-svg"
       >
         <path d="M239.633657,0 C272.770742,0 299.633657,26.862915 299.633657,60 C299.633657,93.137085 272.770742,120 239.633657,120 L0,120 L0,0 L239.633657,0 Z M239.633657,18.7755102 C216.866,18.7755102 198.409167,37.232343 198.409167,60 C198.409167,82.767657 216.866,101.22449 239.633657,101.22449 C262.401314,101.22449 280.858147,82.767657 280.858147,60 C280.858147,37.232343 262.401314,18.7755102 239.633657,18.7755102 Z" />
         <text
-          x="80"
-          y="55"
+          x="120"
+          y="60"
           fill="white"
-          fontSize="20"
+          fontSize="24"
           fontFamily="'Dennis Sans', sans-serif"
-          fontWeight="300"
+          fontWeight="400"
+          textAnchor="middle"
+          className="located-text"
         >
-          <tspan x="80" dy="0">
+          <tspan x="120" dy="0">
             Located
           </tspan>
-          <tspan x="80" dy="1.2em">
+          <tspan x="120" dy="1.3em">
             in India
           </tspan>
         </text>
@@ -159,12 +170,6 @@ function MyShape({ fillColor = "white" }) {
       {/* Globe positioned inside the shape */}
       <FloatingGlobeWithTooltip
         src={globeSvg}
-        style={{
-          top: "35px",
-          left: "215px",
-          width: "50px",
-          height: "50px",
-        }}
       />
     </div>
   );
@@ -184,9 +189,10 @@ function ArrowAndText({ arrowColor = "white", textColor = "white" }) {
         fontFamily: "'Dennis Sans', sans-serif",
         paddingRight: "80px",
       }}
+      className="arrow-and-text"
     >
       {/* Arrow with shifted Y axis and bigger size, rotated right */}
-      <div style={{ transform: "translateY(-40px)" }}>
+      <div className="arrow-container">
         <svg
           width="30"
           height="30"
@@ -195,7 +201,7 @@ function ArrowAndText({ arrowColor = "white", textColor = "white" }) {
           fill="none"
           stroke={arrowColor}
           strokeWidth="1.5"
-          style={{ flexShrink: 0, transform: "rotate(90deg)" }} // arrow pointing right
+          className="arrow-svg"
         >
           <polyline points="2.769 0 12 0 12 9.23" />
           <line x1="12" y1="0" x2="0" y2="12" />
@@ -203,26 +209,29 @@ function ArrowAndText({ arrowColor = "white", textColor = "white" }) {
       </div>
 
       {/* Text split vertically */}
-      <h4
+      <h2
         style={{
           margin: 0,
-          fontWeight: 500,
-          fontSize: "2rem",
-          lineHeight: 1.2,
+          fontWeight: 700,
+          fontSize: "2.5rem",
+          lineHeight: 1,
+          letterSpacing: "-0.02em",
         }}
+        className="arrow-heading"
       >
-        Freelance
-      </h4>
-      <h5
+        Rishabh Bassi
+      </h2>
+      <h3
         style={{
           margin: 0,
           fontWeight: 500,
           fontSize: "2rem",
           lineHeight: 1.2,
         }}
+        className="arrow-subheading"
       >
         Designer & Developer
-      </h5>
+      </h3>
     </div>
   );
 }
@@ -268,10 +277,10 @@ function CopyrightLogo() {
     <div
       style={{
         position: "absolute",
-        top: "40px",
         left: "50px",
         zIndex: 1000,
       }}
+      className="copyright-logo"
     >
       <div
         onMouseEnter={() => setHovered(true)}
@@ -292,13 +301,13 @@ function CopyrightLogo() {
         <span
           style={{
             display: "inline-block",
-            fontSize: "1.0rem",
             transition: "transform 1s ease",
             transform: hovered ? "rotate(360deg)" : "rotate(0deg)",
             width: "1.2rem",
             textAlign: "center",
             flexShrink: 0,
           }}
+          className="copyright-symbol"
         >
           &copy;
         </span>
@@ -320,8 +329,8 @@ function CopyrightLogo() {
               transform: `translateX(${
                 hovered ? -slideDistance : 0
               }px) translateX(${stretchX}px)`,
-              fontSize: "1.1rem",
             }}
+            className="copyright-text"
           >
             <span
               ref={CodeByRef}
@@ -354,11 +363,32 @@ function CopyrightLogo() {
 }
 
 function TopRightNav() {
+  const handleNavClick = (label) => {
+    if (label === "About") {
+      // Dispatch custom event to open About Me popup
+      window.dispatchEvent(new CustomEvent('openAboutMe'));
+      return;
+    }
+    
+    let targetId = "";
+    if (label === "Work") {
+      targetId = "recent-work";
+    } else if (label === "Contact") {
+      targetId = "contact";
+    }
+    
+    if (targetId) {
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
+
   return (
     <div
       style={{
         position: "absolute",
-        top: "40px",
         right: "50px",
         display: "flex",
         gap: "2rem",
@@ -367,26 +397,28 @@ function TopRightNav() {
         fontWeight: "500",
         color: "white",
       }}
+      className="top-right-nav"
     >
       {["Work", "About", "Contact"].map((label) => (
-        <button key={label} style={buttonStyle}>
+        <button key={label} style={buttonStyle} onClick={() => handleNavClick(label)}>
           {label}
           <span className="bullet" />
         </button>
       ))}
 
       <style>{`
-        button {
+        .top-right-nav button {
           background: none;
           border: none;
           color: white;
           cursor: pointer;
-          font-size: 1rem;
           position: relative;
           padding: 0;
           outline: none;
+          font-family: 'Dennis Sans', sans-serif;
+          font-weight: 500;
         }
-        button .bullet {
+        .top-right-nav button .bullet {
           position: absolute;
           bottom: -20px;
           left: 50%;
@@ -398,7 +430,7 @@ function TopRightNav() {
           opacity: 0;
           transition: opacity 0.3s ease;
         }
-        button:hover .bullet {
+        .top-right-nav button:hover .bullet {
           opacity: 1;
         }
       `}</style>
@@ -417,17 +449,15 @@ const buttonStyle = {
   outline: "none",
 };
 
-function FloatingGlobeWithTooltip({ src, style }) {
+function FloatingGlobeWithTooltip({ src, className = "" }) {
   const [hovered, setHovered] = useState(false);
 
   return (
     <div
       style={{
-        position: "absolute",
         cursor: "pointer",
-        ...style,
-        animation: "floatUpDown 3s ease-in-out infinite",
       }}
+      className={`floating-globe ${className}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -440,8 +470,8 @@ function FloatingGlobeWithTooltip({ src, style }) {
           objectFit: "contain",
           zIndex: 10,
           display: "block",
-          animation: hovered ? "spinOnce 1s ease forwards" : "none",
           transformOrigin: "center center",
+          transition: "transform 0.3s ease",
         }}
       />
 
@@ -484,16 +514,24 @@ function FloatingGlobeWithTooltip({ src, style }) {
       )}
 
       <style>{`
+        .floating-globe {
+          animation: floatUpDown 3s ease-in-out infinite;
+        }
+
+        .floating-globe:hover img {
+          animation: spinContinuous 2s linear infinite;
+        }
+
         @keyframes floatUpDown {
           0%, 100% {
-            transform: translateY(7px);
+            transform: translate(-50%, calc(-50% + 10px));
           }
           50% {
-            transform: translateY(-7px);
+            transform: translate(-50%, calc(-50% - 10px));
           }
         }
 
-        @keyframes spinOnce {
+        @keyframes spinContinuous {
           from {
             transform: rotate(0deg);
           }

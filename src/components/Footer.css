@@ -1,0 +1,207 @@
+/* Mobile Responsive Styles for Footer Component */
+
+/* Fix 5: Get in touch ball alignment with right spacing */
+.footer-contact-button {
+  right: 2rem !important;
+  transform: none !important;
+}
+
+/* Arrow positioned on the right, aligned with heading */
+.footer-heading-wrapper {
+  display: flex;
+  align-items: anchor-center;
+  justify-content: space-between;
+}
+
+.footer-arrow {
+  flex-shrink: 0;
+  margin-top: 0.5rem;
+}
+
+/* Small screens: center aligned */
+@media (max-width: 768px) {
+  .footer-heading-wrapper {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+
+  .footer-heading {
+    text-align: center !important;
+  }
+
+  .footer-arrow {
+    margin-top: 1rem !important;
+    align-self: center !important;
+  }
+
+  .footer-contact-button {
+    right: 50% !important;
+    transform: translateX(50%) !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .footer-container {
+    padding: 2.5rem 8vw !important;
+  }
+
+  .footer-heading {
+    font-size: 3rem !important;
+  }
+
+  .footer-contact-button {
+    right: 0 !important;
+    transform: translateX(0) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    padding: 2rem 5vw !important;
+    min-height: auto !important;
+    height: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  .footer-heading-wrapper {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    justify-content: center !important;
+    gap: 1rem !important;
+  }
+
+  .footer-heading {
+    font-size: 2rem !important;
+    margin-bottom: 0.5rem !important;
+    text-align: center !important;
+  }
+
+  .footer-arrow {
+    width: 20px !important;
+    height: 20px !important;
+    margin-top: 1rem !important;
+    align-self: center !important;
+  }
+
+  /* Fix 5: Better alignment for Get in touch ball - centered on mobile */
+  .footer-contact-button {
+    width: 140px !important;
+    height: 140px !important;
+    font-size: 0.85rem !important;
+    top: -70px !important;
+    right: 50% !important;
+    transform: translateX(50%) !important;
+  }
+
+  /* Fix 6: Prevent email and contact details from going out of div - centered on mobile */
+  .footer-contact-buttons {
+    flex-direction: column !important;
+    gap: 1rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    align-items: center !important;
+  }
+
+  .footer-contact-buttons .pill-button {
+    width: 100% !important;
+    max-width: 100% !important;
+    text-align: center !important;
+    padding: 1rem 1.5rem !important;
+    font-size: 0.9rem !important;
+    box-sizing: border-box !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .footer-metadata {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 2rem !important;
+    left: 0 !important;
+    width: 100% !important;
+    padding: 2rem 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .footer-metadata-left {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+    width: 100% !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .footer-metadata-right {
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  .footer-socials {
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+    justify-content: center !important;
+  }
+
+  .footer-socials a {
+    font-size: 0.9rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container {
+    padding: 1.5rem 4vw !important;
+    overflow-x: hidden !important;
+  }
+
+  .footer-heading {
+    font-size: 1.5rem !important;
+  }
+
+  /* Fix 5: Better alignment for Get in touch ball on small screens - centered */
+  .footer-contact-button {
+    width: 120px !important;
+    height: 120px !important;
+    font-size: 0.75rem !important;
+    top: -60px !important;
+    right: 50% !important;
+    transform: translateX(50%) !important;
+  }
+
+  /* Fix 6: Ensure email and contact details don't overflow */
+  .footer-contact-buttons .pill-button {
+    padding: 0.9rem 1.2rem !important;
+    font-size: 0.85rem !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .footer-metadata {
+    font-size: 0.9rem !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .footer-metadata-left {
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .footer-metadata-right {
+    text-align: center !important;
+  }
+
+  .footer-socials {
+    gap: 0.75rem !important;
+    justify-content: center !important;
+  }
+
+  .footer-socials a {
+    font-size: 0.8rem !important;
+  }
+}
+

@@ -1,0 +1,343 @@
+/* Case Studies Popup Styles */
+.case-studies-popup-overlay,
+.contact-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.case-studies-popup,
+.contact-popup {
+  background-color: #ffffff;
+  padding: 3rem 3.5rem;
+  max-width: 580px;
+  width: 100%;
+  max-height: calc(100vh - 2rem);
+  position: relative;
+  border-radius: 12px;
+  animation: popupFadeIn 0.3s ease-out;
+  overflow-y: auto;
+  box-sizing: border-box;
+  margin: auto;
+}
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.case-studies-popup-close,
+.contact-popup-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: transparent;
+  border: 1px solid rgba(6, 0, 16, 0.3);
+  border-radius: 100px;
+  font-size: 1.25rem;
+  color: #060010;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Dennis Sans', sans-serif;
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.case-studies-popup-close:hover,
+.contact-popup-close:hover {
+  background: rgba(6, 0, 16, 0.05);
+  border-color: rgba(6, 0, 16, 0.5);
+}
+
+.case-studies-popup-content,
+.contact-popup-content {
+  text-align: left;
+}
+
+.case-studies-popup-title,
+.contact-popup-title {
+  font-family: 'Dennis Sans', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #060010;
+  margin: 0 0 1.5rem 0;
+}
+
+.case-studies-popup-message,
+.contact-popup-message {
+  font-family: 'Dennis Sans', sans-serif;
+  font-size: 1rem;
+  color: #111;
+  line-height: 1.8;
+  margin: 0 0 2rem 0;
+  font-weight: 400;
+}
+
+.case-studies-popup-button,
+.contact-popup-button {
+  font-family: 'Dennis Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: #060010;
+  border: 1px solid rgba(6, 0, 16, 0.3);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.case-studies-popup-button:hover,
+.contact-popup-button:hover {
+  background: rgba(6, 0, 16, 0.05);
+  border-color: rgba(6, 0, 16, 0.5);
+}
+
+/* Contact Popup Specific Styles */
+.contact-popup-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 2rem;
+  border-top: 1px solid rgba(6, 0, 16, 0.1);
+  border-bottom: 1px solid rgba(6, 0, 16, 0.1);
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(6, 0, 16, 0.1);
+  text-decoration: none;
+  color: #060010;
+  font-family: 'Dennis Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  transition: color 0.3s ease;
+  text-align: left;
+}
+
+.contact-link:last-child {
+  border-bottom: none;
+}
+
+.contact-link:hover {
+  color: #5d0dff;
+}
+
+.contact-link svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: #060010;
+  transition: color 0.3s ease;
+}
+
+.contact-link:hover svg {
+  color: #5d0dff;
+}
+
+.contact-link span {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .case-studies-popup-overlay,
+  .contact-popup-overlay {
+    padding: 1rem;
+    align-items: flex-start;
+    padding-top: 2rem;
+  }
+
+  .case-studies-popup,
+  .contact-popup {
+    padding: 2rem 2.5rem;
+    max-width: calc(100% - 2rem);
+    max-height: calc(100vh - 4rem);
+    margin: 0;
+  }
+
+  .case-studies-popup-title,
+  .contact-popup-title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .case-studies-popup-overlay,
+  .contact-popup-overlay {
+    padding: 0.5rem;
+    padding-top: 1.5rem;
+  }
+
+  .case-studies-popup,
+  .contact-popup {
+    padding: 1.5rem 2rem;
+    max-width: calc(100% - 1rem);
+    max-height: calc(100vh - 3rem);
+  }
+
+  .case-studies-popup-close,
+  .contact-popup-close {
+    top: 1rem;
+    right: 1rem;
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+  }
+
+  .case-studies-popup-title,
+  .contact-popup-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .case-studies-popup-message,
+  .contact-popup-message {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .case-studies-popup-button,
+  .contact-popup-button {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .contact-link {
+    font-size: 0.95rem;
+    padding: 1rem 0;
+  }
+
+  .contact-popup-links {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Mobile Responsive Styles for HomePage Component */
+
+@media (max-width: 1024px) {
+  .homepage-main-section {
+    padding: 12vh 8vw 1vh 8vw !important;
+  }
+
+  .homepage-left-column {
+    font-size: 1.75rem !important;
+  }
+
+  .recent-work-section {
+    padding: 2rem 8vw !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .homepage-main-section {
+    padding: 10vh 5vw 1vh 5vw !important;
+  }
+
+  .homepage-content-wrapper {
+    flex-direction: column !important;
+    gap: 40px !important;
+  }
+
+  .homepage-left-column {
+    font-size: 1.5rem !important;
+    width: 100% !important;
+  }
+
+  .homepage-right-column {
+    width: 100% !important;
+    min-height: 15rem !important;
+  }
+
+  /* Fix 4: Better About Me button positioning on small screens */
+  .homepage-about-button {
+    width: 140px !important;
+    height: 140px !important;
+    font-size: 0.9rem !important;
+    bottom: 2rem !important;
+    left: 50% !important;
+    right: auto !important;
+    margin-left: -70px !important; /* Half of width for centering */
+    margin-right: auto !important;
+    position: absolute !important;
+  }
+
+  .recent-work-section {
+    padding: 2rem 5vw !important;
+  }
+
+  .recent-work-heading {
+    font-size: 1.5rem !important;
+  }
+
+  .recent-work-container {
+    height: 400px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .homepage-main-section {
+    padding: 8vh 4vw 1vh 4vw !important;
+  }
+
+  .homepage-left-column {
+    font-size: 1.2rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .homepage-right-column {
+    font-size: 0.9rem !important;
+    min-height: 12rem !important;
+  }
+
+  /* Fix 4: Better About Me button positioning on very small screens */
+  .homepage-about-button {
+    width: 120px !important;
+    height: 120px !important;
+    font-size: 0.8rem !important;
+    bottom: 1rem !important;
+    left: 50% !important;
+    right: auto !important;
+    margin-left: -60px !important; /* Half of width for centering */
+    margin-right: auto !important;
+    position: absolute !important;
+  }
+
+  .recent-work-section {
+    padding: 1.5rem 4vw !important;
+  }
+
+  .recent-work-heading {
+    font-size: 1.2rem !important;
+  }
+
+  .recent-work-container {
+    height: 300px !important;
+  }
+}
+
