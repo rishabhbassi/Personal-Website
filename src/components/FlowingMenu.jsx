@@ -7,19 +7,24 @@ function FlowingMenu({ items = [], onItemClick }) {
     <div className="menu-wrap">
       <nav className="menu">
         {items.map((item, idx) => (
-          <MenuItem key={idx} {...item} onItemClick={onItemClick} />
+          <MenuItem key={item.text} {...item} index={idx + 1} onItemClick={onItemClick} />
         ))}
       </nav>
     </div>
   );
 }
 
-function MenuItem({ link, text, image, onItemClick }) {
+function MenuItem({ link, text, image, index, onItemClick }) {
   const itemRef = React.useRef(null);
   const marqueeRef = React.useRef(null);
   const marqueeInnerRef = React.useRef(null);
 
-  const animationDefaults = { duration: 0.6, ease: 'expo' };
+  const animationDefaults = () => ({
+    duration: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+      ? 0
+      : 0.6,
+    ease: "expo",
+  });
 
   const findClosestEdge = (mouseX, mouseY, width, height) => {
     const topEdgeDist = distMetric(mouseX, mouseY, width / 2, 0);
@@ -42,7 +47,7 @@ function MenuItem({ link, text, image, onItemClick }) {
     const y = ev.clientY - rect.top;
     const edge = findClosestEdge(x, y, rect.width, rect.height);
 
-    gsap.timeline({ defaults: animationDefaults })
+    gsap.timeline({ defaults: animationDefaults() })
       .set(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' }, 0)
       .set(marqueeInnerRef.current, { y: edge === 'top' ? '101%' : '-101%' }, 0)
       .to([marqueeRef.current, marqueeInnerRef.current], { y: '0%' }, 0);
@@ -57,9 +62,26 @@ function MenuItem({ link, text, image, onItemClick }) {
     const y = ev.clientY - rect.top;
     const edge = findClosestEdge(x, y, rect.width, rect.height);
 
-    gsap.timeline({ defaults: animationDefaults })
+    gsap.timeline({ defaults: animationDefaults() })
       .to(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' }, 0)
       .to(marqueeInnerRef.current, { y: edge === 'top' ? '101%' : '-101%' }, 0);
+  };
+
+  const handleFocus = () => {
+    if (!marqueeRef.current || !marqueeInnerRef.current) return;
+
+    gsap.timeline({ defaults: animationDefaults() })
+      .set(marqueeRef.current, { y: '101%' }, 0)
+      .set(marqueeInnerRef.current, { y: '-101%' }, 0)
+      .to([marqueeRef.current, marqueeInnerRef.current], { y: '0%' }, 0);
+  };
+
+  const handleBlur = () => {
+    if (!marqueeRef.current || !marqueeInnerRef.current) return;
+
+    gsap.timeline({ defaults: animationDefaults() })
+      .to(marqueeRef.current, { y: '101%' }, 0)
+      .to(marqueeInnerRef.current, { y: '-101%' }, 0);
   };
 
   const repeatedMarqueeContent = Array.from({ length: 8 }).map((_, idx) => (
@@ -86,9 +108,17 @@ function MenuItem({ link, text, image, onItemClick }) {
         href={link}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         onClick={handleClick}
       >
-        {text}
+        <span className="menu__item-label">{text}</span>
+        <span className="menu__item-meta" aria-hidden="true">
+          <span className="menu__item-index">
+            {String(index).padStart(2, "0")}
+          </span>
+          <span className="menu__item-arrow">↗</span>
+        </span>
       </a>
       <div className="marquee" ref={marqueeRef}>
         <div className="marquee__inner-wrap" ref={marqueeInnerRef}>

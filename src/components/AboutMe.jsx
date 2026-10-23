@@ -1,103 +1,111 @@
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import rishabhImage from "../assets/Rishabh_image.jpeg";
 import resume from "../assets/Rishabh_Bassi_Resume_NonTech (2).pdf";
+import useDialogFocus from "../hooks/useDialogFocus";
 import "./AboutMe.css";
 
-export default function AboutMe({ onClose, onViewResume }) {
-  const aboutData = {
-    name: "Rishabh Bassi",
-    title: "Data Analyst | Product Engineer | UI/UX Designer",
-    email: "rishabhb.career@gmail.com",
-    phone: "+91 8529177707",
-    location: "Sonipat, Haryana, India",
-    linkedin: "rishabhbassi",
-    bio: [
-      "I'm a versatile technologist and creative professional with expertise in data analytics, AI systems, product engineering, and UI/UX & graphic design. I combine analytical thinking, problem-solving, and creativity to build impactful solutions across technology, business, and design domains.",
-      "Currently pursuing B.Tech in Computer Science and Engineering with a Minor in Data Analytics at Manipal University Jaipur, I've gained hands-on experience through internships at Adsparkx Media, DRDO SAG, PwC, and Kuber Pipes. My work spans from building agentic architectures and conducting cryptanalysis research to solving business problems through data-driven insights.",
-      "Beyond technical work, I'm passionate about leadership, having served as General Secretary of IEEE SB MUJ, Convenor of Techstars Startup Weekend, and Creative Director of TEDx MUJ. I also enjoy basketball, singing, and freelance UI/UX design work."
-    ],
-    education: [
-      {
-        degree: "Bachelor of Technology",
-        institution: "Manipal University Jaipur",
-        period: "Aug 2021 - Jul 2025",
-        details: "Major: Computer Science and Engineering | Minor: Data Analytics | CGPA: 8.18/10.0"
-      },
-      {
-        degree: "CBSE XII",
-        institution: "Jankidas Kapur Public School",
-        period: "Apr 2020 - Mar 2021",
-        details: "Percentage: 85.6%"
-      },
-      {
-        degree: "CBSE X",
-        institution: "Jankidas Kapur Public School",
-        period: "Apr 2018 - Mar 2019",
-        details: "Percentage: 88.2%"
-      }
-    ],
-    workExperience: [
-      {
-        role: "Product and Technology Intern",
-        company: "Adsparkx Media",
-        period: "May 2025 - Present",
-        description: "Built agentic architecture, agent flows, and backend microservices for scalable generation, optimization, and automated insights. Supported product decision-making through review sessions, contributing recommendations on features, UI/UX, and workflow."
-      },
-      {
-        role: "Research and Analysis Intern",
-        company: "DRDO Scientific Analysis Group (SAG)",
-        period: "Mar 2025 - May 2025",
-        description: "Conducted classified cryptanalysis research to distinguish manipulated Grain cipher outputs from random bitstreams. Benchmarked analytical techniques on 100k+ samples and delivered structured performance reports under strict confidentiality."
-      },
-      {
-        role: "Analyst Trainee",
-        company: "PwC Digital Analytics Launchpad",
-        period: "Feb 2024 - Jul 2024",
-        description: "Selected for PwC's competitive analytics program with hands-on work in SQL, RDBMS, and AI/ML. Solved case-based business problems and produced data-driven recommendations as part of certification projects."
-      },
-      {
-        role: "Growth and Strategy Intern",
-        company: "Kuber Pipes",
-        period: "Dec 2023 - Jan 2024",
-        description: "Identified churn and profitability issues in the HCT product line through product and market analysis. Recommended design and process improvements using global benchmarks, strengthening overall product performance."
-      }
-    ],
-    projects: [
-      {
-        title: "EV Infrastructure Planning with Geospatial ML",
-        description: "Designed a location intelligence tool identifying high-demand EV charging zones, improving urban accessibility by 46%. Patent: 202411054249 A; Research paper submitted to Multimedia Tools and Applications."
-      },
-      {
-        title: "Multi-Agent Financial Intelligence Platform",
-        description: "Built an AI-powered pipeline for extracting insights and validating invoices with task-specific agents. Reduced reporting turnaround by 25% through automation of routine finance operations."
-      },
-      {
-        title: "Consumer Behavior Analysis for Streaming Growth",
-        description: "Analyzed 10 years of user data to identify key drivers behind Netflix's 300% market growth. Assessed the recommendation engine's impact, linking it to a 75% increase in user engagement through personalized content."
-      }
-    ],
-    leadership: [
-      {
-        role: "General Secretary",
-        organization: "IEEE SB MUJ",
-        period: "May 2023 - May 2024",
-        description: "Led a community of 1,000+ members and a team of 300+ students, organizing 25+ events. Spearheaded strategic initiatives that boosted member engagement by 35%."
-      },
-      {
-        role: "Convenor",
-        organization: "Techstars Google for Startups Startup Weekend Jaipur",
-        period: "Mar 2023 - Oct 2023",
-        description: "Orchestrated planning and execution of a city-level startup event with 100+ student volunteers. Managed logistics and secured mentorship from 30+ industry leaders."
-      },
-      {
-        role: "Creative Director",
-        organization: "TEDx ManipalUniversityJaipur",
-        period: "May 2023 - Oct 2023",
-        description: "Directed a team of 50+ students in speaker selection, event promotion, and creative vision. Increased audience turnout through targeted theme design and cross-platform marketing."
-      }
-    ],
-    skills: {
-      technical: [
+const aboutData = {
+  name: "Rishabh Bassi",
+  title: "Data Analyst · Product Engineer · UI/UX Designer",
+  email: "rishabhb.career@gmail.com",
+  phone: "+91 8529177707",
+  location: "Sonipat, Haryana, India",
+  linkedin: "https://www.linkedin.com/in/rishabh-bassi-5981a9223/",
+  education: [
+    {
+      degree: "Bachelor of Technology",
+      institution: "Manipal University Jaipur",
+      period: "Aug 2021 - Jul 2025",
+      details:
+        "Major: Computer Science and Engineering · Minor: Data Analytics · CGPA: 8.18/10.0",
+    },
+    {
+      degree: "CBSE XII",
+      institution: "Jankidas Kapur Public School",
+      period: "Apr 2020 - Mar 2021",
+      details: "Percentage: 85.6%",
+    },
+    {
+      degree: "CBSE X",
+      institution: "Jankidas Kapur Public School",
+      period: "Apr 2018 - Mar 2019",
+      details: "Percentage: 88.2%",
+    },
+  ],
+  workExperience: [
+    {
+      role: "Product and Technology Intern",
+      company: "Adsparkx Media",
+      period: "May 2025 - Present",
+      description:
+        "Built agentic architecture, agent flows, and backend microservices for scalable generation, optimization, and automated insights. Supported product decision-making through review sessions, contributing recommendations on features, UI/UX, and workflow.",
+    },
+    {
+      role: "Research and Analysis Intern",
+      company: "DRDO Scientific Analysis Group (SAG)",
+      period: "Mar 2025 - May 2025",
+      description:
+        "Conducted classified cryptanalysis research to distinguish manipulated Grain cipher outputs from random bitstreams. Benchmarked analytical techniques on 100k+ samples and delivered structured performance reports under strict confidentiality.",
+    },
+    {
+      role: "Analyst Trainee",
+      company: "PwC Digital Analytics Launchpad",
+      period: "Feb 2024 - Jul 2024",
+      description:
+        "Selected for PwC's competitive analytics program with hands-on work in SQL, RDBMS, and AI/ML. Solved case-based business problems and produced data-driven recommendations as part of certification projects.",
+    },
+    {
+      role: "Growth and Strategy Intern",
+      company: "Kuber Pipes",
+      period: "Dec 2023 - Jan 2024",
+      description:
+        "Identified churn and profitability issues in the HCT product line through product and market analysis. Recommended design and process improvements using global benchmarks, strengthening overall product performance.",
+    },
+  ],
+  projects: [
+    {
+      title: "EV Infrastructure Planning with Geospatial ML",
+      description:
+        "Designed a location intelligence tool identifying high-demand EV charging zones, improving urban accessibility by 46%. Patent: 202411054249 A; Research paper submitted to Multimedia Tools and Applications.",
+    },
+    {
+      title: "Multi-Agent Financial Intelligence Platform",
+      description:
+        "Built an AI-powered pipeline for extracting insights and validating invoices with task-specific agents. Reduced reporting turnaround by 25% through automation of routine finance operations.",
+    },
+    {
+      title: "Consumer Behavior Analysis for Streaming Growth",
+      description:
+        "Analyzed 10 years of user data to identify key drivers behind Netflix's 300% market growth. Assessed the recommendation engine's impact, linking it to a 75% increase in user engagement through personalized content.",
+    },
+  ],
+  leadership: [
+    {
+      role: "General Secretary",
+      organization: "IEEE SB MUJ",
+      period: "May 2023 - May 2024",
+      description:
+        "Led a community of 1,000+ members and a team of 300+ students, organizing 25+ events. Spearheaded strategic initiatives that boosted member engagement by 35%.",
+    },
+    {
+      role: "Convenor",
+      organization: "Techstars Google for Startups Startup Weekend Jaipur",
+      period: "Mar 2023 - Oct 2023",
+      description:
+        "Orchestrated planning and execution of a city-level startup event with 100+ student volunteers. Managed logistics and secured mentorship from 30+ industry leaders.",
+    },
+    {
+      role: "Creative Director",
+      organization: "TEDx ManipalUniversityJaipur",
+      period: "May 2023 - Oct 2023",
+      description:
+        "Directed a team of 50+ students in speaker selection, event promotion, and creative vision. Increased audience turnout through targeted theme design and cross-platform marketing.",
+    },
+  ],
+  skills: [
+    {
+      title: "Technical",
+      items: [
         "Python",
         "SQL",
         "Excel",
@@ -106,221 +114,659 @@ export default function AboutMe({ onClose, onViewResume }) {
         "Data Cleaning",
         "Data Wrangling",
         "Data Visualization",
-        "Business Intelligence"
+        "Business Intelligence",
       ],
-      design: [
-        "UI/UX Design",
-        "Graphic Design",
-        "Creative Problem Solving"
-      ],
-      professional: [
+    },
+    {
+      title: "Design",
+      items: ["UI/UX Design", "Graphic Design", "Creative Problem Solving"],
+    },
+    {
+      title: "Professional",
+      items: [
         "Problem Solving",
         "Analytical Thinking",
         "Communication",
-        "Stakeholder Management"
-      ]
+        "Stakeholder Management",
+      ],
     },
-    awards: [
-      "Winner, Designathon, School of Computer Science and Engineering, MUJ",
-      "2x Student Excellence Award, School of Computer Science and Engineering, MUJ",
-      "Silver Certificate, Technothlon, IIT Guwahati",
-      "JK Pal Memorial Award, IEEE Delhi Section"
-    ],
-    certifications: [
-      "Meta Front-end Development",
-      "Google Data Analytics",
-      "IBM SQL for Data Science with Python",
-      "Multi AI Agent Systems with crewAI",
-      "HackerRank SQL Gold Badge",
-      "HackerRank SQL Intermediate Certificate"
-    ],
-    resumeUrl: resume
-  };
+  ],
+  awards: [
+    "Winner, Designathon, School of Computer Science and Engineering, MUJ",
+    "2x Student Excellence Award, School of Computer Science and Engineering, MUJ",
+    "Silver Certificate, Technothlon, IIT Guwahati",
+    "JK Pal Memorial Award, IEEE Delhi Section",
+  ],
+  certifications: [
+    "Meta Front-end Development",
+    "Google Data Analytics",
+    "IBM SQL for Data Science with Python",
+    "Multi AI Agent Systems with crewAI",
+    "HackerRank SQL Gold Badge",
+    "HackerRank SQL Intermediate Certificate",
+  ],
+  resumeUrl: resume,
+};
+
+const ABOUT_SECTIONS = [
+  { id: "profile", label: "Profile", kicker: "About", number: "01" },
+  {
+    id: "experience",
+    label: "Experience",
+    kicker: "Work history",
+    number: "02",
+  },
+  {
+    id: "projects",
+    label: "Projects",
+    kicker: "Selected builds",
+    number: "03",
+  },
+  {
+    id: "leadership",
+    label: "Leadership",
+    kicker: "Community",
+    number: "04",
+  },
+  { id: "skills", label: "Skills", kicker: "Toolkit", number: "05" },
+  {
+    id: "education",
+    label: "Education",
+    kicker: "Training",
+    number: "06",
+  },
+  {
+    id: "recognition",
+    label: "Recognition",
+    kicker: "Awards & certificates",
+    number: "07",
+  },
+  { id: "contact", label: "Contact", kicker: "Contact", number: "08" },
+];
+
+const PROFILE_FACTS = [
+  {
+    value: "04",
+    label: "Internships",
+    note: "Product, research, analytics, and growth",
+  },
+  {
+    value: "03",
+    label: "Leadership roles",
+    note: "IEEE, Startup Weekend, and TEDx",
+  },
+  {
+    value: "01",
+    label: "Patent application",
+    note: "202411054249 A",
+  },
+  {
+    value: "8.18",
+    label: "CGPA / 10",
+    note: "B.Tech CSE, Data Analytics minor",
+  },
+];
+
+const formatPeriod = (period) => period.replace(" - ", " — ");
+
+function SectionHeading({ section, title, note }) {
+  return (
+    <header className="about-section-head">
+      <p className="about-section-kicker">
+        <span aria-hidden="true">{section.number}</span>
+        {section.kicker}
+      </p>
+      <h2 id={`about-${section.id}-title`}>{title}</h2>
+      {note ? <p className="about-section-note">{note}</p> : null}
+    </header>
+  );
+}
+
+function ExperienceItem({ entry, index }) {
+  const current = entry.period.includes("Present");
+
+  return (
+    <li className="about-experience-item">
+      <div className="about-experience-timeline">
+        <p className="about-experience-period">
+          {formatPeriod(entry.period)}
+        </p>
+        {current ? (
+          <p className="about-current">
+            <span aria-hidden="true" />
+            Current
+          </p>
+        ) : null}
+      </div>
+      <div className="about-experience-main">
+        <p className="about-experience-index" aria-hidden="true">
+          {String(index + 1).padStart(2, "0")}
+        </p>
+        <h3>{entry.role}</h3>
+        <p className="about-experience-company">{entry.company}</p>
+        <p className="about-experience-copy">{entry.description}</p>
+      </div>
+    </li>
+  );
+}
+
+function ProjectCard({ project, index }) {
+  return (
+    <article className="about-project">
+      <p className="about-project-index" aria-hidden="true">
+        Project {String(index + 1).padStart(2, "0")}
+      </p>
+      <h3>{project.title}</h3>
+      <p>{project.description}</p>
+    </article>
+  );
+}
+
+function LeadershipItem({ entry, index }) {
+  return (
+    <article className="about-leadership-item">
+      <p className="about-leadership-index" aria-hidden="true">
+        {String(index + 1).padStart(2, "0")}
+      </p>
+      <p className="about-leadership-org">{entry.organization}</p>
+      <h3>{entry.role}</h3>
+      <p className="about-leadership-period">
+        {formatPeriod(entry.period)}
+      </p>
+      <p className="about-leadership-copy">{entry.description}</p>
+    </article>
+  );
+}
+
+function RecognitionList({ title, items }) {
+  return (
+    <div className="about-recognition-block">
+      <h3>
+        {title}
+        <span>
+          {String(items.length).padStart(2, "0")}
+        </span>
+      </h3>
+      <ul>
+        {items.map((item, index) => (
+          <li key={item}>
+            <span aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default function AboutMe({ onClose, onViewResume }) {
+  const [activeSection, setActiveSection] = useState("profile");
+  const pageRef = useRef(null);
+
+  const dialogRef = useDialogFocus(onClose);
+
+  const setRootRef = useCallback(
+    (node) => {
+      pageRef.current = node;
+      dialogRef.current = node;
+    },
+    [dialogRef],
+  );
+
+  useEffect(() => {
+    const page = pageRef.current;
+    if (!page) return undefined;
+
+    const sections = ABOUT_SECTIONS.map((section) =>
+      page.querySelector(`#about-${section.id}`),
+    ).filter(Boolean);
+
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      if (!sections.length) return;
+
+      const threshold = page.getBoundingClientRect().top + 130;
+      const atBottom =
+        page.scrollTop + page.clientHeight >= page.scrollHeight - 8;
+      let current = sections[0];
+
+      if (atBottom) {
+        current = sections[sections.length - 1];
+      } else {
+        for (const section of sections) {
+          if (section.getBoundingClientRect().top <= threshold) {
+            current = section;
+          } else {
+            break;
+          }
+        }
+      }
+
+      setActiveSection(current.id.replace("about-", ""));
+    };
+
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    page.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      page.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, []);
 
   const handleResumeDownload = () => {
     const link = document.createElement("a");
-    link.href = resume;
+    link.href = aboutData.resumeUrl;
     link.download = "Rishabh_Bassi_Resume.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  return (
-    <div id="about" className="about-me-page">
-      <div className="about-me-header-nav">
-        <button className="about-me-back-button" onClick={onClose}>
-          ← Back
-        </button>
-      </div>
-      <div className="about-me-container">
-        <div className="about-me-header">
-          <h1 className="about-me-title">About Me</h1>
-        </div>
+  const handleViewResume = () => {
+    onViewResume?.(aboutData.resumeUrl);
+  };
 
-        <div className="about-me-content">
-          {/* Left side - Image and basic info */}
-          <div className="about-me-left">
-            <div className="about-me-image-wrapper">
-              <img 
-                src={rishabhImage} 
-                alt="Rishabh Bassi" 
-                className="about-me-image"
-              />
-            </div>
-            
-            <div className="about-me-quick-info">
-              <h2 className="about-me-name">{aboutData.name}</h2>
-              <p className="about-me-role">{aboutData.title}</p>
-              
-              <div className="about-me-contact">
-                <p className="about-me-contact-item">
-                  <a href={`mailto:${aboutData.email}`}>{aboutData.email}</a>
-                </p>
-                <p className="about-me-contact-item">
-                  <a href={`tel:${aboutData.phone}`}>{aboutData.phone}</a>
-                </p>
-                <p className="about-me-contact-item">{aboutData.location}</p>
-              </div>
-              
-              <div className="about-me-resume-buttons">
-              <button 
-                  className="about-me-resume-button about-me-view-button"
-                  onClick={() => {
-                    if (onViewResume) {
-                      onViewResume(aboutData.resumeUrl);
-                    }
-                  }}
+  return (
+    <div
+      id="about"
+      className="about-me-page"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="about-title"
+      ref={setRootRef}
+      tabIndex={-1}
+    >
+      <header className="about-topbar">
+        <div className="about-topbar-inner">
+          <button
+            type="button"
+            className="about-me-back-button"
+            onClick={onClose}
+            data-autofocus
+          >
+            <span aria-hidden="true">←</span> Back
+          </button>
+          <p className="about-topbar-label">Profile / Rishabh Bassi</p>
+          <p className="about-topbar-count">Portfolio · 2026</p>
+        </div>
+      </header>
+
+      <div className="about-me-container">
+        <header className="about-hero">
+          <div className="about-hero-grid">
+            <div className="about-hero-copy">
+              <p className="about-eyebrow">About / Profile</p>
+              <h1 className="about-me-title" id="about-title">
+                Rishabh
+                <br />
+                <span>Bassi.</span>
+              </h1>
+              <p className="about-hero-role">{aboutData.title}</p>
+              <p className="about-hero-lede">
+                Data analyst, product engineer, and designer working where
+                clear thinking meets expressive craft.
+              </p>
+
+              <div className="about-hero-actions">
+                <a
+                  className="about-action about-action-primary"
+                  href={`mailto:${aboutData.email}`}
                 >
-                  View Resume
+                  Email me <span aria-hidden="true">↗</span>
+                </a>
+                <button
+                  type="button"
+                  className="about-action about-action-secondary"
+                  onClick={handleViewResume}
+                >
+                  View resume <span aria-hidden="true">↗</span>
                 </button>
-                <button 
-                  className="about-me-resume-button"
+                <button
+                  type="button"
+                  className="about-action about-action-quiet"
                   onClick={handleResumeDownload}
+                  aria-label="Download resume as a PDF"
                 >
-                  Download Resume
+                  Download <span aria-hidden="true">↓</span>
                 </button>
               </div>
+
+              <dl className="about-hero-meta">
+                <div>
+                  <dt>Based in</dt>
+                  <dd>{aboutData.location}</dd>
+                </div>
+                <div>
+                  <dt>Focus</dt>
+                  <dd>Data, product, and interface design</dd>
+                </div>
+                <div>
+                  <dt>Elsewhere</dt>
+                  <dd>
+                    <a
+                      href={aboutData.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      LinkedIn <span aria-hidden="true">↗</span>
+                    </a>
+                  </dd>
+                </div>
+              </dl>
             </div>
+
+            <figure className="about-portrait">
+              <div className="about-portrait-frame">
+                <img
+                  src={rishabhImage}
+                  alt="Rishabh Bassi in front of The Connaught, High Street"
+                  width="768"
+                  height="1024"
+                />
+              </div>
+              <figcaption>
+                <span>Fig. 01</span>
+                Sonipat, Haryana
+              </figcaption>
+            </figure>
           </div>
 
-          {/* Right side - Bio and details */}
-          <div className="about-me-right">
-            <div className="about-me-bio">
-              <h3 className="about-me-section-title">Who am I?</h3>
-              <p className="about-me-bio-text">
-                I'm Rishabh Bassi — someone who loves creating things that feel thoughtful, purposeful, and a little bit artistic. I've always lived in the space where design and technology overlap, where ideas start fuzzy and become something real. Whether I'm shaping interfaces, building systems, or experimenting with data, I'm driven by curiosity and the excitement of making something that actually works for people.
+          <div className="about-facts" aria-label="Profile at a glance">
+            {PROFILE_FACTS.map((fact) => (
+              <div className="about-fact" key={fact.label}>
+                <p className="about-fact-value">{fact.value}</p>
+                <p className="about-fact-label">{fact.label}</p>
+                <p className="about-fact-note">{fact.note}</p>
+              </div>
+            ))}
+          </div>
+        </header>
+
+        <div className="about-body">
+          <aside className="about-rail" aria-label="Profile contents">
+            <p className="about-rail-label">Contents</p>
+            <nav className="about-index-nav" aria-label="Profile sections">
+              {ABOUT_SECTIONS.map((section) => {
+                const isActive = activeSection === section.id;
+
+                return (
+                  <a
+                    className={`about-index-link${isActive ? " is-active" : ""}`}
+                    href={`#about-${section.id}`}
+                    key={section.id}
+                    aria-current={isActive ? "location" : undefined}
+                  >
+                    <span aria-hidden="true">{section.number}</span>
+                    {section.label}
+                    <span className="about-index-dot" aria-hidden="true" />
+                  </a>
+                );
+              })}
+            </nav>
+            <div className="about-rail-note">
+              <p>Currently</p>
+              <p>Building agentic products at Adsparkx Media.</p>
+            </div>
+          </aside>
+
+          <div className="about-content">
+            <section
+              className="about-section"
+              id="about-profile"
+              aria-labelledby="about-profile-title"
+            >
+              <SectionHeading
+                section={ABOUT_SECTIONS[0]}
+                title="Profile"
+                note="The person behind the work — in his own words."
+              />
+              <p className="about-bio-lede">
+                I&apos;m Rishabh Bassi — someone who loves creating things that
+                feel thoughtful, purposeful, and a little bit artistic.
+                I&apos;ve always lived in the space where design and technology
+                overlap, where ideas start fuzzy and become something real.
+                Whether I&apos;m shaping interfaces, building systems, or
+                experimenting with data, I&apos;m driven by curiosity and the
+                excitement of making something that actually works for people.
               </p>
-              <p className="about-me-bio-text">
-                Beyond the screen, I'm a state-level basketball player and a singer who's been lucky enough to perform internationally. Those experiences taught me discipline, confidence, and the joy of expression — the same qualities I try to bring into every project I touch. For me, creativity isn't a skill; it's the way I move through the world.
+              <p className="about-bio-copy">
+                Beyond the screen, I&apos;m a state-level basketball player and
+                a singer who&apos;s been lucky enough to perform
+                internationally. Those experiences taught me discipline,
+                confidence, and the joy of expression — the same qualities I try
+                to bring into every project I touch.
               </p>
-            </div>
+              <blockquote className="about-bio-quote">
+                <p>
+                  Creativity isn&apos;t a skill; it&apos;s the way I move
+                  through the world.
+                </p>
+              </blockquote>
+            </section>
 
-            <div className="about-me-education">
-              <h3 className="about-me-section-title">Education</h3>
-              {aboutData.education.map((edu, index) => (
-                <div key={index} className="about-me-education-item">
-                  <div className="education-header">
-                    <h4 className="education-degree">{edu.degree}</h4>
-                    <span className="education-period">{edu.period}</span>
-                  </div>
-                  <p className="education-institution">{edu.institution}</p>
-                  <p className="education-details">{edu.details}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="about-me-experience">
-              <h3 className="about-me-section-title">Work Experience</h3>
-              {aboutData.workExperience.map((exp, index) => (
-                <div key={index} className="about-me-experience-item">
-                  <div className="experience-header">
-                    <h4 className="experience-role">{exp.role}</h4>
-                    <span className="experience-period">{exp.period}</span>
-                  </div>
-                  <p className="experience-company">{exp.company}</p>
-                  <p className="experience-description">{exp.description}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="about-me-projects">
-              <h3 className="about-me-section-title">Projects</h3>
-              {aboutData.projects.map((project, index) => (
-                <div key={index} className="about-me-project-item">
-                  <h4 className="project-title">{project.title}</h4>
-                  <p className="project-description">{project.description}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="about-me-leadership">
-              <h3 className="about-me-section-title">Leadership Experience</h3>
-              {aboutData.leadership.map((lead, index) => (
-                <div key={index} className="about-me-leadership-item">
-                  <div className="leadership-header">
-                    <h4 className="leadership-role">{lead.role}</h4>
-                    <span className="leadership-period">{lead.period}</span>
-                  </div>
-                  <p className="leadership-organization">{lead.organization}</p>
-                  <p className="leadership-description">{lead.description}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="about-me-skills">
-              <h3 className="about-me-section-title">Skills & Expertise</h3>
-              
-              <div className="skills-category">
-                <h4 className="skills-category-title">Technical</h4>
-                <div className="skills-tags">
-                  {aboutData.skills.technical.map((skill, index) => (
-                    <span key={index} className="skill-tag skill-tag-technical">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="skills-category">
-                <h4 className="skills-category-title">Design</h4>
-                <div className="skills-tags">
-                  {aboutData.skills.design.map((skill, index) => (
-                    <span key={index} className="skill-tag skill-tag-design">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="skills-category">
-                <h4 className="skills-category-title">Professional</h4>
-                <div className="skills-tags">
-                  {aboutData.skills.professional.map((skill, index) => (
-                    <span key={index} className="skill-tag skill-tag-professional">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="about-me-awards">
-              <h3 className="about-me-section-title">Awards</h3>
-              <ul className="awards-list">
-                {aboutData.awards.map((award, index) => (
-                  <li key={index} className="award-item">{award}</li>
+            <section
+              className="about-section"
+              id="about-experience"
+              aria-labelledby="about-experience-title"
+            >
+              <SectionHeading
+                section={ABOUT_SECTIONS[1]}
+                title="Experience"
+                note="Four internships across product, research, analytics, and growth."
+              />
+              <ul className="about-experience-list">
+                {aboutData.workExperience.map((entry, index) => (
+                  <ExperienceItem
+                    entry={entry}
+                    index={index}
+                    key={`${entry.role}-${entry.company}`}
+                  />
                 ))}
               </ul>
-            </div>
+            </section>
 
-            <div className="about-me-certifications">
-              <h3 className="about-me-section-title">Certifications</h3>
-              <ul className="certifications-list">
-                {aboutData.certifications.map((cert, index) => (
-                  <li key={index} className="certification-item">{cert}</li>
+            <section
+              className="about-section"
+              id="about-projects"
+              aria-labelledby="about-projects-title"
+            >
+              <SectionHeading
+                section={ABOUT_SECTIONS[2]}
+                title="Projects"
+                note="Three builds spanning geospatial ML, agentic finance, and consumer analytics."
+              />
+              <div className="about-projects-grid">
+                {aboutData.projects.map((project, index) => (
+                  <ProjectCard
+                    project={project}
+                    index={index}
+                    key={project.title}
+                  />
+                ))}
+              </div>
+            </section>
+
+            <section
+              className="about-section"
+              id="about-leadership"
+              aria-labelledby="about-leadership-title"
+            >
+              <SectionHeading
+                section={ABOUT_SECTIONS[3]}
+                title="Leadership"
+                note="Building communities, events, and creative teams."
+              />
+              <div className="about-leadership-grid">
+                {aboutData.leadership.map((entry, index) => (
+                  <LeadershipItem
+                    entry={entry}
+                    index={index}
+                    key={`${entry.role}-${entry.organization}`}
+                  />
+                ))}
+              </div>
+            </section>
+
+            <section
+              className="about-section"
+              id="about-skills"
+              aria-labelledby="about-skills-title"
+            >
+              <SectionHeading
+                section={ABOUT_SECTIONS[4]}
+                title="Skills"
+                note="The toolkit behind the work."
+              />
+              <div className="about-skills-list">
+                {aboutData.skills.map((group) => (
+                  <div className="about-skill-group" key={group.title}>
+                    <h3>{group.title}</h3>
+                    <ul>
+                      {group.items.map((skill) => (
+                        <li key={skill}>{skill}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section
+              className="about-section"
+              id="about-education"
+              aria-labelledby="about-education-title"
+            >
+              <SectionHeading
+                section={ABOUT_SECTIONS[5]}
+                title="Education"
+                note="Formal training in computer science and data analytics."
+              />
+              <ul className="about-education-list">
+                {aboutData.education.map((entry, index) => (
+                  <li className="about-education-item" key={entry.degree}>
+                    <p className="about-education-index" aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <div className="about-education-main">
+                      <h3>{entry.degree}</h3>
+                      <p>{entry.institution}</p>
+                    </div>
+                    <p className="about-education-period">
+                      {formatPeriod(entry.period)}
+                    </p>
+                    <p className="about-education-details">{entry.details}</p>
+                  </li>
                 ))}
               </ul>
+            </section>
+
+            <section
+              className="about-section"
+              id="about-recognition"
+              aria-labelledby="about-recognition-title"
+            >
+              <SectionHeading
+                section={ABOUT_SECTIONS[6]}
+                title="Recognition"
+                note="Awards and certifications earned along the way."
+              />
+              <div className="about-recognition-grid">
+                <RecognitionList
+                  title="Awards"
+                  items={aboutData.awards}
+                />
+                <RecognitionList
+                  title="Certifications"
+                  items={aboutData.certifications}
+                />
+              </div>
+            </section>
+
+            <section
+              className="about-contact"
+              id="about-contact"
+              aria-labelledby="about-contact-title"
+            >
+              <div className="about-contact-head">
+                <p className="about-contact-kicker">08 / Contact</p>
+                <h2 id="about-contact-title">Have something in mind?</h2>
+                <p>
+                  For roles, collaborations, or a considered conversation,
+                  reach me directly.
+                </p>
+              </div>
+
+              <div className="about-contact-links">
+                <a
+                  className="about-contact-link about-contact-email"
+                  href={`mailto:${aboutData.email}`}
+                >
+                  <span>Email</span>
+                  <strong>{aboutData.email}</strong>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a
+                  className="about-contact-link"
+                  href="tel:+918529177707"
+                >
+                  <span>Phone</span>
+                  <strong>{aboutData.phone}</strong>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a
+                  className="about-contact-link"
+                  href={aboutData.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>LinkedIn</span>
+                  <strong>Rishabh Bassi</strong>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <p className="about-contact-link about-contact-location">
+                  <span>Based in</span>
+                  <strong>{aboutData.location}</strong>
+                </p>
+                <p className="about-contact-link about-contact-location">
+                  <span>Timezone</span>
+                  <strong>IST · GMT+5:30</strong>
+                </p>
+              </div>
+
+              <div className="about-contact-actions">
+                <button
+                  type="button"
+                  className="about-contact-action about-contact-action-primary"
+                  onClick={handleViewResume}
+                >
+                  View resume <span aria-hidden="true">↗</span>
+                </button>
+                <button
+                  type="button"
+                  className="about-contact-action about-contact-action-secondary"
+                  onClick={handleResumeDownload}
+                >
+                  Download PDF <span aria-hidden="true">↓</span>
+                </button>
+              </div>
+            </section>
+
+            <div className="about-page-end">
+              <p>End of profile / {aboutData.name}</p>
+              <button type="button" onClick={onClose}>
+                Back to portfolio <span aria-hidden="true">↑</span>
+              </button>
             </div>
           </div>
         </div>
@@ -328,4 +774,3 @@ export default function AboutMe({ onClose, onViewResume }) {
     </div>
   );
 }
-

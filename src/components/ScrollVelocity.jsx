@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useState } from "react";
+import { useRef, useLayoutEffect, useState, useEffect } from "react";
 import {
   motion,
   useScroll,
@@ -9,6 +9,10 @@ import {
   useAnimationFrame,
 } from "motion/react";
 import "./ScrollVelocity.css";
+
+// Referencing motion at module scope keeps the animated scroller component
+// stable across React renders and makes the JSX member expression explicit.
+const MotionDiv = motion.div;
 
 function useElementWidth(ref) {
   const [width, setWidth] = useState(0);
@@ -67,6 +71,18 @@ export const ScrollVelocity = ({
 
     const copyRef = useRef(null);
     const copyWidth = useElementWidth(copyRef);
+    const reduceMotion = useRef(false);
+
+    useEffect(() => {
+      const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const updatePreference = () => {
+        reduceMotion.current = media.matches;
+      };
+
+      updatePreference();
+      media.addEventListener?.("change", updatePreference);
+      return () => media.removeEventListener?.("change", updatePreference);
+    }, []);
 
     function wrap(min, max, v) {
       const range = max - min;
@@ -81,6 +97,8 @@ export const ScrollVelocity = ({
 
     const directionFactor = useRef(1);
     useAnimationFrame((t, delta) => {
+      if (reduceMotion.current) return;
+
       let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
 
       if (velocityFactor.get() < 0) {
@@ -104,15 +122,15 @@ export const ScrollVelocity = ({
 
     return (
       <div className={parallaxClassName} style={parallaxStyle}>
-        <motion.div className={scrollerClassName} style={{ x, ...scrollerStyle }}>
+        <MotionDiv className={scrollerClassName} style={{ x, ...scrollerStyle }}>
           {spans}
-        </motion.div>
+        </MotionDiv>
       </div>
     );
   }
 
   return (
-    <section>
+    <section aria-hidden="true">
       {texts.map((text, index) => (
         <VelocityText
           key={index}

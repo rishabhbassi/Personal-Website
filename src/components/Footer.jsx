@@ -1,255 +1,179 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Footer.css";
 
-export default function Footer() {
+const NAV_ITEMS = [
+  { key: "work", label: "Work" },
+  { key: "about", label: "About" },
+  { key: "research", label: "Research" },
+  { key: "case-studies", label: "Case Studies" },
+];
+
+function prefersReducedMotion() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+export default function Footer({
+  onOpenAbout,
+  onOpenResearch,
+  onOpenCaseStudies,
+  onOpenContact,
+}) {
   const [time, setTime] = useState("");
+  const year = new Date().getFullYear();
 
   useEffect(() => {
-    function updateTime() {
-      const now = new Date();
-      const options = {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-        timeZoneName: "short",
-      };
-      const formattedTime = now.toLocaleTimeString("en-US", options);
-      setTime(formattedTime);
-    }
+    const formatter = new Intl.DateTimeFormat("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: "Asia/Kolkata",
+      timeZoneName: "short",
+    });
 
+    const updateTime = () => setTime(formatter.format(new Date()));
     updateTime();
-
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+    const interval = window.setInterval(updateTime, 30000);
+    return () => window.clearInterval(interval);
   }, []);
 
+  const openContact = () => {
+    if (onOpenContact) {
+      onOpenContact();
+      return;
+    }
+    window.dispatchEvent(new CustomEvent("openContactPopup"));
+  };
+
+  const openOverlay = (key) => {
+    if (key === "work") {
+      document.getElementById("recent-work")?.scrollIntoView({
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+        block: "start",
+      });
+      return;
+    }
+
+    if (key === "about") {
+      if (onOpenAbout) onOpenAbout();
+      else window.dispatchEvent(new CustomEvent("openAboutMe"));
+      return;
+    }
+
+    if (key === "research") {
+      if (onOpenResearch) onOpenResearch();
+      else window.dispatchEvent(new CustomEvent("openResearchSection"));
+      return;
+    }
+
+    if (key === "case-studies") {
+      if (onOpenCaseStudies) onOpenCaseStudies();
+      else window.dispatchEvent(new CustomEvent("openCaseStudies"));
+    }
+  };
+
+  const backToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    });
+  };
+
   return (
-    <footer
-      id="contact"
-      style={{
-        height: "100vh",
-        width: "100vw",
-        backgroundColor: "#131313ff",
-        color: "#fff",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
-        padding: "3rem 15vw",
-        boxSizing: "border-box",
-        fontFamily: "'Dennis Sans', sans-serif",
-        textAlign: "left",
-      }}
-      className="footer-container"
-    >
-      {/* Large heading and arrow */}
-      <div style={{ display: "flex", alignItems: "anchor-center", justifyContent: "space-between", gap: "1rem" }} className="footer-heading-wrapper">
-        <h2 style={{ fontWeight: 400, fontSize: "4rem", marginBottom: "1rem", marginTop: 0 }} className="footer-heading">
-          Let's Build Something Great Together
-        </h2>
+    <footer id="contact" className="site-footer" aria-labelledby="footer-heading">
+      <div className="footer-inner">
+        <div className="footer-main">
+          <div className="footer-intro">
+            <p className="footer-kicker">
+              <span className="footer-kicker-dot" aria-hidden="true" />
+              Contact / Start a conversation
+            </p>
 
-        <svg
-          width="30"
-          height="30"
-          viewBox="0 0 20 10"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          stroke="#fff"
-          strokeWidth="1.5"
-          style={{ flexShrink: 0, transform: "rotate(180deg)", marginTop: "0.5rem" }}
-          className="footer-arrow"
-        >
-          <polyline points="2.769 0 12 0 12 9.23" />
-          <line x1="12" y1="0" x2="0" y2="12" />
-        </svg>
-      </div>
+            <h2 className="footer-heading" id="footer-heading">
+              Let&apos;s build <span>something great</span> together.
+            </h2>
 
-      {/* Line with button */}
-      <div style={{ width: "100%" }}>
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            marginTop: "5rem",
-            marginBottom: "3rem",
-            height: "2px",
-            backgroundColor: "#919191ff",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: "-84px",
-              right: "2rem",
-              width: "170px",
-              height: "170px",
-              borderRadius: "50%",
-              background: "linear-gradient(to top, #5d0dffff 50%, #fff 50%)",
-              backgroundSize: "100% 200%",
-              backgroundPosition: "bottom",
-              color: "#fff",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontFamily: "'Dennis Sans', sans-serif",
-              fontWeight: "300",
-              fontSize: "1rem",
-              cursor: "pointer",
-              transition: "background-position 0.4s ease-in-out, color 0.4s ease",
-              zIndex: 2,
-            }}
-            className="footer-contact-button"
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundPosition = "top";
-              e.currentTarget.style.color = "#000";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundPosition = "bottom";
-              e.currentTarget.style.color = "#fff";
-            }}
-            onClick={() => {
-              window.dispatchEvent(new CustomEvent('openContactPopup'));
-            }}
-          >
-            Get in touch
-          </div>
-        </div>
-      </div>
+            <p className="footer-intro-copy">
+              I&apos;m open to new projects, creative ideas, and opportunities
+              to make thoughtful work with good people.
+            </p>
 
-      {/* Email + Phone buttons */}
-      <div style={{ marginTop: "2rem", display: "flex", gap: "2rem" }} className="footer-contact-buttons">
-        <a
-          href="mailto:rishabhb.career@gmail.com"
-          className = "pill-button"
-        >
-          rishabhb.career@gmail.com
-        </a>
-
-        <a
-          href="tel:+918529177707"
-          className = "pill-button"
-        >
-          +91 8529177707
-        </a>
-
-      </div>
-
-      {/* Bottom metadata row */}
-      <div
-        style={{
-          position: "relative",
-          left: "calc(-15vw)",
-          width: "calc(94vw)",
-          padding: "0rem 3vw",
-          marginBottom: "-15px",
-          marginTop: "auto",
-          color: "#fff",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          fontSize: "1rem",
-        }}
-        className="footer-metadata"
-      >
-        <div style={{ display: "flex", gap: "3rem", alignItems: "center" }} className="footer-metadata-left">
-          <div>
-            <div
-              style={{
-                color: "#919191ff",
-                fontWeight: "300",
-                marginBottom: "0.3rem",
-                fontSize: "0.8rem",
-              }}
-            >
-              VERSION
+            <div className="footer-contact-actions">
+              <a
+                className="footer-pill footer-pill-primary"
+                href="mailto:rishabhb.career@gmail.com"
+              >
+                Email me
+                <span aria-hidden="true">↗</span>
+              </a>
+              <a className="footer-pill" href="tel:+918529177707">
+                +91 8529177707
+              </a>
             </div>
-            <div style={{ fontWeight: "400" }}>2025 &copy; Edition</div>
           </div>
 
-          <div>
-            <div
-              style={{
-                color: "#919191ff",
-                fontWeight: "300",
-                marginBottom: "0.3rem",
-                fontSize: "0.8rem",
-              }}
+          <div className="footer-contact-panel">
+            <button
+              type="button"
+              className="footer-contact-button"
+              onClick={openContact}
             >
-              LOCAL TIME
-            </div>
-            <div style={{ fontWeight: "400" }}>{time}</div>
+              <span>
+                Get in
+                <br />
+                touch
+              </span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 19 19 5M9 5h10v10" />
+              </svg>
+            </button>
+
+            <dl className="footer-contact-meta">
+              <div>
+                <dt>Based in</dt>
+                <dd>Haryana, India</dd>
+              </div>
+              <div>
+                <dt>Local time</dt>
+                <dd>{time || "—"}</dd>
+              </div>
+            </dl>
           </div>
         </div>
 
-        <div className="footer-metadata-right">
-          <div
-            style={{
-              color: "#919191ff",
-              fontWeight: "300",
-              marginBottom: "0.3rem",
-              fontSize: "0.8rem",
-            }}
-          >
-            SOCIALS
+        <nav className="footer-nav" aria-label="Footer navigation">
+          <p className="footer-nav-label">Index</p>
+          <div className="footer-nav-links">
+            {NAV_ITEMS.map((item) => (
+              <button
+                key={item.key}
+                type="button"
+                onClick={() => openOverlay(item.key)}
+              >
+                {item.label}
+              </button>
+            ))}
           </div>
-          <div style={{ display: "flex", gap: "2rem", fontWeight: "700" }} className="footer-socials">
-            <a
-              href="https://www.instagram.com"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                color: "#fff",
-                textDecoration: "none",
-                borderBottom: "2px solid transparent",
-                transition: "border-bottom 0.3s ease",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.borderBottom = "2px solid #fff")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.borderBottom = "2px solid transparent")
-              }
-            >
-              Instagram
-            </a>
-            <a
-              href="https://www.twitter.com"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                color: "#fff",
-                textDecoration: "none",
-                borderBottom: "2px solid transparent",
-                transition: "border-bottom 0.3s ease",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.borderBottom = "2px solid #fff")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.borderBottom = "2px solid transparent")
-              }
-            >
-              Twitter
-            </a>
+        </nav>
+
+        <div className="footer-bottom">
+          <p>
+            © {year} Rishabh Bassi
+            <span className="footer-edition">Portfolio / Edition {year}</span>
+          </p>
+          <div className="footer-bottom-links">
             <a
               href="https://www.linkedin.com/in/rishabh-bassi-5981a9223/"
               target="_blank"
-              rel="noreferrer"
-              style={{
-                color: "#fff",
-                textDecoration: "none",
-                borderBottom: "2px solid transparent",
-                transition: "border-bottom 0.3s ease",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.borderBottom = "2px solid #fff")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.borderBottom = "2px solid transparent")
-              }
+              rel="noopener noreferrer"
             >
-              LinkedIn
+              LinkedIn <span aria-hidden="true">↗</span>
             </a>
+            <button type="button" onClick={backToTop}>
+              Back to top <span aria-hidden="true">↑</span>
+            </button>
           </div>
         </div>
       </div>

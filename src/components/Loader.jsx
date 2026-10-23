@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import "./Loader.css";
 
 const greetings = [
   "Hello",
@@ -13,77 +14,72 @@ const greetings = [
 export default function Loader({ onFinish }) {
   const [index, setIndex] = useState(0);
   const [slideUp, setSlideUp] = useState(false);
+  const finishedRef = useRef(false);
+
+  const finish = useCallback(() => {
+    if (finishedRef.current) return;
+    finishedRef.current = true;
+    onFinish();
+  }, [onFinish]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % greetings.length);
+    const reduceMotion = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (reduceMotion) {
+      const timeout = window.setTimeout(finish, 300);
+      return () => window.clearTimeout(timeout);
+    }
+
+    const interval = window.setInterval(() => {
+      setIndex((previous) => (previous + 1) % greetings.length);
     }, 150);
 
-    // After 3 seconds, start slide up animation
-    const timeout = setTimeout(() => {
-      clearInterval(interval);
+    const timeout = window.setTimeout(() => {
+      window.clearInterval(interval);
       setSlideUp(true);
-      // After slide up animation (1.2s), call onFinish
-      //   setTimeout(() => {
-      //     onFinish();
-      //   }, 800);
-    }, 1500);
+    }, 1400);
 
     return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
+      window.clearInterval(interval);
+      window.clearTimeout(timeout);
     };
-  }, [onFinish]);
+  }, [finish]);
+
+  useEffect(() => {
+    if (!slideUp) return undefined;
+    const fallback = window.setTimeout(finish, 950);
+    return () => window.clearTimeout(fallback);
+  }, [finish, slideUp]);
+
+  const handleTransitionEnd = (event) => {
+    if (event.propertyName === "transform" && slideUp) {
+      finish();
+    }
+  };
 
   return (
     <div
-      onTransitionEnd={() => {
-        if (slideUp) {
-          console.log("Transition ended, calling onFinish");
-          onFinish();
-        }
-      }}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "#131313ff",
-        color: "white",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontSize: "4rem",
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        userSelect: "none",
-        overflow: "hidden",
-        zIndex: 9999,
-        flexDirection: "column",
-        transition: "transform 1.2s ease-in-out",
-        transform: slideUp ? "translateY(-100vh)" : "translateY(0)",
-        transition: slideUp
-          ? "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), clip-path 1.2s cubic-bezier(0.4, 0, 0.2, 1)"
-          : "none",
-        clipPath: slideUp ? "ellipse(150% 100% at 50% 0%)" : "inset(0)",
-      }}
+      className={`site-loader${slideUp ? " is-leaving" : ""}`}
+      onTransitionEnd={handleTransitionEnd}
     >
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <span
-          style={{
-            display: "inline-block",
-            width: "1.2em",
-            marginRight: "0.5em",
-            fontWeight: "bold",
-            color: "#ffffffff",
-            fontSize: "1.5rem",
-            lineHeight: "1",
-            userSelect: "none",
-          }}
-        >
-          •
-        </span>
-        {greetings[index]}
+      <p className="sr-only" role="status">
+        Loading portfolio…
+      </p>
+
+      <div className="site-loader-center" aria-hidden="true">
+        <span className="site-loader-dot" />
+        <span className="site-loader-greeting">{greetings[index]}</span>
+      </div>
+
+      <div className="site-loader-meta" aria-hidden="true">
+        <p>Rishabh Bassi / Portfolio</p>
+        <p>Loading</p>
+      </div>
+
+      <div className="site-loader-progress" aria-hidden="true">
+        <span />
       </div>
     </div>
   );

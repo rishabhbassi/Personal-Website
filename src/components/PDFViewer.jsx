@@ -1,253 +1,391 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import * as pdfjsLib from "pdfjs-dist";
 import portfolioPDF from "../assets/Portfolio.pdf";
 import portfolioBookPDF from "../assets/Portfolio Book.pdf";
+import useDialogFocus from "../hooks/useDialogFocus";
 import "./PDFViewer.css";
 
-// Set up PDF.js worker - use local worker file from public directory
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 
-export default function PDFViewer({ isOpen, onClose, pdfUrl, title = "Design", downloadFileName }) {
+export default function PDFViewer({
+  isOpen,
+  onClose,
+  pdfUrl,
+  title = "Design",
+  downloadFileName,
+}) {
   const [totalPages, setTotalPages] = useState(0);
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
   const [pdfDoc, setPdfDoc] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [renderedPages, setRenderedPages] = useState([]);
+  const [isRendering, setIsRendering] = useState(false);
+  const [showPreparing, setShowPreparing] = useState(false);
+  const [loadError, setLoadError] = useState(null);
+  const [loadAttempt, setLoadAttempt] = useState(0);
   const canvasRefs = useRef([]);
+  const pagesRef = useRef(null);
+  const showDownloadRef = useRef(false);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
+    showDownloadRef.current = showDownloadOptions;
+  }, [showDownloadOptions]);
 
+  const requestClose = useCallback(() => {
+    if (showDownloadRef.current) {
+      setShowDownloadOptions(false);
+      return;
+    }
+    onClose();
+  }, [onClose]);
+
+  const dialogRef = useDialogFocus(requestClose);
+
+  const activePdf = pdfUrl || portfolioPDF;
+  const downloadName =
+    downloadFileName ||
+    (title === "Design" ? "Rishabh_Bassi_Portfolio.pdf" : `${title}.pdf`);
+
+  // Close the download popover when the pointer lands elsewhere.
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (showDownloadOptions && !event.target.closest('.pdf-download-wrapper')) {
+      if (showDownloadOptions && !event.target.closest(".pdf-download-wrapper")) {
         setShowDownloadOptions(false);
       }
     };
 
     if (showDownloadOptions) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
     }
+    return undefined;
   }, [showDownloadOptions]);
 
-
-  // Load PDF document
+  // Load the document and reset the viewer when it closes.
   useEffect(() => {
-    if (!isOpen) return;
-
-    const loadPDF = async () => {
-      setIsLoading(true);
-      try {
-        // Use provided pdfUrl or fallback to portfolioPDF
-        const pdfToLoad = pdfUrl || portfolioPDF;
-        console.log('Loading PDF...', { pdfToLoad });
-        // Vite imports PDFs as URLs, use them directly
-        const pdf = await pdfjsLib.getDocument({
-          url: pdfToLoad,
-          withCredentials: false
-        }).promise;
-        setPdfDoc(pdf);
-        setTotalPages(pdf.numPages);
-        // Initialize canvas refs for all pages
-        canvasRefs.current = Array(pdf.numPages).fill(null).map(() => ({ current: null }));
-        setRenderedPages(Array(pdf.numPages).fill(false));
-        console.log('Loaded PDF, total pages:', pdf.numPages);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error loading PDF:', error);
-        setIsLoading(false);
-      }
-    };
-
-    loadPDF();
-  }, [isOpen, pdfUrl]);
-
-  // Render page function
-  const renderPage = async (pdfDocument, pageNum, canvasRef) => {
-    if (!pdfDocument || !canvasRef.current || pageNum < 1) return;
-
-    try {
-      const page = await pdfDocument.getPage(pageNum);
-      const canvas = canvasRef.current;
-      const context = canvas.getContext('2d');
-      
-      // Get container dimensions - use full viewport width
-      const containerWidth = window.innerWidth;
-      
-      const viewport = page.getViewport({ scale: 1.0 });
-      
-      // Calculate scale to fill the width (allow vertical scrolling)
-      const scale = containerWidth / viewport.width;
-      
-      const scaledViewport = page.getViewport({ scale });
-      canvas.height = scaledViewport.height;
-      canvas.width = scaledViewport.width;
-
-      const renderContext = {
-        canvasContext: context,
-        viewport: scaledViewport
-      };
-
-      await page.render(renderContext).promise;
-      console.log(`Rendered page ${pageNum} on canvas, scale: ${scale.toFixed(2)}`);
-      
-      // Mark page as rendered
-      setRenderedPages(prev => {
-        const newRendered = [...prev];
-        newRendered[pageNum - 1] = true;
-        return newRendered;
-      });
-    } catch (error) {
-      console.error(`Error rendering page ${pageNum}:`, error);
+    if (!isOpen) {
+      setPdfDoc(null);
+      setTotalPages(0);
+      setIsLoading(false);
+      setIsRendering(false);
+      setLoadError(null);
+      setShowDownloadOptions(false);
+      canvasRefs.current = [];
+      return undefined;
     }
-  };
 
-  // Render all pages when PDF loads and canvases are ready
-  useEffect(() => {
-    if (!isOpen || !pdfDoc || totalPages === 0) return;
+    let cancelled = false;
+    setIsLoading(true);
+    setIsRendering(false);
+    setLoadError(null);
+    setPdfDoc(null);
+    setTotalPages(0);
+    canvasRefs.current = [];
 
-    const renderAllPages = async () => {
-      // Wait for DOM to be ready
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
-      const renderPromises = [];
-      for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
-        const canvasRef = canvasRefs.current[pageNum - 1];
-        if (canvasRef && canvasRef.current) {
-          // Render page
-          renderPromises.push(renderPage(pdfDoc, pageNum, canvasRef));
+    const loadingTask = pdfjsLib.getDocument({
+      url: activePdf,
+      withCredentials: false,
+    });
+
+    loadingTask.promise
+      .then((document) => {
+        if (cancelled) {
+          document.destroy();
+          return;
         }
-      }
-      
-      // Wait for all pages to render
-      await Promise.all(renderPromises);
+        setPdfDoc(document);
+        setTotalPages(document.numPages);
+        setIsRendering(true);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setLoadError("The document could not be opened.");
+        setIsLoading(false);
+        setIsRendering(false);
+      });
+
+    return () => {
+      cancelled = true;
+      loadingTask.destroy().catch(() => {});
     };
+  }, [isOpen, activePdf, loadAttempt]);
 
-    renderAllPages();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pdfDoc, isOpen, totalPages]);
+  const getPageWidth = useCallback(() => {
+    const container = pagesRef.current;
+    if (!container) {
+      return Math.min(window.innerWidth, 1120);
+    }
+    const styles = window.getComputedStyle(container);
+    const horizontalPadding =
+      (Number.parseFloat(styles.paddingLeft) || 0) +
+      (Number.parseFloat(styles.paddingRight) || 0);
+    return Math.max(240, Math.min(container.clientWidth - horizontalPadding, 1120));
+  }, []);
 
-  // Re-render on window resize
+  // PDF.js throws if a canvas is rendered twice concurrently, so renders are
+  // serialised per canvas. The output scale is capped for long documents to
+  // keep memory use predictable.
+  const renderPage = useCallback(
+    async (pdfDocument, pageNum) => {
+      const canvas = canvasRefs.current[pageNum - 1];
+      if (!pdfDocument || !canvas || pageNum < 1) return;
+
+      const previous = canvas.__renderChain ?? Promise.resolve();
+      const next = previous
+        .catch(() => {})
+        .then(async () => {
+          if (!canvas.isConnected) return;
+
+          const page = await pdfDocument.getPage(pageNum);
+          const baseViewport = page.getViewport({ scale: 1 });
+          const scale = getPageWidth() / baseViewport.width;
+          const viewport = page.getViewport({ scale });
+          const context = canvas.getContext("2d");
+          if (!context) return;
+
+          const outputScale =
+            pdfDocument.numPages <= 4 && viewport.height <= viewport.width * 3
+              ? Math.min(window.devicePixelRatio || 1, 2)
+              : 1;
+
+          canvas.width = Math.floor(viewport.width * outputScale);
+          canvas.height = Math.floor(viewport.height * outputScale);
+
+          await page.render({
+            canvasContext: context,
+            viewport,
+            transform:
+              outputScale !== 1
+                ? [outputScale, 0, 0, outputScale, 0, 0]
+                : undefined,
+          }).promise;
+        })
+        .catch(() => {
+          // A single failed page should not blank the whole document.
+        });
+
+      canvas.__renderChain = next;
+      return next;
+    },
+    [getPageWidth],
+  );
+
+  const renderAllPages = useCallback(
+    async (pdfDocument) => {
+      const pages = Array.from({ length: pdfDocument.numPages }, (_, index) =>
+        renderPage(pdfDocument, index + 1),
+      );
+      await Promise.all(pages);
+    },
+    [renderPage],
+  );
+
+  // Render once the document and canvas elements are in the DOM.
   useEffect(() => {
-    if (!isOpen || !pdfDoc) return;
+    if (!isOpen || !pdfDoc) return undefined;
+    let cancelled = false;
+
+    const frame = window.requestAnimationFrame(() => {
+      renderAllPages(pdfDoc).then(() => {
+        if (!cancelled) {
+          setIsRendering(false);
+        }
+      });
+    });
+
+    return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(frame);
+    };
+  }, [isOpen, pdfDoc, renderAllPages]);
+
+  // Keep quick documents flash-free: only show the preparing state when
+  // rendering is actually taking long enough to be noticed.
+  useEffect(() => {
+    if (!isRendering) {
+      setShowPreparing(false);
+      return undefined;
+    }
+    const timer = window.setTimeout(() => setShowPreparing(true), 280);
+    return () => window.clearTimeout(timer);
+  }, [isRendering]);
+
+  // Re-render on width changes only, after a short debounce.
+  useEffect(() => {
+    if (!isOpen || !pdfDoc) return undefined;
+    let timeoutId;
+    let lastWidth = 0;
 
     const handleResize = () => {
-      // Re-render all pages on resize
-      for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
-        const canvasRef = canvasRefs.current[pageNum - 1];
-        if (canvasRef && canvasRef.current) {
-          renderPage(pdfDoc, pageNum, canvasRef);
-        }
-      }
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => {
+        const nextWidth = getPageWidth();
+        if (nextWidth === lastWidth) return;
+        lastWidth = nextWidth;
+        setIsRendering(true);
+        renderAllPages(pdfDoc).then(() => setIsRendering(false));
+      }, 180);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pdfDoc, isOpen, totalPages]);
-
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.clearTimeout(timeoutId);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [getPageWidth, isOpen, pdfDoc, renderAllPages]);
 
   if (!isOpen) return null;
 
-  const handleDownloadFullPage = () => {
-    const link = document.createElement("a");
-    const pdfToDownload = pdfUrl || portfolioPDF;
-    link.href = pdfToDownload;
-    link.download = downloadFileName || "Document.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    setShowDownloadOptions(false);
-  };
-
-  const handleDownloadBookFormat = () => {
-    // Only show book format for portfolio, otherwise just download the PDF
-    const link = document.createElement("a");
-    const pdfToDownload = pdfUrl || portfolioBookPDF;
-    link.href = pdfToDownload;
-    link.download = downloadFileName ? downloadFileName.replace('.pdf', ' Book.pdf') : "Document Book.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    setShowDownloadOptions(false);
-  };
-
+  const showLoading = (isLoading || !pdfDoc) && !loadError;
 
   return (
-    <div className="pdf-viewer-page">
-      <div className="pdf-viewer-header">
-        <button className="pdf-back-button" onClick={onClose}>
-          ← Back
+    <div
+      className="pdf-viewer-page"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="pdf-viewer-title"
+      ref={dialogRef}
+      tabIndex={-1}
+    >
+      <header className="pdf-viewer-header">
+        <button
+          type="button"
+          className="pdf-back-button"
+          onClick={onClose}
+          data-autofocus
+        >
+          <span aria-hidden="true">←</span> Back
         </button>
-        <div className="pdf-viewer-title">{title}</div>
+
+        <h1 className="pdf-viewer-title" id="pdf-viewer-title" title={title}>
+          {title}
+        </h1>
+
         <div className="pdf-viewer-controls">
-          <div className="pdf-download-wrapper" style={{ position: "relative" }}>
+          {totalPages > 0 && !loadError ? (
+            <p className="pdf-page-count" aria-live="polite">
+              {isRendering ? "Rendering…" : `${totalPages} pages`}
+            </p>
+          ) : null}
+
+          <div className="pdf-download-wrapper">
             <button
+              type="button"
               className="pdf-download-button"
-              onClick={() => setShowDownloadOptions(!showDownloadOptions)}
+              onClick={() => setShowDownloadOptions((open) => !open)}
+              aria-expanded={showDownloadOptions}
+              aria-controls="pdf-download-options"
             >
               Download
+              <svg viewBox="0 0 12 8" aria-hidden="true">
+                <path d="M1 1.5 6 6.5l5-5" />
+              </svg>
             </button>
-            {showDownloadOptions && (
-              <div className="download-options">
-                <button
+
+            {showDownloadOptions ? (
+              <div
+                className="download-options"
+                id="pdf-download-options"
+                aria-label="Download options"
+              >
+                <a
                   className="download-option-button"
-                  onClick={handleDownloadFullPage}
+                  href={activePdf}
+                  download={downloadName}
+                  onClick={() => setShowDownloadOptions(false)}
                 >
                   Download PDF
-                </button>
-                {!pdfUrl && (
-                  <button
+                  <span aria-hidden="true">↓</span>
+                </a>
+                {!pdfUrl ? (
+                  <a
                     className="download-option-button"
-                    onClick={handleDownloadBookFormat}
+                    href={portfolioBookPDF}
+                    download="Rishabh_Bassi_Portfolio_Book.pdf"
+                    onClick={() => setShowDownloadOptions(false)}
                   >
-                    Download Book Format
-                  </button>
-                )}
+                    Download book format
+                    <span aria-hidden="true">↓</span>
+                  </a>
+                ) : null}
               </div>
-            )}
+            ) : null}
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="pdf-viewer-content">
-        {isLoading ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', color: '#fff' }}>
-            Loading PDF...
+      <div
+        className={`pdf-viewer-content${showPreparing ? " is-preparing" : ""}`}
+        aria-busy={showLoading || isRendering}
+        tabIndex={0}
+        role="region"
+        aria-label="Document pages. Scroll to read."
+      >
+        {showLoading ? (
+          <div className="pdf-state" role="status" aria-live="polite">
+            <span className="pdf-spinner" aria-hidden="true" />
+            <p className="pdf-state-kicker">Document viewer</p>
+            <h2>Opening {title}…</h2>
+            <p>Preparing the pages for reading.</p>
+          </div>
+        ) : loadError ? (
+          <div className="pdf-state pdf-state-error" role="alert">
+            <p className="pdf-state-kicker">Document unavailable</p>
+            <h2>This PDF couldn&apos;t be opened.</h2>
+            <p>
+              The file may be temporarily unavailable. Try again, or head back
+              to the portfolio.
+            </p>
+            <div className="pdf-state-actions">
+              <button
+                type="button"
+                className="pdf-state-primary"
+                onClick={() => setLoadAttempt((attempt) => attempt + 1)}
+              >
+                Try again
+              </button>
+              <button type="button" className="pdf-state-secondary" onClick={onClose}>
+                Back to portfolio
+              </button>
+            </div>
           </div>
         ) : (
-          <div className="all-pages-container">
-            {Array.from({ length: totalPages }, (_, index) => {
-              // Ensure ref exists
-              if (!canvasRefs.current[index]) {
-                canvasRefs.current[index] = { current: null };
-              }
-              return (
-                <div key={`page-${index}`} className="pdf-page-wrapper">
+          <>
+            {showPreparing ? (
+              <div className="pdf-preparing" role="status" aria-live="polite">
+                <span className="pdf-preparing-kicker">Preparing document</span>
+                <span className="pdf-preparing-track" aria-hidden="true">
+                  <span className="pdf-preparing-bar" />
+                </span>
+                <p className="pdf-preparing-note">
+                  Large documents can take a few seconds to draw.
+                </p>
+              </div>
+            ) : null}
+            <div className="pdf-pages" ref={pagesRef}>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <div
+                  key={`page-${index + 1}`}
+                  className="pdf-page-wrapper"
+                  role="group"
+                  aria-label={`Page ${index + 1} of ${totalPages}`}
+                >
                   <canvas
-                    ref={(el) => {
-                      if (canvasRefs.current[index]) {
-                        canvasRefs.current[index].current = el;
-                      }
+                    ref={(element) => {
+                      canvasRefs.current[index] = element;
                     }}
                     className="pdf-page-canvas"
                   />
+                  <span className="pdf-page-number" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")} /{" "}
+                    {String(totalPages).padStart(2, "0")}
+                  </span>
                 </div>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>
   );
 }
-
