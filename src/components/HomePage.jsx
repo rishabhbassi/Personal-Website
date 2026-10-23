@@ -1,4 +1,11 @@
-import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
+import React, {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useInView } from "react-intersection-observer";
 import FlowingMenu from "./FlowingMenu";
 import Footer from "./Footer";
@@ -35,6 +42,25 @@ const WORK_ITEMS = [
     image: "https://picsum.photos/600/400?random=3",
   },
 ];
+
+// Full-screen views live in the hash so a refresh (or a shared link) reopens
+// the same surface instead of dropping back to the home page.
+const ROUTES = {
+  about: "#/about",
+  research: "#/research",
+  "case-studies": "#/case-studies",
+  "surge-pricing": "#/case-studies/surge-pricing",
+};
+
+function readRouteFromLocation() {
+  const { hash } = window.location;
+
+  if (hash === ROUTES.about) return "about";
+  if (hash === ROUTES.research) return "research";
+  if (hash === ROUTES["case-studies"]) return "case-studies";
+  if (hash === ROUTES["surge-pricing"]) return "surge-pricing";
+  return "home";
+}
 
 function prefersReducedMotion() {
   return window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -85,6 +111,85 @@ export default function HomePage() {
   const [showSurgeCaseStudy, setShowSurgeCaseStudy] = useState(false);
   const [showAboutMePopup, setShowAboutMePopup] = useState(false);
   const [showContactPopup, setShowContactPopup] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const update = () => setShowScrollTop(window.scrollY > 560);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    });
+  }, []);
+
+  const applyRoute = useCallback((route) => {
+    setShowAboutMePopup(route === "about");
+    setShowResearchSection(route === "research");
+    setShowCaseStudiesIndex(
+      route === "case-studies" || route === "surge-pricing",
+    );
+    setShowSurgeCaseStudy(route === "surge-pricing");
+  }, []);
+
+  const goHome = useCallback(() => {
+    window.history.replaceState(
+      null,
+      "",
+      `${window.location.pathname}${window.location.search}`,
+    );
+    applyRoute("home");
+  }, [applyRoute]);
+
+  const pushRoute = useCallback(
+    (route) => {
+      if (window.location.hash !== ROUTES[route]) {
+        window.history.pushState({ route }, "", ROUTES[route]);
+      }
+      applyRoute(route);
+    },
+    [applyRoute],
+  );
+
+  const closeRoute = useCallback(() => {
+    if (window.history.state?.route) {
+      window.history.back();
+      return;
+    }
+    goHome();
+  }, [goHome]);
+
+  const backToCaseStudies = useCallback(() => {
+    if (window.history.state?.route === "surge-pricing") {
+      window.history.back();
+      return;
+    }
+    window.history.replaceState(
+      { route: "case-studies" },
+      "",
+      ROUTES["case-studies"],
+    );
+    applyRoute("case-studies");
+  }, [applyRoute]);
+
+  // Restore the surface named in the URL on load, and follow browser back and
+  // forward from there.
+  useEffect(() => {
+    const sync = () => applyRoute(readRouteFromLocation());
+    sync();
+
+    window.addEventListener("popstate", sync);
+    window.addEventListener("hashchange", sync);
+
+    return () => {
+      window.removeEventListener("popstate", sync);
+      window.removeEventListener("hashchange", sync);
+    };
+  }, [applyRoute]);
 
   const sectionRef = useRef(null);
   const buttonRef = useRef(null);
@@ -185,13 +290,10 @@ export default function HomePage() {
   // callbacks through every component.
   useEffect(() => {
     const handlers = {
-      openAboutMe: () => setShowAboutMePopup(true),
+      openAboutMe: () => pushRoute("about"),
       openContactPopup: () => setShowContactPopup(true),
-      openResearchSection: () => setShowResearchSection(true),
-      openCaseStudies: () => {
-        setShowSurgeCaseStudy(false);
-        setShowCaseStudiesIndex(true);
-      },
+      openResearchSection: () => pushRoute("research"),
+      openCaseStudies: () => pushRoute("case-studies"),
     };
 
     Object.entries(handlers).forEach(([eventName, handler]) => {
@@ -203,7 +305,7 @@ export default function HomePage() {
         window.removeEventListener(eventName, handler);
       });
     };
-  }, []);
+  }, [pushRoute]);
 
   // Remember what opened the document so focus can land back on it reliably,
   // even when the viewer chunk arrives after the underlying view turned inert.
@@ -255,10 +357,7 @@ export default function HomePage() {
     });
   };
 
-  const openCaseStudies = () => {
-    setShowSurgeCaseStudy(false);
-    setShowCaseStudiesIndex(true);
-  };
+  const openCaseStudies = () => pushRoute("case-studies");
 
   const handleWorkItemClick = (itemText) => {
     const item = itemText.toLowerCase();
@@ -269,7 +368,7 @@ export default function HomePage() {
     }
 
     if (item === "research") {
-      setShowResearchSection(true);
+      pushRoute("research");
       return;
     }
 
@@ -312,7 +411,7 @@ export default function HomePage() {
                 ref={buttonRef}
                 type="button"
                 className="homepage-about-button"
-                onClick={() => setShowAboutMePopup(true)}
+                onClick={() => pushRoute("about")}
                 aria-haspopup="dialog"
               >
                 <span>About me</span>
@@ -355,7 +454,7 @@ export default function HomePage() {
 
       {showResearchSection && (
         <div inert={isPDFViewerOpen ? true : undefined}>
-          <ResearchSection onClose={() => setShowResearchSection(false)} />
+          <ResearchSection onClose={closeRoute} />
         </div>
       )}
 
@@ -403,8 +502,8 @@ export default function HomePage() {
           }
         >
           <CaseStudiesPage
-            onBack={() => setShowCaseStudiesIndex(false)}
-            onOpenCaseStudy={() => setShowSurgeCaseStudy(true)}
+            onBack={closeRoute}
+            onOpenCaseStudy={() => pushRoute("surge-pricing")}
           />
         </Suspense>
       )}
@@ -420,14 +519,8 @@ export default function HomePage() {
           }
         >
           <SurgePricingCaseStudy
-            onBack={() => {
-              setShowSurgeCaseStudy(false);
-              setShowCaseStudiesIndex(true);
-            }}
-            onClosePortfolio={() => {
-              setShowSurgeCaseStudy(false);
-              setShowCaseStudiesIndex(false);
-            }}
+            onBack={backToCaseStudies}
+            onClosePortfolio={goHome}
           />
         </Suspense>
       )}
@@ -435,7 +528,7 @@ export default function HomePage() {
       {showAboutMePopup && (
         <div inert={isPDFViewerOpen ? true : undefined}>
           <AboutMe
-            onClose={() => setShowAboutMePopup(false)}
+            onClose={closeRoute}
             onViewResume={(resumeUrl) => {
               openPDF({
                 url: resumeUrl,
@@ -451,9 +544,20 @@ export default function HomePage() {
         <ContactPopup onClose={() => setShowContactPopup(false)} />
       )}
 
+      {showScrollTop && (
+        <button
+          type="button"
+          className="home-to-top"
+          onClick={scrollToTop}
+          aria-label="Back to top"
+        >
+          <span aria-hidden="true">↑</span>
+        </button>
+      )}
+
       <Footer
-        onOpenAbout={() => setShowAboutMePopup(true)}
-        onOpenResearch={() => setShowResearchSection(true)}
+        onOpenAbout={() => pushRoute("about")}
+        onOpenResearch={() => pushRoute("research")}
         onOpenCaseStudies={openCaseStudies}
         onOpenContact={() => setShowContactPopup(true)}
       />

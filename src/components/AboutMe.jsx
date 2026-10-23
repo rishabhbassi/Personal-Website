@@ -1,16 +1,17 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import rishabhImage from "../assets/Rishabh_image.jpeg";
-import resume from "../assets/Rishabh_Bassi_Resume_NonTech (2).pdf";
+import resume from "../assets/Rishabh_Bassi_Resume.pdf";
 import useDialogFocus from "../hooks/useDialogFocus";
 import "./AboutMe.css";
 
 const aboutData = {
   name: "Rishabh Bassi",
-  title: "Data Analyst · Product Engineer · UI/UX Designer",
+  title: "Data, AI & Product Engineer",
   email: "rishabhb.career@gmail.com",
   phone: "+91 8529177707",
-  location: "Sonipat, Haryana, India",
+  location: "New Delhi, India",
   linkedin: "https://www.linkedin.com/in/rishabh-bassi-5981a9223/",
+  github: "https://github.com/rishabhbassi",
   education: [
     {
       degree: "Bachelor of Technology",
@@ -34,11 +35,18 @@ const aboutData = {
   ],
   workExperience: [
     {
-      role: "Product and Technology Intern",
-      company: "Adsparkx Media",
-      period: "May 2025 - Present",
+      role: "Full Stack AI Engineer",
+      company: "Tata Consultancy Services",
+      period: "Feb 2026 - Present",
       description:
-        "Built agentic architecture, agent flows, and backend microservices for scalable generation, optimization, and automated insights. Supported product decision-making through review sessions, contributing recommendations on features, UI/UX, and workflow.",
+        "Building data and AI solutions for healthcare and life-sciences clients — backend services, REST APIs, ETL/ELT pipelines, and rapid POCs spanning document intelligence, retrieval, and AI workflows. Working across requirements, solution design, development, testing, and deployment with Python, FastAPI, SQL, and Azure.",
+    },
+    {
+      role: "Founding Product and AI Engineer",
+      company: "Vibelets.ai",
+      period: "Feb 2025 - Feb 2026",
+      description:
+        "Architected a 6–7 agent marketing-intelligence platform with Python, FastAPI, Google ADK, A2A, and LLMs, automating research, content generation, monitoring, and optimization. Built the backend and data layer on PostgreSQL, MongoDB, InfluxDB, Redis, AWS EC2, and S3, integrated 10+ external platforms, and supported 15–20 beta users across 2–3 teams.",
     },
     {
       role: "Research and Analysis Intern",
@@ -69,6 +77,21 @@ const aboutData = {
         "Designed a location intelligence tool identifying high-demand EV charging zones, improving urban accessibility by 46%. Patent: 202411054249 A; Research paper submitted to Multimedia Tools and Applications.",
     },
     {
+      title: "Healthcare Decision Intelligence Platform",
+      description:
+        "Built an AI-enabled healthcare platform combining data processing, document intelligence, semantic retrieval, and analytics to automate medical-record analysis. Turns unstructured clinical information into contextual, decision-ready insights using LLMs, RAG, and a vector database.",
+    },
+    {
+      title: "Credit Risk Analytics & ETL Pipeline",
+      description:
+        "Developed an end-to-end credit-risk pipeline on Databricks using Medallion Architecture across Bronze, Silver, and Gold layers. Built Python ETL workflows for ingestion, transformation, cleansing, and validation, with Power BI dashboards tracking portfolio risk and exposure.",
+    },
+    {
+      title: "Customer Churn Analytics & Retention Dashboard",
+      description:
+        "Built an end-to-end customer churn project in Databricks and Power BI — ingesting, cleaning, and modeling customer data, then surfacing churn drivers, at-risk segments, and retention opportunities in a stakeholder dashboard.",
+    },
+    {
       title: "Multi-Agent Financial Intelligence Platform",
       description:
         "Built an AI-powered pipeline for extracting insights and validating invoices with task-specific agents. Reduced reporting turnaround by 25% through automation of routine finance operations.",
@@ -80,6 +103,20 @@ const aboutData = {
     },
   ],
   leadership: [
+    {
+      role: "Advisor",
+      organization: "IEEE SB MUJ",
+      period: "May 2024 - May 2025",
+      description:
+        "Continued with the branch after serving as General Secretary, supporting the incoming team and its initiatives.",
+    },
+    {
+      role: "Convenor",
+      organization: "Oneiros, Manipal University Jaipur",
+      period: "2024 - 2025",
+      description:
+        "Led the student team behind Oneiros, the university's annual cultural festival, coordinating across creative, production, and operations groups.",
+    },
     {
       role: "General Secretary",
       organization: "IEEE SB MUJ",
@@ -104,17 +141,53 @@ const aboutData = {
   ],
   skills: [
     {
-      title: "Technical",
+      title: "Programming & Data",
       items: [
         "Python",
         "SQL",
+        "Pandas",
+        "Data Processing",
+        "Data Analysis",
         "Excel",
+      ],
+    },
+    {
+      title: "Data Engineering",
+      items: [
+        "ETL/ELT",
+        "Data Pipelines",
+        "Data Transformation",
+        "Data Quality",
+        "Data Modeling",
+        "REST APIs",
+      ],
+    },
+    {
+      title: "Databases & Cloud",
+      items: [
+        "PostgreSQL",
+        "MongoDB",
+        "Redis",
+        "InfluxDB",
+        "AWS (EC2, S3)",
+        "Azure",
+        "Azure OpenAI",
+        "Azure Functions",
+        "Azure Blob Storage",
+        "Git/GitHub",
+      ],
+    },
+    {
+      title: "AI & Analytics",
+      items: [
+        "Generative AI",
+        "LLMs",
+        "RAG",
+        "Multi-Agent Systems",
+        "Machine Learning",
+        "Vector Search",
+        "Power BI",
         "Tableau",
-        "MS Office",
-        "Data Cleaning",
-        "Data Wrangling",
-        "Data Visualization",
-        "Business Intelligence",
       ],
     },
     {
@@ -132,12 +205,16 @@ const aboutData = {
     },
   ],
   awards: [
+    "Star Team Award, Tata Consultancy Services",
+    "Performance Excellence Award, Adsparkx Media",
     "Winner, Designathon, School of Computer Science and Engineering, MUJ",
     "2x Student Excellence Award, School of Computer Science and Engineering, MUJ",
     "Silver Certificate, Technothlon, IIT Guwahati",
     "JK Pal Memorial Award, IEEE Delhi Section",
   ],
   certifications: [
+    "Claude Certified Associate – Foundations",
+    "Build with Gemini — Google Cloud",
     "Meta Front-end Development",
     "Google Data Analytics",
     "IBM SQL for Data Science with Python",
@@ -186,14 +263,14 @@ const ABOUT_SECTIONS = [
 
 const PROFILE_FACTS = [
   {
-    value: "04",
-    label: "Internships",
-    note: "Product, research, analytics, and growth",
+    value: "05",
+    label: "Roles",
+    note: "Data, AI, product, research, and analytics",
   },
   {
-    value: "03",
+    value: "05",
     label: "Leadership roles",
-    note: "IEEE, Startup Weekend, and TEDx",
+    note: "IEEE, Oneiros, Startup Weekend, and TEDx",
   },
   {
     value: "01",
@@ -303,7 +380,9 @@ function RecognitionList({ title, items }) {
 
 export default function AboutMe({ onClose, onViewResume }) {
   const [activeSection, setActiveSection] = useState("profile");
+  const [showToTop, setShowToTop] = useState(false);
   const pageRef = useRef(null);
+  const mobileIndexRef = useRef(null);
 
   const dialogRef = useDialogFocus(onClose);
 
@@ -329,7 +408,11 @@ export default function AboutMe({ onClose, onViewResume }) {
       frame = 0;
       if (!sections.length) return;
 
-      const threshold = page.getBoundingClientRect().top + 130;
+      // On mobile the sticky contents bar sits under the topbar, so a section
+      // only counts as current once it has cleared both.
+      const threshold =
+        page.getBoundingClientRect().top +
+        (window.innerWidth <= 900 ? 176 : 130);
       const atBottom =
         page.scrollTop + page.clientHeight >= page.scrollHeight - 8;
       let current = sections[0];
@@ -347,6 +430,7 @@ export default function AboutMe({ onClose, onViewResume }) {
       }
 
       setActiveSection(current.id.replace("about-", ""));
+      setShowToTop(page.scrollTop > 420);
     };
 
     const schedule = () => {
@@ -363,6 +447,49 @@ export default function AboutMe({ onClose, onViewResume }) {
       window.removeEventListener("resize", schedule);
     };
   }, []);
+
+  // Keep the current chip visible in the horizontally scrolling mobile index.
+  useEffect(() => {
+    const strip = mobileIndexRef.current;
+    const active = strip?.querySelector(".about-mobile-index-link.is-active");
+    if (!strip || !active || strip.clientWidth === 0) return;
+
+    const stripRect = strip.getBoundingClientRect();
+    const activeRect = active.getBoundingClientRect();
+    const targetLeft =
+      strip.scrollLeft +
+      (activeRect.left - stripRect.left) -
+      (strip.clientWidth - activeRect.width) / 2;
+
+    strip.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+    });
+  }, [activeSection]);
+
+  const jumpToSection = (id) => (event) => {
+    event.preventDefault();
+    const target = pageRef.current?.querySelector(`#about-${id}`);
+    if (!target) return;
+
+    target.scrollIntoView({
+      behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+      block: "start",
+    });
+  };
+
+  const scrollToTop = () => {
+    pageRef.current?.scrollTo({
+      top: 0,
+      behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+    });
+  };
 
   const handleResumeDownload = () => {
     const link = document.createElement("a");
@@ -414,8 +541,8 @@ export default function AboutMe({ onClose, onViewResume }) {
               </h1>
               <p className="about-hero-role">{aboutData.title}</p>
               <p className="about-hero-lede">
-                Data analyst, product engineer, and designer working where
-                clear thinking meets expressive craft.
+                I build across data, AI, and product — where clear thinking
+                meets expressive craft.
               </p>
 
               <div className="about-hero-actions">
@@ -449,7 +576,7 @@ export default function AboutMe({ onClose, onViewResume }) {
                 </div>
                 <div>
                   <dt>Focus</dt>
-                  <dd>Data, product, and interface design</dd>
+                  <dd>Data, AI, product, and interface design</dd>
                 </div>
                 <div>
                   <dt>Elsewhere</dt>
@@ -460,6 +587,14 @@ export default function AboutMe({ onClose, onViewResume }) {
                       rel="noopener noreferrer"
                     >
                       LinkedIn <span aria-hidden="true">↗</span>
+                    </a>
+                    {" · "}
+                    <a
+                      href={aboutData.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      GitHub <span aria-hidden="true">↗</span>
                     </a>
                   </dd>
                 </div>
@@ -477,7 +612,7 @@ export default function AboutMe({ onClose, onViewResume }) {
               </div>
               <figcaption>
                 <span>Fig. 01</span>
-                Sonipat, Haryana
+                {aboutData.location}
               </figcaption>
             </figure>
           </div>
@@ -505,6 +640,7 @@ export default function AboutMe({ onClose, onViewResume }) {
                     className={`about-index-link${isActive ? " is-active" : ""}`}
                     href={`#about-${section.id}`}
                     key={section.id}
+                    onClick={jumpToSection(section.id)}
                     aria-current={isActive ? "location" : undefined}
                   >
                     <span aria-hidden="true">{section.number}</span>
@@ -516,11 +652,40 @@ export default function AboutMe({ onClose, onViewResume }) {
             </nav>
             <div className="about-rail-note">
               <p>Currently</p>
-              <p>Building agentic products at Adsparkx Media.</p>
+              <p>Building data and AI solutions at Tata Consultancy Services.</p>
             </div>
           </aside>
 
           <div className="about-content">
+            <nav className="about-mobile-index" aria-label="Profile sections">
+              <p className="about-mobile-index-label">
+                <span>Contents</span>
+                <span className="about-mobile-index-count">
+                  {ABOUT_SECTIONS.find((s) => s.id === activeSection)?.number ??
+                    "01"}{" "}
+                  / {String(ABOUT_SECTIONS.length).padStart(2, "0")}
+                </span>
+              </p>
+              <div className="about-mobile-index-links" ref={mobileIndexRef}>
+                {ABOUT_SECTIONS.map((section) => {
+                  const isActive = activeSection === section.id;
+
+                  return (
+                    <a
+                      className={`about-mobile-index-link${isActive ? " is-active" : ""}`}
+                      href={`#about-${section.id}`}
+                      key={section.id}
+                      onClick={jumpToSection(section.id)}
+                      aria-current={isActive ? "location" : undefined}
+                    >
+                      <span aria-hidden="true">{section.number}</span>
+                      {section.label}
+                    </a>
+                  );
+                })}
+              </div>
+            </nav>
+
             <section
               className="about-section"
               id="about-profile"
@@ -529,7 +694,7 @@ export default function AboutMe({ onClose, onViewResume }) {
               <SectionHeading
                 section={ABOUT_SECTIONS[0]}
                 title="Profile"
-                note="The person behind the work — in his own words."
+                note="The person behind the work — in their own words."
               />
               <p className="about-bio-lede">
                 I&apos;m Rishabh Bassi — someone who loves creating things that
@@ -563,7 +728,7 @@ export default function AboutMe({ onClose, onViewResume }) {
               <SectionHeading
                 section={ABOUT_SECTIONS[1]}
                 title="Experience"
-                note="Four internships across product, research, analytics, and growth."
+                note="Five roles across AI engineering, product, research, and analytics."
               />
               <ul className="about-experience-list">
                 {aboutData.workExperience.map((entry, index) => (
@@ -584,7 +749,7 @@ export default function AboutMe({ onClose, onViewResume }) {
               <SectionHeading
                 section={ABOUT_SECTIONS[2]}
                 title="Projects"
-                note="Three builds spanning geospatial ML, agentic finance, and consumer analytics."
+                note="Six builds spanning geospatial ML, healthcare AI, data engineering, churn analytics, agentic finance, and consumer insights."
               />
               <div className="about-projects-grid">
                 {aboutData.projects.map((project, index) => (
@@ -734,6 +899,16 @@ export default function AboutMe({ onClose, onViewResume }) {
                   <strong>Rishabh Bassi</strong>
                   <span aria-hidden="true">↗</span>
                 </a>
+                <a
+                  className="about-contact-link"
+                  href={aboutData.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>GitHub</span>
+                  <strong>rishabhbassi</strong>
+                  <span aria-hidden="true">↗</span>
+                </a>
                 <p className="about-contact-link about-contact-location">
                   <span>Based in</span>
                   <strong>{aboutData.location}</strong>
@@ -771,6 +946,17 @@ export default function AboutMe({ onClose, onViewResume }) {
           </div>
         </div>
       </div>
+
+      {showToTop && (
+        <button
+          type="button"
+          className="about-to-top"
+          onClick={scrollToTop}
+          aria-label="Back to top"
+        >
+          <span aria-hidden="true">↑</span>
+        </button>
+      )}
     </div>
   );
 }

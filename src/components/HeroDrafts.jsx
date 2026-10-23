@@ -3,7 +3,7 @@ import heroAvatar from "../assets/hero-avatar.jpg";
 import globeSvg from "../assets/globe 1.svg";
 import "./HeroDrafts.css";
 
-const ROLE = "Data Analyst · Product Engineer · UI/UX Designer";
+const ROLE = "Data, AI & Product Engineer";
 const LEDE =
   "I design and build data-rich products where analytics, AI, and interface design meet — turning complex systems into clear, human experiences.";
 const TICKER_TEXT = "Design — Development — Analytics —";
@@ -34,7 +34,7 @@ function LocationPill({ tone = "glass" }) {
       </span>
       <span className="hd-location-copy">
         <span className="hd-location-label">Based in</span>
-        <span className="hd-location-value">Haryana, India</span>
+        <span className="hd-location-value">New Delhi, India</span>
       </span>
     </div>
   );
@@ -244,7 +244,7 @@ function MastheadDraft() {
         <dl className="hd-c-meta">
           <div>
             <dt>Based in</dt>
-            <dd>Haryana, India</dd>
+            <dd>New Delhi, India</dd>
           </div>
           <div>
             <dt>Focus</dt>
@@ -299,7 +299,7 @@ function MastheadBleedDraft() {
         <dl className="hd-c-meta">
           <div>
             <dt>Based in</dt>
-            <dd>Haryana, India</dd>
+            <dd>New Delhi, India</dd>
           </div>
           <div>
             <dt>Focus</dt>
@@ -412,7 +412,7 @@ function MastheadBlendDraft() {
           <dl className="hd-c-meta hd-f-meta">
             <div>
               <dt>Based in</dt>
-              <dd>Haryana, India</dd>
+              <dd>New Delhi, India</dd>
             </div>
             <div>
               <dt>Focus</dt>

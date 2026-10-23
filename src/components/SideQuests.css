@@ -377,6 +377,7 @@ button.sq-card:hover {
   position: absolute;
   bottom: 18px;
   left: 18px;
+  z-index: 2;
   padding: 7px 10px;
   border: 1px solid var(--line);
   border-radius: 4px;
@@ -644,7 +645,21 @@ button.sq-card:hover {
 
   .sq-modal-media {
     min-height: 0;
-    aspect-ratio: 3 / 2;
+    padding: 0;
+    background: #0d0d0d;
+  }
+
+  .sq-modal-media-bg {
+    display: none;
+  }
+
+  .sq-modal-media-img {
+    width: 100%;
+    height: auto;
+    max-height: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .sq-modal-body {

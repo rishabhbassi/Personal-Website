@@ -142,7 +142,7 @@ export default function Footer({
             <dl className="footer-contact-meta">
               <div>
                 <dt>Based in</dt>
-                <dd>Haryana, India</dd>
+                <dd>New Delhi, India</dd>
               </div>
               <div>
                 <dt>Local time</dt>
@@ -179,6 +179,13 @@ export default function Footer({
               rel="noopener noreferrer"
             >
               LinkedIn <span aria-hidden="true">↗</span>
+            </a>
+            <a
+              href="https://github.com/rishabhbassi"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub <span aria-hidden="true">↗</span>
             </a>
             <button type="button" onClick={backToTop}>
               Back to top <span aria-hidden="true">↑</span>

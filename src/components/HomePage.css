@@ -455,8 +455,60 @@
   }
 }
 
+/* Floating back-to-top control for the long home page. */
+
+.home-to-top {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right));
+  /* Clears the floating chat bubble in the corner. */
+  bottom: calc(96px + env(safe-area-inset-bottom));
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(11, 11, 11, 0.22);
+  animation: home-to-top-in 200ms ease both;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.home-to-top:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.home-to-top span {
+  display: block;
+  transform: translateY(-1px);
+}
+
+@keyframes home-to-top-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .overlay-loading-mark {
+    animation: none;
+  }
+
+  .home-to-top {
     animation: none;
   }
 }

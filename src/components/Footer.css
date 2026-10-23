@@ -477,16 +477,19 @@
   }
 
   .footer-contact-panel {
-    align-items: flex-start;
-    gap: 22px;
+    /* Keep the circle and the metadata side by side so the panel reads as one
+       block instead of a lone circle followed by a full-width table. */
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
   }
 
   .footer-contact-button {
     flex: 0 0 auto;
     gap: 9px;
-    width: 128px;
-    height: 128px;
-    font-size: 0.86rem;
+    width: 116px;
+    height: 116px;
+    font-size: 0.84rem;
     box-shadow:
       0 0 0 7px rgba(93, 13, 255, 0.07),
       0 18px 44px rgba(0, 0, 0, 0.3);
@@ -498,7 +501,9 @@
   }
 
   .footer-contact-meta {
-    width: min(100%, 300px);
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
   }
 
   .footer-contact-meta div {
@@ -556,10 +561,14 @@
     font-size: 2.55rem;
   }
 
+  .footer-contact-panel {
+    gap: 16px;
+  }
+
   .footer-contact-button {
-    width: 112px;
-    height: 112px;
-    font-size: 0.8rem;
+    width: 104px;
+    height: 104px;
+    font-size: 0.78rem;
   }
 
   .footer-pill {
@@ -568,6 +577,10 @@
   }
 
   .footer-contact-meta {
-    width: 100%;
+    width: auto;
+  }
+
+  .footer-contact-meta div {
+    gap: 10px;
   }
 }

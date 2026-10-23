@@ -5,6 +5,7 @@ import "./ContactPopup.css";
 const EMAIL = "rishabhb.career@gmail.com";
 const PHONE = "+91 8529177707";
 const LINKEDIN = "https://www.linkedin.com/in/rishabh-bassi-5981a9223/";
+const GITHUB = "https://github.com/rishabhbassi";
 
 function MailIcon() {
   return (
@@ -27,6 +28,14 @@ function LinkedInIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M19 0h-14C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5zM8 19H5V8h3v11zM6.5 6.73a1.76 1.76 0 1 1 0-3.52 1.76 1.76 0 0 1 0 3.52zM20 19h-3v-5.6c0-3.37-4-3.12-4 0V19h-3V8h3v1.77c1.4-2.59 7-2.78 7 2.47V19z" />
+    </svg>
+  );
+}
+
+function GitHubIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.96.1-.74.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.14 1.18a10.9 10.9 0 0 1 5.72 0c2.18-1.49 3.14-1.18 3.14-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.84 1.18 3.1 0 4.43-2.68 5.4-5.24 5.69.41.35.77 1.04.77 2.1v3.11c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z" />
     </svg>
   );
 }
@@ -106,6 +115,20 @@ export default function ContactPopup({ onClose }) {
               <span className="contact-channel-copy">
                 <span className="contact-channel-label">LinkedIn</span>
                 <span className="contact-channel-value">Rishabh Bassi</span>
+              </span>
+              <span className="contact-channel-arrow" aria-hidden="true">↗</span>
+            </a>
+
+            <a
+              className="contact-channel"
+              href={GITHUB}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="contact-channel-icon"><GitHubIcon /></span>
+              <span className="contact-channel-copy">
+                <span className="contact-channel-label">GitHub</span>
+                <span className="contact-channel-value">rishabhbassi</span>
               </span>
               <span className="contact-channel-arrow" aria-hidden="true">↗</span>
             </a>

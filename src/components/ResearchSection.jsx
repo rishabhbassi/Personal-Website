@@ -3,6 +3,22 @@ import researchPapers from "../data/researchPapers";
 import useDialogFocus from "../hooks/useDialogFocus";
 import "./ResearchSection.css";
 
+function jumpToBriefSection(event, sectionId) {
+  // The site uses the hash for full-screen routes, so letting the browser
+  // follow #brief-* would make the router swap the brief for the home page.
+  event.preventDefault();
+  const target = document.getElementById(`brief-${sectionId}`);
+  if (!target) return;
+
+  target.scrollIntoView({
+    behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+      ? "auto"
+      : "smooth",
+    block: "start",
+  });
+  target.focus({ preventScroll: true });
+}
+
 function PaperFacts({ paper }) {
   return (
     <dl className="research-brief-facts">
@@ -34,6 +50,7 @@ function BriefSection({ section }) {
       className="research-brief-section"
       id={`brief-${section.id}`}
       aria-labelledby={headingId}
+      tabIndex={-1}
     >
       <p className="research-brief-section-kicker">
         <span aria-hidden="true">{section.number}</span>
@@ -134,7 +151,11 @@ function ResearchBrief({ paper, onBack, headingRef }) {
               <p>In this brief</p>
               <nav aria-label="Brief sections">
                 {paper.sections.map((section) => (
-                  <a href={`#brief-${section.id}`} key={section.id}>
+                  <a
+                    href={`#brief-${section.id}`}
+                    key={section.id}
+                    onClick={(event) => jumpToBriefSection(event, section.id)}
+                  >
                     <span aria-hidden="true">{section.number}</span>
                     {section.kicker}
                   </a>

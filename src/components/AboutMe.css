@@ -1,4 +1,6 @@
 .about-me-page {
+  --about-gutter: clamp(20px, 5vw, 64px);
+  --about-topbar-height: 58px;
   position: fixed;
   inset: 0;
   z-index: 10000;
@@ -29,7 +31,7 @@
   width: 100%;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 0 clamp(20px, 5vw, 64px);
+  padding: 0 var(--about-gutter);
 }
 
 /* Top bar --------------------------------------------------------------- */
@@ -49,9 +51,9 @@
   gap: 20px;
   width: 100%;
   max-width: 1240px;
-  min-height: 58px;
+  min-height: var(--about-topbar-height);
   margin: 0 auto;
-  padding: 0 clamp(20px, 5vw, 64px);
+  padding: 0 var(--about-gutter);
 }
 
 .about-me-back-button {
@@ -532,6 +534,57 @@
   min-width: 0;
 }
 
+/* The rail is desktop-only; the same index appears as a sticky bar on phone. */
+.about-mobile-index {
+  display: none;
+}
+
+/* Floating back-to-top, shown once the profile has been scrolled. */
+.about-to-top {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  /* Clears the floating chat bubble in the corner. */
+  bottom: calc(96px + env(safe-area-inset-bottom));
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(11, 11, 11, 0.22);
+  animation: about-to-top-in 200ms ease both;
+}
+
+.about-to-top:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.about-to-top span {
+  display: block;
+  transform: translateY(-1px);
+}
+
+@keyframes about-to-top-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .about-section {
   padding: clamp(38px, 4.5vw, 56px) 0;
   border-bottom: 1px solid var(--line);
@@ -779,6 +832,13 @@
 .about-leadership-item + .about-leadership-item {
   padding-left: 22px;
   border-left: 1px solid var(--line-soft);
+}
+
+/* With more than one row, the first card in each row should not carry the
+   column divider from the card before it. */
+.about-leadership-item:nth-child(3n + 1) {
+  padding-left: 0;
+  border-left: 0;
 }
 
 .about-leadership-index {
@@ -1309,6 +1369,103 @@
     margin: 0 auto;
   }
 
+  .about-section,
+  .about-contact {
+    scroll-margin-top: calc(var(--about-topbar-height) + 96px);
+  }
+
+  .about-mobile-index {
+    position: sticky;
+    top: var(--about-topbar-height);
+    z-index: 9;
+    display: block;
+    margin: 0 calc(-1 * var(--about-gutter));
+    padding: 13px var(--about-gutter) 11px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  .about-mobile-index-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.53rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .about-mobile-index-count {
+    color: var(--secondary);
+    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .about-mobile-index-links {
+    display: flex;
+    gap: 6px;
+    margin: 10px calc(-1 * var(--about-gutter)) 0;
+    padding: 1px var(--about-gutter);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--about-gutter);
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .about-mobile-index-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .about-mobile-index-link {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 7px;
+    min-height: 34px;
+    padding: 7px 11px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--secondary);
+    font-size: 0.72rem;
+    font-weight: 400;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    scroll-snap-align: center;
+    transition:
+      color 160ms ease,
+      border-color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .about-mobile-index-link > span {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    transition: color 160ms ease;
+  }
+
+  .about-mobile-index-link.is-active {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .about-mobile-index-link.is-active > span {
+    color: rgba(247, 246, 241, 0.62);
+  }
+
   .about-facts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1377,6 +1534,11 @@
 }
 
 @media (max-width: 700px) {
+  .about-me-page {
+    --about-gutter: 20px;
+    --about-topbar-height: 56px;
+  }
+
   .about-topbar-inner {
     gap: 12px;
     min-height: 56px;
@@ -1428,11 +1590,11 @@
 
   .about-section {
     padding: 36px 0;
-    scroll-margin-top: 74px;
+    scroll-margin-top: calc(var(--about-topbar-height) + 96px);
   }
 
   .about-contact {
-    scroll-margin-top: 74px;
+    scroll-margin-top: calc(var(--about-topbar-height) + 96px);
   }
 
   .about-bio-lede {
@@ -1690,6 +1852,10 @@
 }
 
 @media (max-width: 360px) {
+  .about-me-page {
+    --about-gutter: 16px;
+  }
+
   .about-me-container {
     padding-inline: 16px;
   }
@@ -1724,6 +1890,10 @@
 @media (prefers-reduced-motion: reduce) {
   .about-me-page {
     scroll-behavior: auto;
+  }
+
+  .about-to-top {
+    animation: none;
   }
 
   .about-portrait img,

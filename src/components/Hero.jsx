@@ -234,7 +234,7 @@ export default function Hero() {
             </h1>
 
             <p className="hero-role">
-              Data Analyst · Product Engineer · UI/UX Designer
+              Data, AI & Product Engineer
             </p>
 
             <p className="hero-lede">
@@ -285,7 +285,7 @@ export default function Hero() {
             </span>
             <span className="hero-location-copy">
               <span className="hero-location-label">Based in</span>
-              <span className="hero-location-value">Haryana, India</span>
+              <span className="hero-location-value">New Delhi, India</span>
             </span>
           </div>
         </figure>
