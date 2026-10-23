@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { label: "About", action: "about" },
   { label: "Research", action: "research" },
   { label: "Case Studies", action: "case-studies" },
+  { label: "Side Quests", action: "side-quests" },
 ];
 
 function prefersReducedMotion() {
@@ -44,6 +45,11 @@ function runNavigation(action) {
 
   if (action === "case-studies") {
     window.dispatchEvent(new CustomEvent("openCaseStudies"));
+    return;
+  }
+
+  if (action === "side-quests") {
+    scrollToSection("side-quests");
     return;
   }
 
@@ -133,7 +139,11 @@ export default function Hero() {
               type="button"
               className="hero-nav-link"
               onClick={() => handleNavigation(item.action)}
-              aria-haspopup={item.action === "work" ? undefined : "dialog"}
+              aria-haspopup={
+                item.action === "work" || item.action === "side-quests"
+                  ? undefined
+                  : "dialog"
+              }
             >
               <span className="hero-nav-index" aria-hidden="true">
                 {String(index + 1).padStart(2, "0")}
@@ -179,7 +189,11 @@ export default function Hero() {
                 type="button"
                 className="hero-mobile-link"
                 onClick={() => handleNavigation(item.action)}
-                aria-haspopup={item.action === "work" ? undefined : "dialog"}
+                aria-haspopup={
+                  item.action === "work" || item.action === "side-quests"
+                    ? undefined
+                    : "dialog"
+                }
               >
                 <span className="hero-mobile-index" aria-hidden="true">
                   {String(index + 1).padStart(2, "0")}

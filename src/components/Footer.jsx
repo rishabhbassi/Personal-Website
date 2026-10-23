@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { key: "about", label: "About" },
   { key: "research", label: "Research" },
   { key: "case-studies", label: "Case Studies" },
+  { key: "side-quests", label: "Side Quests" },
 ];
 
 function prefersReducedMotion() {
@@ -71,6 +72,14 @@ export default function Footer({
     if (key === "case-studies") {
       if (onOpenCaseStudies) onOpenCaseStudies();
       else window.dispatchEvent(new CustomEvent("openCaseStudies"));
+      return;
+    }
+
+    if (key === "side-quests") {
+      document.getElementById("side-quests")?.scrollIntoView({
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+        block: "start",
+      });
     }
   };
 

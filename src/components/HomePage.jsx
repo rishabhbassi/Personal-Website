@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import ResearchSection from "./ResearchSection";
 import AboutMe from "./AboutMe";
 import ContactPopup from "./ContactPopup";
+import SideQuests from "./SideQuests";
 import useDialogFocus from "../hooks/useDialogFocus";
 import "./HomePage.css";
 
@@ -348,6 +349,8 @@ export default function HomePage() {
             <FlowingMenu items={WORK_ITEMS} onItemClick={handleWorkItemClick} />
           </div>
         </section>
+
+        <SideQuests />
       </main>
 
       {showResearchSection && (
