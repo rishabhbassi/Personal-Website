@@ -768,7 +768,7 @@
 
   .hero-stage {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(270px, 34svh);
+    grid-template-rows: auto minmax(270px, 1fr);
   }
 
   .hero-copy {
@@ -790,7 +790,7 @@
   }
 
   .hero-scroll-note {
-    display: none;
+    margin-top: 18px;
   }
 
   .hero-portrait {
@@ -904,7 +904,7 @@
   }
 
   .hero-stage {
-    grid-template-rows: auto minmax(245px, 32svh);
+    grid-template-rows: auto minmax(245px, 1fr);
   }
 
   .hero-portrait {
@@ -999,7 +999,7 @@
   }
 
   .hero-stage {
-    grid-template-rows: auto minmax(215px, 29svh);
+    grid-template-rows: auto minmax(215px, 1fr);
   }
 
   .hero-portrait {

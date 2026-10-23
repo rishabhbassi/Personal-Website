@@ -170,6 +170,17 @@
   text-transform: uppercase;
 }
 
+.about-hero-credential {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+
 .about-hero-lede {
   max-width: 48ch;
   margin: 16px 0 0;
@@ -1758,6 +1769,12 @@
   .about-hero-role {
     margin-top: 20px;
     font-size: 0.56rem;
+  }
+
+  .about-hero-credential {
+    margin-top: 7px;
+    font-size: 0.5rem;
+    letter-spacing: 0.04em;
   }
 
   .about-hero-lede {

@@ -3,10 +3,11 @@ import heroAvatar from "../assets/hero-avatar.jpg";
 import globeSvg from "../assets/globe 1.svg";
 import "./HeroDrafts.css";
 
-const ROLE = "Data, AI & Product Engineer";
+const ROLE = "Engineer · Data · AI · Product";
 const LEDE =
   "I design and build data-rich products where analytics, AI, and interface design meet — turning complex systems into clear, human experiences.";
-const TICKER_TEXT = "Design — Development — Analytics —";
+const TICKER_TEXT =
+  "Data engineering — AI systems — Product thinking — Interface craft —";
 
 function DraftBrand({ tone = "ink" }) {
   return (

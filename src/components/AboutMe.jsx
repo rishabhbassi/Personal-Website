@@ -6,7 +6,12 @@ import "./AboutMe.css";
 
 const aboutData = {
   name: "Rishabh Bassi",
-  title: "Data, AI & Product Engineer",
+  title: "Engineer · Data · AI · Product",
+  credential: {
+    degree: "B.Tech CSE",
+    detail: "Minor: Data Analytics",
+    school: "Manipal University Jaipur",
+  },
   email: "rishabhb.career@gmail.com",
   phone: "+91 8529177707",
   location: "New Delhi, India",
@@ -280,7 +285,7 @@ const PROFILE_FACTS = [
   {
     value: "8.18",
     label: "CGPA / 10",
-    note: "B.Tech CSE, Data Analytics minor",
+    note: "B.Tech CSE · Minor in Data Analytics",
   },
 ];
 
@@ -540,6 +545,10 @@ export default function AboutMe({ onClose, onViewResume }) {
                 <span>Bassi.</span>
               </h1>
               <p className="about-hero-role">{aboutData.title}</p>
+              <p className="about-hero-credential">
+                {aboutData.credential.degree} · {aboutData.credential.detail} ·{" "}
+                {aboutData.credential.school}
+              </p>
               <p className="about-hero-lede">
                 I build across data, AI, and product — where clear thinking
                 meets expressive craft.

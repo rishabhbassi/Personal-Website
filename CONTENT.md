@@ -32,13 +32,16 @@ File: `src/components/AboutMe.jsx` → `aboutData` (top of the file).
 
 | Key | Controls |
 | --- | --- |
-| `title`, `email`, `phone`, `location`, `linkedin`, `github` | Hero and contact block |
+| `title`, `credential`, `email`, `phone`, `location`, `linkedin`, `github` | Hero and contact block |
 | `workExperience` | Experience section |
 | `projects` | Projects section |
 | `leadership` | Leadership section |
 | `skills` | Skills groups |
 | `education`, `awards`, `certifications` | Education and recognition |
 | `resumeUrl` | Imported PDF used by the resume buttons |
+
+`credential` is an object with `degree`, `detail`, and `school`; it renders as
+the small education line under the hero role.
 
 Add an entry by copying an existing object and editing its fields. Section
 numbers and the desktop rail update on their own.

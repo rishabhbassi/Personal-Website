@@ -234,7 +234,7 @@ export default function Hero() {
             </h1>
 
             <p className="hero-role">
-              Data, AI & Product Engineer
+              Engineer · Data · AI · Product
             </p>
 
             <p className="hero-lede">
@@ -298,7 +298,7 @@ export default function Hero() {
         </p>
         <div className="hero-ticker-track">
           <ScrollVelocity
-            texts={["Design — Development — Analytics —"]}
+            texts={["Data engineering — AI systems — Product thinking — Interface craft —"]}
             velocity={85}
             parallaxClassName="hero-marquee-parallax"
             scrollerClassName="hero-marquee-scroller"
