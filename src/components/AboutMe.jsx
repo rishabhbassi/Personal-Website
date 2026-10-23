@@ -12,6 +12,7 @@ const aboutData = {
     detail: "Minor: Data Analytics",
     school: "Manipal University Jaipur",
   },
+  currentRole: "Full Stack AI Engineer at TCS",
   email: "rishabhb.career@gmail.com",
   phone: "+91 8529177707",
   location: "New Delhi, India",
@@ -584,8 +585,8 @@ export default function AboutMe({ onClose, onViewResume }) {
                   <dd>{aboutData.location}</dd>
                 </div>
                 <div>
-                  <dt>Focus</dt>
-                  <dd>Data, AI, product, and interface design</dd>
+                  <dt>Current role</dt>
+                  <dd>{aboutData.currentRole}</dd>
                 </div>
                 <div>
                   <dt>Elsewhere</dt>

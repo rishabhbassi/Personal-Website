@@ -32,7 +32,7 @@ File: `src/components/AboutMe.jsx` → `aboutData` (top of the file).
 
 | Key | Controls |
 | --- | --- |
-| `title`, `credential`, `email`, `phone`, `location`, `linkedin`, `github` | Hero and contact block |
+| `title`, `credential`, `currentRole`, `email`, `phone`, `location`, `linkedin`, `github` | Hero and contact block |
 | `workExperience` | Experience section |
 | `projects` | Projects section |
 | `leadership` | Leadership section |
