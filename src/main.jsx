@@ -8,9 +8,10 @@ const pathname = window.location.pathname.replace(/\/+$/, '') || '/'
 const [hashRoute, hashAnchor] = window.location.hash
   .replace(/^#\/?/, '')
   .split('#')
+// Preview routes are documented in DRAFTS.md.
 const hashPreviewAnchor =
   hashAnchor ||
-  (/^draft-(full|center|masthead|masthead-bleed|masthead-blend|blend)$/.test(
+  (/^draft-(full|center|masthead|masthead-bleed|masthead-blend|latest|blend)$/.test(
     hashRoute,
   )
     ? hashRoute

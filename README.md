@@ -1,4 +1,9 @@
-# React + Vite
+# Personal Website
+
+Preview routes for hero drafts and layout studies are listed in
+[DRAFTS.md](./DRAFTS.md).
+
+## React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
