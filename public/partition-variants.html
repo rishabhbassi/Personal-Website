@@ -1,0 +1,1352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hero partitions &amp; role lines — variations</title>
+    <style>
+      :root {
+        --bg: #0d0b12;
+        --ink: #f3f1ea;
+        --body: rgba(243, 241, 234, 0.78);
+        --muted: rgba(243, 241, 234, 0.52);
+        --line: rgba(243, 241, 234, 0.16);
+        --line-strong: rgba(243, 241, 234, 0.28);
+        --accent: #b6a0ff;
+        --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: clamp(20px, 4vw, 56px);
+        background: #08070c;
+        color: var(--ink);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .page-head {
+        max-width: 760px;
+        margin: 0 0 clamp(32px, 5vw, 64px);
+      }
+
+      .page-head .kicker {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0 0 18px;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .page-head .kicker::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      .page-head h1 {
+        margin: 0 0 14px;
+        font-size: clamp(2.2rem, 5vw, 4.4rem);
+        font-weight: 600;
+        letter-spacing: -0.05em;
+        line-height: 0.94;
+      }
+
+      .page-head p {
+        margin: 0;
+        max-width: 52ch;
+        color: var(--body);
+        font-size: 0.98rem;
+        line-height: 1.55;
+      }
+
+      .variants {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(36px, 4.5vw, 60px) clamp(24px, 3vw, 40px);
+      }
+
+      .variant-meta {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 2px 14px;
+        align-items: baseline;
+        margin: 0 0 16px;
+      }
+
+      .variant-meta .num {
+        grid-row: 1 / 3;
+        color: var(--accent);
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.08em;
+      }
+
+      .variant-meta h2 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+      }
+
+      .variant-meta p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.78rem;
+        line-height: 1.45;
+      }
+
+      /* Scene shell -------------------------------------------------------- */
+
+      .scene {
+        container-type: inline-size;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: clamp(420px, 38vw, 540px);
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 2px;
+        background: var(--bg);
+      }
+
+      .masthead {
+        flex: none;
+        padding: 4cqw 4cqw 2.6cqw;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 1.2cqw;
+        margin: 0 0 2.2cqw;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 1.15cqw;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 0.7cqw;
+        height: 0.7cqw;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      .eyebrow i {
+        width: 3.6cqw;
+        height: 1px;
+        background: var(--line-strong);
+      }
+
+      .scene .name {
+        margin: 0;
+        font-size: 9.4cqw;
+        font-weight: 600;
+        letter-spacing: -0.055em;
+        line-height: 0.86;
+        white-space: nowrap;
+      }
+
+      .scene .name em {
+        color: var(--accent);
+        font-style: normal;
+      }
+
+      .main {
+        display: grid;
+        flex: 1 1 auto;
+        min-height: 0;
+      }
+
+      .role {
+        display: flex;
+        align-items: center;
+        gap: 1.6cqw;
+        padding: 2.2cqw 4cqw;
+        border-bottom: 1px solid var(--line);
+        color: var(--body);
+        font-family: var(--mono);
+        font-size: 1.15cqw;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .role::before {
+        content: "";
+        flex: none;
+        width: 3.4cqw;
+        height: 1px;
+        background: var(--accent);
+      }
+
+      .copy {
+        align-self: end;
+        padding: 2.6cqw 4cqw 3.4cqw;
+      }
+
+      .copy p {
+        max-width: 36ch;
+        margin: 0;
+        color: var(--body);
+        font-size: 1.8cqw;
+        line-height: 1.5;
+        letter-spacing: -0.01em;
+      }
+
+      .actions {
+        display: flex;
+        gap: 1.2cqw;
+        margin-top: 2.4cqw;
+      }
+
+      .pill,
+      .ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7cqw;
+        padding: 1.1cqw 1.8cqw;
+        border-radius: 999px;
+        font-size: 1.35cqw;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .pill {
+        background: var(--ink);
+        color: #0d0b12;
+      }
+
+      .ghost {
+        border: 1px solid var(--line-strong);
+        color: var(--ink);
+      }
+
+      .portrait {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        margin: 0;
+        background:
+          radial-gradient(
+            ellipse 72% 64% at 56% 45%,
+            rgba(182, 160, 255, 0.22),
+            transparent 70%
+          ),
+          rgba(9, 7, 14, 0.24);
+      }
+
+      .portrait .mark {
+        width: 82%;
+        color: rgba(243, 241, 234, 0.8);
+      }
+
+      .portrait figcaption {
+        position: absolute;
+        top: 3cqw;
+        left: 3cqw;
+        padding: 0.75cqw 1.1cqw;
+        background: var(--ink);
+        color: #0d0b12;
+        font-family: var(--mono);
+        font-size: 1cqw;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .based small,
+      .coords small {
+        display: block;
+        margin-bottom: 0.5cqw;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 1cqw;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .based span,
+      .coords span {
+        color: var(--body);
+        font-size: 1.5cqw;
+        font-weight: 500;
+      }
+
+      .scroll {
+        display: flex;
+        align-items: center;
+        gap: 1.2cqw;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 1cqw;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .scroll::before {
+        content: "";
+        width: 3cqw;
+        height: 1px;
+        background: var(--line-strong);
+      }
+
+      /* 01 — Baseline split ------------------------------------------------ */
+
+      .scene-a .main {
+        grid-template-columns: 1.08fr 0.92fr;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+      }
+
+      .scene-a .role {
+        grid-column: 1;
+      }
+
+      .scene-a .copy {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      .scene-a .portrait {
+        grid-column: 2;
+        grid-row: 1 / -1;
+        border-left: 1px solid var(--line);
+      }
+
+      .scene-a .footer {
+        grid-column: 1;
+        grid-row: 3;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 2cqw;
+        padding: 2.2cqw 4cqw 3cqw;
+        border-top: 1px solid var(--line);
+      }
+
+      /* 02 — Rule stops at the band ---------------------------------------- */
+
+      .scene-b .main {
+        grid-template-columns: 1.08fr 0.92fr;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+      }
+
+      .scene-b .role {
+        grid-column: 1;
+      }
+
+      .scene-b .copy {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      .scene-b .portrait {
+        grid-column: 2;
+        grid-row: 1 / 3;
+        border-left: 1px solid var(--line);
+      }
+
+      .scene-b .footer {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr auto;
+        align-items: end;
+        border-top: 1px solid var(--line);
+      }
+
+      .scene-b .footer > * {
+        padding: 2.2cqw 3cqw;
+      }
+
+      .scene-b .footer > * + * {
+        border-left: 1px solid var(--line);
+      }
+
+      /* 03 — Index rail ----------------------------------------------------- */
+
+      .scene-c .main {
+        grid-template-columns: 0.32fr 1fr 0.82fr;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+      }
+
+      .scene-c .role {
+        grid-column: 1 / -1;
+      }
+
+      .scene-c .role aside {
+        margin-left: auto;
+        color: var(--muted);
+        font-size: 1cqw;
+      }
+
+      .scene-c .rail {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 2.6cqw 2cqw;
+        border-right: 1px solid var(--line);
+      }
+
+      .scene-c .rail small,
+      .scene-c .rail span {
+        display: block;
+        font-family: var(--mono);
+        font-size: 1cqw;
+        letter-spacing: 0.12em;
+        line-height: 1.5;
+        text-transform: uppercase;
+      }
+
+      .scene-c .rail small {
+        margin-bottom: 0.8cqw;
+        color: var(--muted);
+      }
+
+      .scene-c .rail span {
+        color: var(--body);
+      }
+
+      .scene-c .rail b {
+        color: var(--accent);
+        font-family: var(--mono);
+        font-size: 3.4cqw;
+        font-weight: 400;
+        letter-spacing: -0.05em;
+      }
+
+      .scene-c .copy {
+        grid-column: 2;
+        grid-row: 2;
+        padding-right: 3cqw;
+        padding-left: 3cqw;
+      }
+
+      .scene-c .portrait {
+        grid-column: 3;
+        grid-row: 2;
+        border-left: 1px solid var(--line);
+      }
+
+      .scene-c .footer {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        display: grid;
+        grid-template-columns: 0.32fr 1fr 0.82fr;
+        border-top: 1px solid var(--line);
+      }
+
+      .scene-c .footer > * {
+        padding: 2cqw 3cqw;
+      }
+
+      .scene-c .footer > * + * {
+        border-left: 1px solid var(--line);
+      }
+
+      /* 04 — Inset portrait -------------------------------------------------- */
+
+      .scene-d .main {
+        grid-template-columns: 1.12fr 0.88fr;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+      }
+
+      .scene-d .role {
+        grid-column: 1 / -1;
+      }
+
+      .scene-d .role aside {
+        margin-left: auto;
+        color: var(--muted);
+        font-size: 1cqw;
+      }
+
+      .scene-d .copy {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      .scene-d .portrait {
+        grid-column: 2;
+        grid-row: 2;
+        margin: 2.4cqw 2.8cqw 2.4cqw 0;
+        border: 1px solid var(--line-strong);
+      }
+
+      .scene-d .portrait .mark {
+        width: 86%;
+      }
+
+      .scene-d .footer {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr auto;
+        border-top: 1px solid var(--line);
+      }
+
+      .scene-d .footer > * {
+        padding: 2cqw 3cqw;
+      }
+
+      .scene-d .footer > * + * {
+        border-left: 1px solid var(--line);
+      }
+
+      /* Role line variations ------------------------------------------------ */
+
+      .section-head {
+        max-width: 760px;
+        margin: clamp(64px, 8vw, 112px) 0 clamp(32px, 4vw, 52px);
+        padding-top: clamp(32px, 4vw, 52px);
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .section-head .kicker {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0 0 18px;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .section-head .kicker::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      .section-head h2 {
+        margin: 0 0 14px;
+        font-size: clamp(1.9rem, 4vw, 3.4rem);
+        font-weight: 500;
+        letter-spacing: -0.045em;
+        line-height: 0.98;
+      }
+
+      .section-head > p:last-child {
+        max-width: 52ch;
+        margin: 0;
+        color: var(--body);
+        font-size: 0.98rem;
+        line-height: 1.55;
+      }
+
+      .role-variants {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(36px, 4.5vw, 60px) clamp(24px, 3vw, 40px);
+      }
+
+      .role-card {
+        display: grid;
+        align-content: start;
+      }
+
+      .role-band {
+        display: flex;
+        align-items: center;
+        min-height: 108px;
+        padding: 22px 26px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 2px;
+        background: var(--bg);
+        color: var(--body);
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .role-dash {
+        flex: none;
+        width: 36px;
+        height: 1px;
+        background: var(--accent);
+      }
+
+      .role-band--mono {
+        gap: 16px;
+      }
+
+      .role-band--cells {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        padding: 0;
+      }
+
+      .role-band--cells > span {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 24px 22px;
+        border-left: 1px solid var(--line);
+        font-family: var(--sans);
+        font-size: 0.84rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        text-transform: none;
+      }
+
+      .role-band--cells > span:first-child {
+        border-left: 0;
+      }
+
+      .role-band--cells i,
+      .role-band--stack i {
+        color: var(--accent);
+        font-family: var(--mono);
+        font-style: normal;
+        font-size: 0.5rem;
+        letter-spacing: 0.08em;
+      }
+
+      .role-band--split {
+        gap: 18px;
+      }
+
+      .role-band--split .role-label {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        white-space: nowrap;
+      }
+
+      .role-band--split .role-rule {
+        flex: 1 1 auto;
+        height: 1px;
+        background: var(--line);
+      }
+
+      .role-band--split .role-count {
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .role-band--stack {
+        display: block;
+        padding: 8px 0;
+      }
+
+      .role-band--stack > span {
+        display: flex;
+        align-items: baseline;
+        gap: 14px;
+        padding: 11px 22px;
+        border-top: 1px solid rgba(243, 241, 234, 0.1);
+        font-family: var(--sans);
+        font-size: 0.92rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        text-transform: none;
+      }
+
+      .role-band--stack > span:first-child {
+        border-top: 0;
+      }
+
+      .role-band--stack .leader {
+        flex: 1 1 auto;
+        height: 1px;
+        margin-left: 6px;
+        background: var(--line);
+        align-self: center;
+      }
+
+      .role-band--display {
+        gap: 0.45em;
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: clamp(1.45rem, 2.6vw, 2.15rem);
+        font-weight: 500;
+        letter-spacing: -0.045em;
+        text-transform: none;
+      }
+
+      .role-band--display i {
+        color: var(--accent);
+        font-size: 0.8em;
+        font-style: normal;
+        font-weight: 400;
+        opacity: 0.85;
+      }
+
+      .role-band--tags {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .role-band--tags span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        justify-self: start;
+        padding: 11px 18px;
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.02);
+        color: var(--body);
+        font-family: var(--sans);
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        text-transform: none;
+        white-space: nowrap;
+      }
+
+      .role-band--tags span::before {
+        content: "";
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        margin-right: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        vertical-align: middle;
+      }
+
+      /* Role control ------------------------------------------------------- */
+
+      .role-toggle {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 14px 24px;
+        margin: 0 0 clamp(28px, 3vw, 40px);
+        padding: 16px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .role-toggle-label {
+        margin: 0;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .role-toggle-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-left: auto;
+      }
+
+      .role-toggle-options button {
+        appearance: none;
+        padding: 8px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--body);
+        font-family: var(--sans);
+        font-size: 0.74rem;
+        cursor: pointer;
+        transition:
+          background 160ms ease,
+          border-color 160ms ease,
+          color 160ms ease;
+      }
+
+      .role-toggle-options button:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--ink);
+      }
+
+      .role-toggle-options button.is-active {
+        border-color: var(--ink);
+        background: var(--ink);
+        color: #0d0b12;
+      }
+
+      /* Role line, inside the partition scenes ----------------------------- */
+
+      .scene .role-slot {
+        min-width: 0;
+      }
+
+      .scene-a .role-slot,
+      .scene-b .role-slot {
+        grid-column: 1;
+      }
+
+      .scene-c .role-slot,
+      .scene-d .role-slot {
+        grid-column: 1 / -1;
+      }
+
+      .scene .role-band {
+        width: 100%;
+        min-height: 0;
+        padding: 2.2cqw 4cqw;
+        border: 0;
+        border-bottom: 1px solid var(--line);
+        border-radius: 0;
+        background: transparent;
+        font-size: clamp(7px, 1.15cqw, 10px);
+        letter-spacing: 0.14em;
+      }
+
+      .scene .role-dash {
+        width: 3.4cqw;
+      }
+
+      .scene .role-band--cells {
+        padding: 0;
+      }
+
+      .scene .role-band--cells > span {
+        gap: 0.9cqw;
+        padding: 2.4cqw 2.6cqw;
+        font-size: clamp(8.5px, 1.5cqw, 12px);
+      }
+
+      /* Match the four-cell split to the 1.08 / 0.92 partition below. */
+      .scene-a[data-role-mode="cells"] .role-band--cells,
+      .scene-b[data-role-mode="cells"] .role-band--cells,
+      .scene-d[data-role-mode="cells"] .role-band--cells {
+        grid-template-columns: 1.08fr 1.08fr 0.92fr 0.92fr;
+      }
+
+      .scene .role-band--cells i {
+        font-size: clamp(6px, 0.95cqw, 8px);
+      }
+
+      .scene .role-band--split {
+        gap: 1.6cqw;
+      }
+
+      .scene .role-band--split .role-label {
+        gap: 1.6cqw;
+      }
+
+      .scene .role-band--stack {
+        padding: 0.6cqw 0;
+      }
+
+      .scene .role-band--stack > span {
+        gap: 1.4cqw;
+        padding: 1.3cqw 4cqw;
+        font-size: clamp(8.5px, 1.45cqw, 12px);
+      }
+
+      .scene .role-band--stack i {
+        font-size: clamp(6px, 0.95cqw, 8px);
+      }
+
+      .scene .role-band--display {
+        gap: 0.45em;
+        font-size: clamp(17px, 3.8cqw, 30px);
+      }
+
+      .scene .role-band--tags {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1cqw;
+      }
+
+      .scene .role-band--tags span {
+        justify-self: start;
+        padding: clamp(7px, 1.2cqw, 10px) clamp(10px, 2.2cqw, 16px);
+        font-size: clamp(8px, 1.5cqw, 11px);
+      }
+
+      .scene .role-band--tags span::before {
+        width: 0.5cqw;
+        height: 0.5cqw;
+        margin-right: 0.7cqw;
+      }
+
+      /* Wider role treatments claim the full partition band; the split
+         starts underneath them. */
+      .scene:is(
+          [data-role-mode="cells"],
+          [data-role-mode="stack"],
+          [data-role-mode="display"],
+          [data-role-mode="tags"]
+        )
+        .role-slot {
+        grid-column: 1 / -1;
+      }
+
+      .scene-a:is(
+          [data-role-mode="cells"],
+          [data-role-mode="stack"],
+          [data-role-mode="display"],
+          [data-role-mode="tags"]
+        )
+        .portrait {
+        grid-row: 2 / -1;
+      }
+
+      .scene-b:is(
+          [data-role-mode="cells"],
+          [data-role-mode="stack"],
+          [data-role-mode="display"],
+          [data-role-mode="tags"]
+        )
+        .portrait {
+        grid-row: 2 / 3;
+      }
+
+      .page-foot {
+        margin: clamp(36px, 5vw, 64px) 0 0;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        line-height: 1.6;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 1000px) {
+        .variants,
+        .role-variants {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .scene {
+          height: 480px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .scene {
+          height: 430px;
+        }
+
+        .scene .name {
+          font-size: 10cqw;
+        }
+
+        .role-band {
+          padding: 18px 20px;
+        }
+
+        .role-band--split {
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .role-band--split .role-rule {
+          display: none;
+        }
+
+        .role-band--split .role-count {
+          margin-left: auto;
+        }
+
+        .role-band--cells {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          padding: 0;
+        }
+
+        .role-band--cells > span:nth-child(odd) {
+          border-left: 0;
+        }
+
+        .role-band--cells > span:nth-child(n + 3) {
+          border-top: 1px solid var(--line);
+        }
+
+        .role-band--display {
+          flex-wrap: wrap;
+          font-size: clamp(1.2rem, 5.5vw, 1.6rem);
+        }
+
+        .role-band--tags {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
+        }
+
+        .role-band--tags span {
+          padding: 9px 12px;
+          font-size: 0.72rem;
+        }
+
+        .scene .role-band--tags {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .role-toggle-options {
+          width: 100%;
+          margin-left: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" aria-hidden="true" style="position: absolute">
+      <defs>
+        <radialGradient id="core" cx="50%" cy="42%" r="58%">
+          <stop offset="0%" stop-color="#ffffff" />
+          <stop offset="42%" stop-color="#e7ddff" />
+          <stop offset="100%" stop-color="#9d86ee" />
+        </radialGradient>
+        <linearGradient id="petal" x1="400" y1="132" x2="400" y2="400" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#f6f1ff" stop-opacity="0.9" />
+          <stop offset="46%" stop-color="#c9b8ff" stop-opacity="0.42" />
+          <stop offset="100%" stop-color="#8b73e8" stop-opacity="0.03" />
+        </linearGradient>
+        <symbol id="mark" viewBox="0 0 800 800" fill="none">
+          <circle cx="400" cy="400" r="330" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 9" opacity="0.5" />
+          <ellipse cx="400" cy="400" rx="376" ry="148" stroke="currentColor" stroke-width="1.2" opacity="0.32" transform="rotate(-18 400 400)" />
+          <ellipse cx="400" cy="400" rx="352" ry="198" stroke="currentColor" stroke-width="0.8" opacity="0.18" transform="rotate(34 400 400)" />
+          <g fill="url(#petal)">
+            <path d="M400 400 C452 326 452 206 400 132 C348 206 348 326 400 400Z" />
+            <path d="M400 400 C452 326 452 206 400 132 C348 206 348 326 400 400Z" transform="rotate(45 400 400)" />
+            <path d="M400 400 C452 326 452 206 400 132 C348 206 348 326 400 400Z" transform="rotate(90 400 400)" />
+            <path d="M400 400 C452 326 452 206 400 132 C348 206 348 326 400 400Z" transform="rotate(135 400 400)" />
+            <path d="M400 400 C452 326 452 206 400 132 C348 206 348 326 400 400Z" transform="rotate(180 400 400)" />
+            <path d="M400 400 C452 326 452 206 400 132 C348 206 348 326 400 400Z" transform="rotate(225 400 400)" />
+            <path d="M400 400 C452 326 452 206 400 132 C348 206 348 326 400 400Z" transform="rotate(270 400 400)" />
+            <path d="M400 400 C452 326 452 206 400 132 C348 206 348 326 400 400Z" transform="rotate(315 400 400)" />
+          </g>
+          <circle cx="400" cy="400" r="58" stroke="currentColor" stroke-width="1" opacity="0.28" />
+          <circle cx="400" cy="400" r="30" fill="url(#core)" />
+        </symbol>
+      </defs>
+    </svg>
+
+    <header class="page-head">
+      <p class="kicker">Masthead hero / layout study</p>
+      <h1>Partition variations</h1>
+      <p>
+        Four ways to divide the same masthead, role line, copy, image, and footer.
+        Each keeps the dark ground and thin rules; what changes is where the
+        lines start, stop, and meet. Use the role-line control below to apply
+        any of the six treatments to all four partitions; the band study
+        follows the grid.
+      </p>
+    </header>
+
+    <div class="role-toggle">
+      <p class="role-toggle-label">Role line in partition</p>
+      <div class="role-toggle-options" role="group" aria-label="Role line treatment">
+        <button type="button" data-role-mode="mono" class="is-active" aria-pressed="true">R1 Mono</button>
+        <button type="button" data-role-mode="cells" aria-pressed="false">R2 Cells</button>
+        <button type="button" data-role-mode="split" aria-pressed="false">R3 Stretch</button>
+        <button type="button" data-role-mode="stack" aria-pressed="false">R4 Stack</button>
+        <button type="button" data-role-mode="display" aria-pressed="false">R5 Display</button>
+        <button type="button" data-role-mode="tags" aria-pressed="false">R6 Tags</button>
+      </div>
+    </div>
+
+    <main class="variants">
+      <article class="variant">
+        <div class="variant-meta">
+          <span class="num">01</span>
+          <h2>Baseline split</h2>
+          <p>Full-height vertical rule; role and footer rules stop at the image.</p>
+        </div>
+        <div class="scene scene-a">
+          <div class="masthead">
+            <p class="eyebrow">Portfolio / 2026 <i></i> Selected work</p>
+            <p class="name">Rishabh <em>Bassi</em>.</p>
+          </div>
+          <div class="main">
+            <div class="role-slot" data-role-slot></div>
+            <div class="copy">
+              <p>
+                I design and build data-rich products where analytics, AI, and
+                interface design meet — turning complex systems into clear,
+                human experiences.
+              </p>
+              <div class="actions">
+                <span class="pill">View selected work ↗</span>
+                <span class="ghost">About me →</span>
+              </div>
+            </div>
+            <figure class="portrait">
+              <svg class="mark" viewBox="0 0 800 800" aria-hidden="true"><use href="#mark" /></svg>
+              <figcaption>Motion / 2026</figcaption>
+            </figure>
+            <div class="footer">
+              <div class="based"><small>Based in</small><span>New Delhi, India</span></div>
+              <div class="scroll">Scroll to explore</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="variant">
+        <div class="variant-meta">
+          <span class="num">02</span>
+          <h2>Stop at the band</h2>
+          <p>The vertical rule ends where a full-width footer band begins.</p>
+        </div>
+        <div class="scene scene-b">
+          <div class="masthead">
+            <p class="eyebrow">Portfolio / 2026 <i></i> Selected work</p>
+            <p class="name">Rishabh <em>Bassi</em>.</p>
+          </div>
+          <div class="main">
+            <div class="role-slot" data-role-slot></div>
+            <div class="copy">
+              <p>
+                I design and build data-rich products where analytics, AI, and
+                interface design meet — turning complex systems into clear,
+                human experiences.
+              </p>
+              <div class="actions">
+                <span class="pill">View selected work ↗</span>
+                <span class="ghost">About me →</span>
+              </div>
+            </div>
+            <figure class="portrait">
+              <svg class="mark" viewBox="0 0 800 800" aria-hidden="true"><use href="#mark" /></svg>
+              <figcaption>Motion / 2026</figcaption>
+            </figure>
+            <div class="footer">
+              <div class="based"><small>Based in</small><span>New Delhi, India</span></div>
+              <div class="coords"><small>Coordinates</small><span>28.61° N / 77.21° E</span></div>
+              <div class="scroll">Scroll to explore</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="variant">
+        <div class="variant-meta">
+          <span class="num">03</span>
+          <h2>Index rail</h2>
+          <p>A narrow meta column runs the full height; three rules carry into the footer.</p>
+        </div>
+        <div class="scene scene-c">
+          <div class="masthead">
+            <p class="eyebrow">Portfolio / 2026 <i></i> Selected work</p>
+            <p class="name">Rishabh <em>Bassi</em>.</p>
+          </div>
+          <div class="main">
+            <div class="role-slot" data-role-slot></div>
+            <div class="rail">
+              <div><small>Index</small><span>01 — Selected work</span></div>
+              <b>04</b>
+            </div>
+            <div class="copy">
+              <p>
+                I design and build data-rich products where analytics, AI, and
+                interface design meet — turning complex systems into clear,
+                human experiences.
+              </p>
+              <div class="actions">
+                <span class="pill">View selected work ↗</span>
+                <span class="ghost">About me →</span>
+              </div>
+            </div>
+            <figure class="portrait">
+              <svg class="mark" viewBox="0 0 800 800" aria-hidden="true"><use href="#mark" /></svg>
+              <figcaption>Motion / 2026</figcaption>
+            </figure>
+            <div class="footer">
+              <div class="based"><small>Based in</small><span>New Delhi, India</span></div>
+              <div class="scroll">Scroll to explore</div>
+              <div class="coords"><small>Coordinates</small><span>28.61° N / 77.21° E</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="variant">
+        <div class="variant-meta">
+          <span class="num">04</span>
+          <h2>Inset portrait</h2>
+          <p>The image becomes its own framed cell; the footer splits into three.</p>
+        </div>
+        <div class="scene scene-d">
+          <div class="masthead">
+            <p class="eyebrow">Portfolio / 2026 <i></i> Selected work</p>
+            <p class="name">Rishabh <em>Bassi</em>.</p>
+          </div>
+          <div class="main">
+            <div class="role-slot" data-role-slot></div>
+            <div class="copy">
+              <p>
+                I design and build data-rich products where analytics, AI, and
+                interface design meet — turning complex systems into clear,
+                human experiences.
+              </p>
+              <div class="actions">
+                <span class="pill">View selected work ↗</span>
+                <span class="ghost">About me →</span>
+              </div>
+            </div>
+            <figure class="portrait">
+              <svg class="mark" viewBox="0 0 800 800" aria-hidden="true"><use href="#mark" /></svg>
+              <figcaption>Motion / 2026</figcaption>
+            </figure>
+            <div class="footer">
+              <div class="based"><small>Based in</small><span>New Delhi, India</span></div>
+              <div class="coords"><small>Coordinates</small><span>28.61° N / 77.21° E</span></div>
+              <div class="scroll">Scroll to explore</div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <header class="section-head">
+      <p class="kicker">Role line / layout study</p>
+      <h2>Engineer · Data · AI · Product</h2>
+      <p>
+        Six ways to carry the same four disciplines through the role band.
+        Each sits on the same dark ground and can pair with any partition above.
+      </p>
+    </header>
+
+    <section class="role-variants">
+      <article class="role-card">
+        <div class="variant-meta">
+          <span class="num">R1</span>
+          <h2>Current mono</h2>
+          <p>Accent dash and tracked mono caps — the production treatment.</p>
+        </div>
+        <div class="role-band role-band--mono">
+          <span class="role-dash"></span>
+          <span>Engineer · Data · AI · Product</span>
+        </div>
+      </article>
+
+      <article class="role-card">
+        <div class="variant-meta">
+          <span class="num">R2</span>
+          <h2>Indexed cells</h2>
+          <p>Four equal cells with rules between; each discipline gets a number.</p>
+        </div>
+        <div class="role-band role-band--cells">
+          <span><i>01</i>Engineer</span>
+          <span><i>02</i>Data</span>
+          <span><i>03</i>AI</span>
+          <span><i>04</i>Product</span>
+        </div>
+      </article>
+
+      <article class="role-card">
+        <div class="variant-meta">
+          <span class="num">R3</span>
+          <h2>Stretched rule</h2>
+          <p>The role becomes a label; a long rule runs out to the tally.</p>
+        </div>
+        <div class="role-band role-band--split">
+          <span class="role-label">
+            <span class="role-dash"></span>
+            <span>Engineer · Data · AI · Product</span>
+          </span>
+          <span class="role-rule"></span>
+          <span class="role-count">04 disciplines</span>
+        </div>
+      </article>
+
+      <article class="role-card">
+        <div class="variant-meta">
+          <span class="num">R4</span>
+          <h2>Indexed stack</h2>
+          <p>One discipline per row, set like a table of contents.</p>
+        </div>
+        <div class="role-band role-band--stack">
+          <span><i>01</i>Engineer</span>
+          <span><i>02</i>Data</span>
+          <span><i>03</i>AI</span>
+          <span><i>04</i>Product</span>
+        </div>
+      </article>
+
+      <article class="role-card">
+        <div class="variant-meta">
+          <span class="num">R5</span>
+          <h2>Display line</h2>
+          <p>Sentence-case grotesk at display size, separators in lavender.</p>
+        </div>
+        <div class="role-band role-band--display">
+          <span>Engineer</span>
+          <i>·</i>
+          <span>Data</span>
+          <i>·</i>
+          <span>AI</span>
+          <i>·</i>
+          <span>Product</span>
+        </div>
+      </article>
+
+      <article class="role-card">
+        <div class="variant-meta">
+          <span class="num">R6</span>
+          <h2>Outlined tags</h2>
+          <p>Four quiet pills with accent dots — the softest treatment.</p>
+        </div>
+        <div class="role-band role-band--tags">
+          <span>Engineer</span>
+          <span>Data</span>
+          <span>AI</span>
+          <span>Product</span>
+        </div>
+      </article>
+    </section>
+
+    <p class="page-foot">Static study · open /partition-variants.html</p>
+
+    <script>
+      (() => {
+        const roleLines = {
+          mono: `<div class="role-band role-band--mono"><span class="role-dash"></span><span>Engineer · Data · AI · Product</span></div>`,
+          cells: `<div class="role-band role-band--cells"><span><i>01</i>Engineer</span><span><i>02</i>Data</span><span><i>03</i>AI</span><span><i>04</i>Product</span></div>`,
+          split: `<div class="role-band role-band--split"><span class="role-label"><span class="role-dash"></span><span>Engineer · Data · AI · Product</span></span><span class="role-rule"></span><span class="role-count">04 disciplines</span></div>`,
+          stack: `<div class="role-band role-band--stack"><span><i>01</i>Engineer<span class="leader"></span></span><span><i>02</i>Data<span class="leader"></span></span><span><i>03</i>AI<span class="leader"></span></span><span><i>04</i>Product<span class="leader"></span></span></div>`,
+          display: `<div class="role-band role-band--display"><span>Engineer</span><i>·</i><span>Data</span><i>·</i><span>AI</span><i>·</i><span>Product</span></div>`,
+          tags: `<div class="role-band role-band--tags"><span>Engineer</span><span>Data</span><span>AI</span><span>Product</span></div>`,
+        };
+
+        const slots = [...document.querySelectorAll("[data-role-slot]")];
+        const scenes = [...document.querySelectorAll(".scene")];
+        const buttons = [...document.querySelectorAll(".role-toggle [data-role-mode]")];
+
+        const apply = (mode) => {
+          slots.forEach((slot) => {
+            slot.innerHTML = roleLines[mode];
+          });
+
+          scenes.forEach((scene) => {
+            scene.dataset.roleMode = mode;
+          });
+
+          buttons.forEach((button) => {
+            const active = button.dataset.roleMode === mode;
+            button.classList.toggle("is-active", active);
+            button.setAttribute("aria-pressed", String(active));
+          });
+        };
+
+        buttons.forEach((button) => {
+          button.addEventListener("click", () => apply(button.dataset.roleMode));
+        });
+
+        apply("mono");
+      })();
+    </script>
+  </body>
+</html>

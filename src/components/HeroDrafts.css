@@ -9,9 +9,31 @@
   --hd-bar-h: 46px;
   --hd-lavender: #b6a0ff;
 
+  position: relative;
   min-height: 100svh;
-  background: var(--paper);
-  color: var(--ink);
+  background: #0d0b12;
+  color: var(--paper);
+  isolation: isolate;
+}
+
+/* One continuous gradient behind every draft. Fixed so the sections read as
+   slides over the same canvas rather than six separate washes. */
+.hero-drafts-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(9, 7, 14, 0.74) 0%,
+      rgba(9, 7, 14, 0.38) 26%,
+      rgba(9, 7, 14, 0.16) 56%,
+      rgba(9, 7, 14, 0.3) 100%
+    ),
+    url("../assets/hero-drafts-bg.avif");
+  background-position: center;
+  background-size: cover;
 }
 
 .hero-drafts-route .embedded-agent-container.noupe-agent,
@@ -31,8 +53,9 @@
   gap: clamp(10px, 2vw, 24px);
   min-height: var(--hd-bar-h);
   padding: 0 var(--hd-gutter);
-  border-bottom: 1px solid var(--line);
-  background: rgba(247, 246, 241, 0.95);
+  border-bottom: 1px solid rgba(243, 241, 234, 0.14);
+  background: rgba(13, 11, 18, 0.78);
+  color: var(--paper);
   font-family: var(--font-mono);
   font-size: 0.54rem;
   font-weight: 500;
@@ -48,19 +71,19 @@
   gap: 7px;
   flex: 0 0 auto;
   min-height: 32px;
-  color: var(--ink);
+  color: var(--paper);
   text-decoration: none;
   white-space: nowrap;
   transition: color 170ms ease;
 }
 
 .hd-switcher-back:hover {
-  color: var(--accent-ink);
+  color: var(--hd-lavender);
 }
 
 .hd-switcher-title {
   margin: 0 auto 0 0;
-  color: var(--muted);
+  color: rgba(243, 241, 234, 0.52);
   font: inherit;
   letter-spacing: inherit;
   white-space: nowrap;
@@ -80,19 +103,19 @@
   min-height: 32px;
   padding: 0 8px;
   border-radius: 2px;
-  color: var(--secondary);
+  color: rgba(243, 241, 234, 0.68);
   text-decoration: none;
   white-space: nowrap;
   transition: color 170ms ease, background 170ms ease;
 }
 
 .hd-switcher-links a:hover {
-  color: var(--accent-ink);
-  background: rgba(93, 13, 255, 0.06);
+  color: #ffffff;
+  background: rgba(182, 160, 255, 0.14);
 }
 
 .hd-switcher-letter {
-  color: var(--accent-ink);
+  color: var(--hd-lavender);
   font-weight: 600;
 }
 
@@ -105,11 +128,11 @@
   min-height: calc(100svh - var(--hd-bar-h));
   overflow: hidden;
   scroll-margin-top: var(--hd-bar-h);
-  background: var(--paper);
+  background: transparent;
 }
 
 .hd-draft + .hd-draft {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgba(243, 241, 234, 0.14);
 }
 
 .hd-topbar {
@@ -122,8 +145,8 @@
   gap: 18px;
   min-height: clamp(62px, 8vh, 80px);
   padding: 0 var(--hd-gutter);
-  border-bottom: 1px solid var(--line);
-  background: var(--paper);
+  border-bottom: 1px solid rgba(243, 241, 234, 0.14);
+  background: transparent;
 }
 
 .hd-topbar--dark {
@@ -137,7 +160,7 @@
   gap: 11px;
   flex: 0 0 auto;
   min-height: 44px;
-  color: var(--ink);
+  color: var(--paper);
   text-decoration: none;
 }
 
@@ -152,8 +175,8 @@
   width: 32px;
   height: 32px;
   border-radius: 2px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font-mono);
   font-size: 0.55rem;
   font-weight: 600;
@@ -180,7 +203,7 @@
 }
 
 .hd-brand-role {
-  color: var(--muted);
+  color: rgba(243, 241, 234, 0.52);
   font-family: var(--font-mono);
   font-size: 0.45rem;
   font-weight: 500;
@@ -202,7 +225,7 @@
 
 .hd-draft-chip {
   overflow: hidden;
-  color: var(--muted);
+  color: rgba(243, 241, 234, 0.52);
   font-family: var(--font-mono);
   font-size: 0.5rem;
   font-weight: 500;
@@ -223,7 +246,7 @@
   gap: 7px;
   flex: 0 0 auto;
   min-height: 40px;
-  color: var(--secondary);
+  color: rgba(243, 241, 234, 0.68);
   font-family: var(--font-mono);
   font-size: 0.52rem;
   font-weight: 500;
@@ -240,7 +263,7 @@
 }
 
 .hd-next-link:hover {
-  color: var(--accent-ink);
+  color: #ffffff;
 }
 
 .hd-next-link:hover span {
@@ -263,7 +286,7 @@
   align-items: center;
   gap: 10px;
   margin: 0 0 clamp(16px, 2.6vh, 26px);
-  color: var(--muted);
+  color: rgba(243, 241, 234, 0.62);
   font-family: var(--font-mono);
   font-size: 0.54rem;
   font-weight: 500;
@@ -285,8 +308,8 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 4px rgba(93, 13, 255, 0.1);
+  background: var(--hd-lavender);
+  box-shadow: 0 0 0 4px rgba(182, 160, 255, 0.12);
 }
 
 .hd-eyebrow--light .hd-dot {
@@ -297,7 +320,7 @@
 .hd-rule {
   width: 22px;
   height: 1px;
-  background: var(--line);
+  background: rgba(243, 241, 234, 0.26);
 }
 
 .hd-eyebrow--light .hd-rule {
@@ -306,7 +329,7 @@
 
 .hd-title {
   margin: 0;
-  color: var(--ink);
+  color: var(--paper);
   font-size: clamp(4.2rem, 8.8vw, 8.8rem);
   font-weight: 500;
   letter-spacing: -0.075em;
@@ -314,7 +337,7 @@
 }
 
 .hd-title span {
-  color: var(--accent);
+  color: var(--hd-lavender);
 }
 
 .hd-title--light {
@@ -341,7 +364,7 @@
   align-items: center;
   gap: 12px;
   margin: clamp(18px, 2.8vh, 28px) 0 0;
-  color: var(--secondary);
+  color: rgba(243, 241, 234, 0.68);
   font-family: var(--font-mono);
   font-size: 0.58rem;
   font-weight: 500;
@@ -355,7 +378,7 @@
   flex: 0 0 auto;
   width: 24px;
   height: 1px;
-  background: var(--accent);
+  background: var(--hd-lavender);
 }
 
 .hd-role--light {
@@ -377,7 +400,7 @@
 .hd-lede {
   max-width: 46ch;
   margin: clamp(12px, 1.8vh, 18px) 0 0;
-  color: var(--body);
+  color: rgba(243, 241, 234, 0.78);
   font-size: clamp(0.98rem, 1.12vw, 1.1rem);
   font-weight: 400;
   letter-spacing: -0.012em;
@@ -552,82 +575,6 @@
   background: var(--hd-lavender);
 }
 
-.hd-location {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 15px 7px 7px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 999px;
-  background: rgba(11, 11, 11, 0.92);
-  color: #ffffff;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-}
-
-.hd-location-globe {
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.hd-location-globe img {
-  width: 19px;
-  height: 19px;
-  animation: hd-globe-spin 26s linear infinite;
-}
-
-.hd-location-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.hd-location-label {
-  color: rgba(243, 241, 234, 0.52);
-  font-family: var(--font-mono);
-  font-size: 0.44rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.hd-location-value {
-  color: var(--night-text);
-  font-size: 0.69rem;
-  font-weight: 500;
-  line-height: 1.25;
-}
-
-.hd-location--paper {
-  border-color: rgba(11, 11, 11, 0.1);
-  background: rgba(247, 246, 241, 0.92);
-  color: var(--ink);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
-}
-
-.hd-location--paper .hd-location-globe {
-  background: rgba(11, 11, 11, 0.06);
-}
-
-.hd-location--paper .hd-location-label {
-  color: var(--muted);
-}
-
-.hd-location--paper .hd-location-value {
-  color: var(--ink);
-}
-
-@keyframes hd-globe-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 /* Ticker ----------------------------------------------------------------- */
 
@@ -639,8 +586,9 @@
   align-items: stretch;
   min-height: clamp(54px, 8vh, 78px);
   overflow: hidden;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  background: var(--ink);
+  border-top: 1px solid rgba(243, 241, 234, 0.14);
+  background: rgba(11, 9, 15, 0.55);
+  backdrop-filter: blur(14px);
 }
 
 .hd-ticker-label {
@@ -691,21 +639,21 @@
 }
 
 .hd-ticker--paper {
-  border-top-color: var(--line);
-  background: var(--paper);
+  border-top-color: rgba(243, 241, 234, 0.14);
+  background: rgba(11, 9, 15, 0.55);
 }
 
 .hd-ticker--paper .hd-ticker-label {
-  border-right-color: var(--line);
-  color: var(--muted);
+  border-right-color: rgba(243, 241, 234, 0.16);
+  color: rgba(243, 241, 234, 0.54);
 }
 
 .hd-ticker--paper .hd-ticker-dot {
-  background: var(--accent);
+  background: var(--hd-lavender);
 }
 
 .hd-ticker--paper .hd-ticker-copy {
-  color: var(--ink);
+  color: var(--night-text);
 }
 
 @keyframes hd-ticker-scroll {
@@ -714,10 +662,11 @@
   }
 }
 
+
 /* Draft A — full bleed --------------------------------------------------- */
 
 .hd-a {
-  background: #101014;
+  background: transparent;
   color: var(--paper);
 }
 
@@ -725,15 +674,11 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: #101014;
+  background: transparent;
 }
 
-.hd-a-media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 24%;
+.hd-a-media .hd-mark {
+  left: 26%;
 }
 
 .hd-a-media::after {
@@ -743,12 +688,11 @@
   background:
     linear-gradient(
       90deg,
-      rgba(13, 11, 18, 0.96) 0%,
-      rgba(13, 11, 18, 0.9) 34%,
-      rgba(13, 11, 18, 0.52) 60%,
-      rgba(13, 11, 18, 0.08) 100%
+      rgba(9, 7, 14, 0.62) 0%,
+      rgba(9, 7, 14, 0.3) 34%,
+      rgba(9, 7, 14, 0) 62%
     ),
-    linear-gradient(0deg, rgba(13, 11, 18, 0.55) 0%, rgba(13, 11, 18, 0) 38%);
+    linear-gradient(0deg, rgba(9, 7, 14, 0.35) 0%, rgba(9, 7, 14, 0) 30%);
   pointer-events: none;
 }
 
@@ -784,7 +728,7 @@
 /* Draft B — centerline --------------------------------------------------- */
 
 .hd-b {
-  background: var(--paper);
+  background: transparent;
 }
 
 .hd-b-body {
@@ -807,27 +751,32 @@
   flex: 0 0 clamp(180px, 22vh, 240px);
   margin: 0;
   overflow: hidden;
-  border-top: 1px solid var(--line);
-  background: #999d9e;
+  border-top: 1px solid rgba(243, 241, 234, 0.14);
+  background: transparent;
 }
 
-.hd-b-band img {
-  display: block;
-  width: min(25%, 360px);
-  height: 100%;
-  margin: 0 auto;
-  object-fit: cover;
-  object-position: center top;
+.hd-b-band .hd-bloom {
+  width: min(40%, 240px);
+  filter: drop-shadow(0 0 40px rgba(182, 160, 255, 0.3));
+}
+
+.hd-b-band .hd-mark-rings {
+  width: min(86%, 340px);
+}
+
+.hd-b-band .hd-grid {
+  width: min(46%, 280px);
 }
 
 .hd-b-band::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    0deg,
-    rgba(11, 11, 11, 0.18),
-    rgba(11, 11, 11, 0) 55%
+  background: radial-gradient(
+    ellipse 70% 90% at 50% 100%,
+    rgba(182, 160, 255, 0.2) 0%,
+    rgba(182, 160, 255, 0.05) 46%,
+    transparent 72%
   );
   pointer-events: none;
 }
@@ -842,7 +791,7 @@
 /* Draft C — masthead ----------------------------------------------------- */
 
 .hd-c {
-  background: var(--paper);
+  background: transparent;
 }
 
 .hd-c-masthead {
@@ -867,27 +816,32 @@
   min-height: 200px;
   margin: 0;
   overflow: hidden;
-  border-top: 1px solid var(--line);
-  background: #999d9e;
+  border-top: 1px solid rgba(243, 241, 234, 0.14);
+  background: transparent;
 }
 
-.hd-c-band img {
-  display: block;
-  width: min(39%, 560px);
-  height: 100%;
-  margin: 0 auto;
-  object-fit: cover;
-  object-position: center top;
+.hd-c-band .hd-bloom {
+  width: min(45.3%, 272px);
+  filter: drop-shadow(0 0 40px rgba(182, 160, 255, 0.3));
+}
+
+.hd-c-band .hd-mark-rings {
+  width: min(90%, 400px);
+}
+
+.hd-c-band .hd-grid {
+  width: min(52%, 315px);
 }
 
 .hd-c-band::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    0deg,
-    rgba(11, 11, 11, 0.2),
-    rgba(11, 11, 11, 0) 45%
+  background: radial-gradient(
+    ellipse 70% 90% at 50% 100%,
+    rgba(182, 160, 255, 0.2) 0%,
+    rgba(182, 160, 255, 0.05) 46%,
+    transparent 72%
   );
   pointer-events: none;
 }
@@ -906,14 +860,14 @@
   align-items: center;
   gap: clamp(24px, 4vw, 60px);
   padding: clamp(20px, 3vh, 30px) var(--hd-gutter);
-  border-top: 1px solid var(--line);
-  background: var(--paper);
+  border-top: 1px solid rgba(243, 241, 234, 0.14);
+  background: transparent;
 }
 
 .hd-c-lede {
   max-width: 48ch;
   margin: 0;
-  color: var(--body);
+  color: rgba(243, 241, 234, 0.78);
   font-size: clamp(0.94rem, 1.05vw, 1.04rem);
   letter-spacing: -0.01em;
   line-height: 1.6;
@@ -929,7 +883,7 @@
   gap: 9px;
   margin: 0;
   padding-left: clamp(16px, 2vw, 24px);
-  border-left: 1px solid var(--line);
+  border-left: 1px solid rgba(243, 241, 234, 0.16);
 }
 
 .hd-c-meta div {
@@ -939,7 +893,7 @@
 }
 
 .hd-c-meta dt {
-  color: var(--muted);
+  color: rgba(243, 241, 234, 0.48);
   font-family: var(--font-mono);
   font-size: 0.45rem;
   font-weight: 500;
@@ -950,7 +904,7 @@
 
 .hd-c-meta dd {
   margin: 0;
-  color: var(--secondary);
+  color: rgba(243, 241, 234, 0.78);
   font-size: 0.7rem;
   line-height: 1.35;
 }
@@ -958,7 +912,7 @@
 /* Draft D — masthead bleed ----------------------------------------------- */
 
 .hd-d {
-  background: #0d0b12;
+  background: transparent;
   color: var(--paper);
 }
 
@@ -966,15 +920,11 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: #101014;
+  background: transparent;
 }
 
-.hd-d-media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
+.hd-d-media .hd-mark {
+  left: 32%;
 }
 
 .hd-d-media::after {
@@ -984,17 +934,15 @@
   background:
     linear-gradient(
       180deg,
-      rgba(11, 9, 15, 0.88) 0%,
-      rgba(11, 9, 15, 0.58) 26%,
-      rgba(11, 9, 15, 0.44) 52%,
-      rgba(11, 9, 15, 0.82) 78%,
-      rgba(11, 9, 15, 0.96) 100%
+      rgba(9, 7, 14, 0.52) 0%,
+      rgba(9, 7, 14, 0.12) 30%,
+      rgba(9, 7, 14, 0.05) 55%,
+      rgba(9, 7, 14, 0.55) 100%
     ),
     linear-gradient(
       90deg,
-      rgba(11, 9, 15, 0.45) 0%,
-      rgba(11, 9, 15, 0.05) 58%,
-      rgba(11, 9, 15, 0.2) 100%
+      rgba(9, 7, 14, 0.5) 0%,
+      rgba(9, 7, 14, 0) 55%
     );
   pointer-events: none;
 }
@@ -1067,25 +1015,25 @@
 
 .hd-e {
   --hd-common: #989e9e;
-  background: var(--hd-common);
-  color: var(--ink);
+  background: transparent;
+  color: var(--paper);
 }
 
 .hd-e .hd-topbar {
-  border-bottom-color: rgba(11, 11, 11, 0.16);
+  border-bottom-color: rgba(243, 241, 234, 0.14);
   background: transparent;
 }
 
 .hd-e .hd-draft-chip {
-  color: rgba(11, 11, 11, 0.64);
+  color: rgba(243, 241, 234, 0.52);
 }
 
 .hd-e .hd-next-link {
-  color: rgba(11, 11, 11, 0.74);
+  color: rgba(243, 241, 234, 0.68);
 }
 
 .hd-e .hd-next-link:hover {
-  color: var(--accent-ink);
+  color: #ffffff;
 }
 
 .hd-e-main {
@@ -1105,16 +1053,16 @@
 }
 
 .hd-e .hd-eyebrow {
-  color: rgba(11, 11, 11, 0.74);
+  color: rgba(243, 241, 234, 0.62);
 }
 
 .hd-e .hd-dot {
-  background: var(--accent-ink);
-  box-shadow: 0 0 0 4px rgba(63, 15, 176, 0.12);
+  background: var(--hd-lavender);
+  box-shadow: 0 0 0 4px rgba(182, 160, 255, 0.12);
 }
 
 .hd-e .hd-rule {
-  background: rgba(11, 11, 11, 0.3);
+  background: rgba(243, 241, 234, 0.26);
 }
 
 .hd-e .hd-title--stack {
@@ -1123,20 +1071,20 @@
 }
 
 .hd-e .hd-title span {
-  color: var(--accent-ink);
+  color: var(--hd-lavender);
 }
 
 .hd-e .hd-role {
-  color: rgba(11, 11, 11, 0.74);
+  color: rgba(243, 241, 234, 0.68);
 }
 
 .hd-e .hd-role::before {
-  background: var(--accent-ink);
+  background: var(--hd-lavender);
 }
 
 .hd-e .hd-lede {
   max-width: 42ch;
-  color: var(--body);
+  color: rgba(243, 241, 234, 0.78);
 }
 
 .hd-e .hd-actions {
@@ -1150,17 +1098,20 @@
   min-height: 0;
   margin: 0;
   overflow: hidden;
-  background: var(--hd-common);
+  border-left: 1px solid rgba(243, 241, 234, 0.14);
+  background: radial-gradient(
+    ellipse 70% 65% at 58% 44%,
+    rgba(182, 160, 255, 0.18),
+    transparent 72%
+  );
 }
 
-.hd-e-media > img {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
+.hd-e-media .hd-bloom {
+  width: min(70.4%, 336px);
+}
+
+.hd-e-media .hd-grid {
+  width: min(82%, 385px);
 }
 
 .hd-e-location {
@@ -1170,29 +1121,51 @@
   z-index: 2;
 }
 
-/* Draft F — masthead blend ----------------------------------------------- */
-
-.hd-f {
-  --hd-common: #989e9e;
-  background: var(--hd-common);
-  color: var(--ink);
+/* Draft F previews the previous landing hero; Draft G previews the latest
+   cut; both are kept here so the compositions can be swapped again without
+   rewriting any of them. */
+.hd-f-classic,
+.hd-g-classic {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
-.hd-f .hd-topbar {
-  border-bottom-color: rgba(11, 11, 11, 0.16);
+.hd-f-classic > .hero-container,
+.hd-g-classic > .hero-container {
+  width: 100%;
+  height: auto;
+  min-height: calc(100svh - var(--hd-bar-h) - clamp(62px, 8vh, 80px));
+}
+
+/* Draft F / G — full hero landings --------------------------------------- */
+
+.hd-f,
+.hd-g {
+  --hd-common: #989e9e;
+  background: transparent;
+  color: var(--paper);
+}
+
+.hd-f .hd-topbar,
+.hd-g .hd-topbar {
+  border-bottom-color: rgba(243, 241, 234, 0.14);
   background: transparent;
 }
 
-.hd-f .hd-draft-chip {
-  color: rgba(11, 11, 11, 0.64);
+.hd-f .hd-draft-chip,
+.hd-g .hd-draft-chip {
+  color: rgba(243, 241, 234, 0.52);
 }
 
-.hd-f .hd-next-link {
-  color: rgba(11, 11, 11, 0.74);
+.hd-f .hd-next-link,
+.hd-g .hd-next-link {
+  color: rgba(243, 241, 234, 0.68);
 }
 
-.hd-f .hd-next-link:hover {
-  color: var(--accent-ink);
+.hd-f .hd-next-link:hover,
+.hd-g .hd-next-link:hover {
+  color: #ffffff;
 }
 
 .hd-f-masthead {
@@ -1203,36 +1176,36 @@
 
 .hd-f-masthead .hd-eyebrow {
   margin-bottom: clamp(12px, 2vh, 20px);
-  color: rgba(11, 11, 11, 0.74);
+  color: rgba(243, 241, 234, 0.62);
 }
 
 .hd-f .hd-dot {
-  background: var(--accent-ink);
-  box-shadow: 0 0 0 4px rgba(63, 15, 176, 0.12);
+  background: var(--hd-lavender);
+  box-shadow: 0 0 0 4px rgba(182, 160, 255, 0.12);
 }
 
 .hd-f .hd-rule {
-  background: rgba(11, 11, 11, 0.3);
+  background: rgba(243, 241, 234, 0.26);
 }
 
 .hd-f .hd-title span {
-  color: var(--accent-ink);
+  color: var(--hd-lavender);
 }
 
 .hd-f .hd-role {
   margin-top: clamp(12px, 2vh, 18px);
-  color: rgba(11, 11, 11, 0.74);
+  color: rgba(243, 241, 234, 0.68);
 }
 
 .hd-f .hd-role::before {
-  background: var(--accent-ink);
+  background: var(--hd-lavender);
 }
 
 .hd-f-main {
   display: flex;
   flex: 1 1 auto;
   min-height: 0;
-  border-top: 1px solid rgba(11, 11, 11, 0.16);
+  border-top: 1px solid rgba(243, 241, 234, 0.14);
 }
 
 .hd-f-copy {
@@ -1260,16 +1233,16 @@
   margin-top: clamp(16px, 2.4vh, 24px);
   padding-top: clamp(12px, 1.8vh, 16px);
   padding-left: 0;
-  border-top: 1px solid rgba(11, 11, 11, 0.14);
+  border-top: 1px solid rgba(243, 241, 234, 0.14);
   border-left: 0;
 }
 
 .hd-f .hd-c-meta dt {
-  color: rgba(11, 11, 11, 0.55);
+  color: rgba(243, 241, 234, 0.48);
 }
 
 .hd-f .hd-c-meta dd {
-  color: rgba(11, 11, 11, 0.8);
+  color: rgba(243, 241, 234, 0.78);
 }
 
 .hd-f-media {
@@ -1279,17 +1252,20 @@
   min-height: 0;
   margin: 0;
   overflow: hidden;
-  background: var(--hd-common);
+  border-left: 1px solid rgba(243, 241, 234, 0.14);
+  background: radial-gradient(
+    ellipse 70% 65% at 58% 44%,
+    rgba(182, 160, 255, 0.18),
+    transparent 72%
+  );
 }
 
-.hd-f-media > img {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
+.hd-f-media .hd-bloom {
+  width: min(70.4%, 336px);
+}
+
+.hd-f-media .hd-grid {
+  width: min(82%, 385px);
 }
 
 .hd-f-location {
@@ -1323,18 +1299,48 @@
     font-size: 0.98rem;
   }
 
-  .hd-a-media img {
-    object-position: center 30%;
+  .hd-a-media .hd-mark {
+    top: 50%;
+    left: 8%;
+  }
+
+  .hd-a-media .hd-bloom {
+    width: min(80%, 368px);
+  }
+
+  .hd-a-media .hd-grid {
+    width: min(92%, 430px);
+  }
+
+  .hd-a-media .hd-mark-rings {
+    width: min(112%, 430px);
   }
 
   .hd-a-media::after {
-    background: linear-gradient(
-      180deg,
-      rgba(13, 11, 18, 0.96) 0%,
-      rgba(13, 11, 18, 0.92) 44%,
-      rgba(13, 11, 18, 0.62) 72%,
-      rgba(13, 11, 18, 0.8) 100%
-    );
+    background:
+      linear-gradient(
+        90deg,
+        rgba(9, 7, 14, 0.7) 0%,
+        rgba(9, 7, 14, 0.4) 46%,
+        rgba(9, 7, 14, 0.08) 100%
+      ),
+      linear-gradient(0deg, rgba(9, 7, 14, 0.4) 0%, transparent 36%);
+  }
+
+  .hd-d-media .hd-mark {
+    left: 14%;
+  }
+
+  .hd-d-media .hd-bloom {
+    width: min(80%, 448px);
+  }
+
+  .hd-d-media .hd-grid {
+    width: min(92%, 520px);
+  }
+
+  .hd-d-media .hd-mark-rings {
+    width: min(112%, 420px);
   }
 
   .hd-a-body {
@@ -1358,14 +1364,30 @@
     flex-basis: clamp(210px, 30svh, 300px);
   }
 
-  .hd-b-band img {
-    width: 88%;
-    object-position: center 16%;
+  .hd-b-band .hd-bloom {
+    width: min(57.6%, 240px);
   }
 
-  .hd-c-band img {
-    width: 100%;
-    object-position: center 22%;
+  .hd-b-band .hd-grid {
+    width: min(66%, 280px);
+  }
+
+  .hd-c-band .hd-bloom {
+    width: min(59.2%, 272px);
+  }
+
+  .hd-c-band .hd-grid {
+    width: min(68%, 300px);
+  }
+
+  .hd-e-media .hd-bloom,
+  .hd-f-media .hd-bloom {
+    width: min(64%, 256px);
+  }
+
+  .hd-e-media .hd-grid,
+  .hd-f-media .hd-grid {
+    width: min(74%, 300px);
   }
 
   .hd-c-deck {
@@ -1426,7 +1448,7 @@
   }
 
   .hd-e-media {
-    flex: 0 0 clamp(190px, 27svh, 280px);
+    flex: 0 0 clamp(210px, 32svh, 300px);
     width: 100%;
   }
 
@@ -1449,24 +1471,12 @@
   }
 
   .hd-f-media {
-    flex: 0 0 clamp(200px, 28svh, 300px);
+    flex: 0 0 clamp(210px, 32svh, 300px);
     width: 100%;
   }
 
   .hd-f-location {
     bottom: clamp(14px, 2vh, 20px);
-  }
-}
-
-/* Stacked tablet bands get very wide, which would crop the portrait to a thin
-   strip of forehead. Cap the image width so the face stays whole while the
-   surrounding gray keeps the section seamless. */
-@media (min-width: 601px) and (max-width: 860px) {
-  .hd-f-media > img {
-    right: 0;
-    left: 0;
-    width: min(100%, 58vw);
-    margin-inline: auto;
   }
 }
 
@@ -1659,7 +1669,7 @@
   }
 
   .hd-e-media {
-    flex-basis: 27svh;
+    flex-basis: 31svh;
   }
 
   .hd-f-masthead {
@@ -1682,7 +1692,7 @@
   }
 
   .hd-f-media {
-    flex-basis: 26svh;
+    flex-basis: 31svh;
   }
 }
 
@@ -1751,8 +1761,8 @@
   }
 
   .hd-e-media {
-    flex-basis: 24svh;
-    min-height: 170px;
+    flex-basis: 30svh;
+    min-height: 200px;
   }
 
   .hd-f-masthead {
@@ -1765,14 +1775,23 @@
   }
 
   .hd-f-media {
-    flex-basis: 24svh;
-    min-height: 160px;
+    flex-basis: 30svh;
+    min-height: 200px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hd-location-globe img,
-  .hd-ticker-track {
+  .hd-ticker-track,
+  .hd-mark-rings-inner,
+  .hd-grid-sphere,
+  .hd-bloom,
+  .hd-bloom-outer,
+  .hd-bloom-inner,
+  .hd-bloom-core,
+  .hd-mark-satellite,
+  .hd-mark-dot,
+  .hd-ambient {
     animation: none;
   }
 

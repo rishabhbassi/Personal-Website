@@ -1,0 +1,345 @@
+/* Shared hero ornament: wireframe globe, lotus, orbits, and location pill. */
+
+.hd-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 15px 7px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(11, 11, 11, 0.92);
+  color: #ffffff;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.hd-location-globe {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hd-location-globe img {
+  width: 19px;
+  height: 19px;
+  animation: hd-globe-spin 26s linear infinite;
+}
+
+.hd-location-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hd-location-label {
+  color: rgba(243, 241, 234, 0.52);
+  font-family: var(--font-mono);
+  font-size: 0.44rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.hd-location-value {
+  color: var(--night-text);
+  font-size: 0.69rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.hd-location--paper {
+  border-color: rgba(11, 11, 11, 0.1);
+  background: rgba(247, 246, 241, 0.92);
+  color: var(--ink);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
+}
+
+.hd-location--paper .hd-location-globe {
+  background: rgba(11, 11, 11, 0.06);
+}
+
+.hd-location--paper .hd-location-label {
+  color: var(--muted);
+}
+
+.hd-location--paper .hd-location-value {
+  color: var(--ink);
+}
+
+@keyframes hd-globe-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Motion mark ------------------------------------------------------------- */
+
+.hd-mark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--hd-lavender, #b6a0ff);
+  pointer-events: none;
+}
+
+.hd-mark-rings,
+.hd-grid,
+.hd-bloom {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hd-mark-rings {
+  width: min(96%, 860px);
+}
+
+.hd-grid {
+  width: min(72%, 690px);
+  filter: drop-shadow(0 0 40px rgba(182, 160, 255, 0.18));
+}
+
+.hd-grid-sphere {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hd-grid-sway 22s ease-in-out infinite;
+}
+
+@keyframes hd-grid-sway {
+  0%,
+  100% {
+    transform: rotate(-1.4deg);
+  }
+
+  50% {
+    transform: rotate(1.4deg);
+  }
+}
+
+.hd-bloom {
+  width: min(62.4%, 608px);
+  filter: drop-shadow(0 0 70px rgba(182, 160, 255, 0.32));
+  animation: hd-mark-glow 9s ease-in-out infinite;
+}
+
+.hd-bloom-outer,
+.hd-bloom-inner,
+.hd-bloom-core {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.hd-bloom-outer {
+  animation: hd-mark-spin 140s linear infinite;
+}
+
+.hd-bloom-inner {
+  opacity: 0.75;
+  animation: hd-mark-spin 90s linear infinite reverse;
+}
+
+.hd-bloom-core {
+  animation: hd-bloom-core-pulse 7s ease-in-out infinite;
+}
+
+@keyframes hd-mark-glow {
+  0%,
+  100% {
+    opacity: 0.84;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes hd-bloom-core-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.09);
+  }
+}
+
+.hd-mark-rings-inner {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hd-mark-spin 150s linear infinite;
+}
+
+.hd-mark-satellite,
+.hd-mark-ring-orb {
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.hd-mark-satellite {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+}
+
+.hd-mark-satellite--one {
+  animation: hd-mark-spin 36s linear infinite;
+}
+
+.hd-mark-satellite--two {
+  animation: hd-mark-spin 58s linear infinite reverse;
+}
+
+.hd-mark-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 14px currentColor;
+  opacity: 0.7;
+}
+
+.hd-mark-dot--a {
+  top: 22%;
+  left: 18%;
+  width: 5px;
+  height: 5px;
+  animation: hd-mark-float 11s ease-in-out infinite;
+}
+
+.hd-mark-dot--b {
+  top: 68%;
+  left: 78%;
+  width: 7px;
+  height: 7px;
+  border: 1px solid currentColor;
+  background: transparent;
+  box-shadow: 0 0 16px rgba(182, 160, 255, 0.55);
+  animation: hd-mark-float 14s ease-in-out -4s infinite;
+}
+
+.hd-mark-dot--c {
+  top: 40%;
+  left: 84%;
+  width: 3px;
+  height: 3px;
+  animation: hd-mark-float 9s ease-in-out -2s infinite;
+}
+
+.hd-ambient {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(198, 176, 255, 0.6) 36%,
+    rgba(160, 130, 255, 0) 72%
+  );
+  opacity: 0.45;
+  pointer-events: none;
+  animation: hd-ambient-drift 16s ease-in-out infinite;
+}
+
+.hd-ambient--a {
+  top: 10%;
+  left: 9%;
+  width: 9px;
+  height: 9px;
+  animation-delay: -2s;
+}
+
+.hd-ambient--b {
+  top: 18%;
+  right: 8%;
+  width: 5px;
+  height: 5px;
+  animation-duration: 13s;
+  animation-delay: -6s;
+}
+
+.hd-ambient--c {
+  top: 56%;
+  left: 4%;
+  width: 7px;
+  height: 7px;
+  animation-duration: 19s;
+  animation-delay: -9s;
+}
+
+.hd-ambient--d {
+  right: 7%;
+  bottom: 16%;
+  width: 11px;
+  height: 11px;
+  animation-duration: 22s;
+  animation-delay: -4s;
+}
+
+.hd-ambient--e {
+  top: 40%;
+  right: 2%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 11s;
+  animation-delay: -1s;
+}
+
+.hd-ambient--f {
+  bottom: 7%;
+  left: 24%;
+  width: 5px;
+  height: 5px;
+  animation-duration: 17s;
+  animation-delay: -12s;
+}
+
+@keyframes hd-ambient-drift {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: translate3d(8px, -18px, 0);
+  }
+}
+
+@keyframes hd-mark-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hd-mark-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(10px, -16px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hd-location-globe img,
+  .hd-mark-rings-inner,
+  .hd-grid-sphere,
+  .hd-bloom,
+  .hd-bloom-outer,
+  .hd-bloom-inner,
+  .hd-bloom-core,
+  .hd-mark-satellite,
+  .hd-mark-dot,
+  .hd-ambient {
+    animation: none;
+  }
+}

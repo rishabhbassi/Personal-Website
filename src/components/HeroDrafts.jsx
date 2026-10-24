@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import heroAvatar from "../assets/hero-avatar.jpg";
-import globeSvg from "../assets/globe 1.svg";
+import MotionMark, { LocationPill } from "./HeroMark";
+import MastheadHeroClassic from "./MastheadHeroClassic";
+import MastheadHero from "./MastheadHero";
 import "./HeroDrafts.css";
 
 const ROLE = "Engineer · Data · AI · Product";
@@ -27,19 +28,6 @@ function DraftBrand({ tone = "ink" }) {
   );
 }
 
-function LocationPill({ tone = "glass" }) {
-  return (
-    <div className={`hd-location hd-location--${tone}`}>
-      <span className="hd-location-globe" aria-hidden="true">
-        <img src={globeSvg} alt="" />
-      </span>
-      <span className="hd-location-copy">
-        <span className="hd-location-label">Based in</span>
-        <span className="hd-location-value">New Delhi, India</span>
-      </span>
-    </div>
-  );
-}
 
 function DraftTopbar({ tone = "light", label, nextHref, nextLabel }) {
   return (
@@ -98,7 +86,7 @@ function FullBleedDraft() {
       aria-labelledby="hd-a-title"
     >
       <div className="hd-a-media" aria-hidden="true">
-        <img src={heroAvatar} alt="" fetchPriority="high" />
+        <MotionMark />
       </div>
 
       <DraftTopbar
@@ -133,7 +121,7 @@ function FullBleedDraft() {
         <LocationPill tone="glass" />
         <span className="hd-caption hd-caption--plain">
           <span className="hd-caption-dot" aria-hidden="true" />
-          Portrait / 2026
+          Motion / 2026
         </span>
       </div>
 
@@ -150,40 +138,39 @@ function CenterlineDraft() {
       aria-labelledby="hd-b-title"
     >
       <DraftTopbar
-        tone="light"
+        tone="dark"
         label="Draft B / Centerline"
         nextHref="#draft-masthead"
         nextLabel="Next draft"
       />
 
       <div className="hd-b-body">
-        <p className="hd-eyebrow hd-eyebrow--center">
+        <p className="hd-eyebrow hd-eyebrow--center hd-eyebrow--light">
           <span className="hd-dot" aria-hidden="true" />
           Portfolio / 2026
           <span className="hd-rule" aria-hidden="true" />
           Selected work
         </p>
 
-        <h2 id="hd-b-title" className="hd-title hd-title--center">
+        <h2
+          id="hd-b-title"
+          className="hd-title hd-title--center hd-title--light"
+        >
           Rishabh
           <br />
           <span>Bassi</span>.
         </h2>
 
-        <p className="hd-role hd-role--center">{ROLE}</p>
-        <p className="hd-lede hd-lede--center">{LEDE}</p>
-        <DraftActions />
+        <p className="hd-role hd-role--center hd-role--light">{ROLE}</p>
+        <p className="hd-lede hd-lede--center hd-lede--light">{LEDE}</p>
+        <DraftActions tone="dark" />
       </div>
 
       <figure className="hd-b-band">
-        <img
-          src={heroAvatar}
-          alt="3D portrait of Rishabh Bassi against a gray studio background"
-          loading="lazy"
-        />
+        <MotionMark />
         <figcaption className="hd-caption">
           <span className="hd-caption-dot" aria-hidden="true" />
-          Portrait / 2026
+          Motion / 2026
         </figcaption>
         <div className="hd-b-location">
           <LocationPill tone="glass" />
@@ -203,36 +190,32 @@ function MastheadDraft() {
       aria-labelledby="hd-c-title"
     >
       <DraftTopbar
-        tone="light"
+        tone="dark"
         label="Draft C / Masthead"
         nextHref="#draft-masthead-bleed"
         nextLabel="Next draft"
       />
 
       <div className="hd-c-masthead">
-        <p className="hd-eyebrow">
+        <p className="hd-eyebrow hd-eyebrow--light">
           <span className="hd-dot" aria-hidden="true" />
           Portfolio / 2026
           <span className="hd-rule" aria-hidden="true" />
           Selected work
         </p>
 
-        <h2 id="hd-c-title" className="hd-title hd-title--wide">
+        <h2 id="hd-c-title" className="hd-title hd-title--wide hd-title--light">
           Rishabh <span>Bassi</span>.
         </h2>
 
-        <p className="hd-role">{ROLE}</p>
+        <p className="hd-role hd-role--light">{ROLE}</p>
       </div>
 
       <figure className="hd-c-band">
-        <img
-          src={heroAvatar}
-          alt="3D portrait of Rishabh Bassi against a gray studio background"
-          loading="lazy"
-        />
+        <MotionMark />
         <figcaption className="hd-caption">
           <span className="hd-caption-dot" aria-hidden="true" />
-          Portrait / 2026
+          Motion / 2026
         </figcaption>
         <div className="hd-c-location">
           <LocationPill tone="glass" />
@@ -241,7 +224,7 @@ function MastheadDraft() {
 
       <div className="hd-c-deck">
         <p className="hd-c-lede">{LEDE}</p>
-        <DraftActions />
+        <DraftActions tone="dark" />
         <dl className="hd-c-meta">
           <div>
             <dt>Based in</dt>
@@ -267,7 +250,7 @@ function MastheadBleedDraft() {
       aria-labelledby="hd-d-title"
     >
       <div className="hd-d-media" aria-hidden="true">
-        <img src={heroAvatar} alt="" loading="lazy" />
+        <MotionMark />
       </div>
 
       <DraftTopbar
@@ -313,7 +296,7 @@ function MastheadBleedDraft() {
         <LocationPill tone="glass" />
         <span className="hd-caption hd-caption--plain">
           <span className="hd-caption-dot" aria-hidden="true" />
-          Portrait / 2026
+          Motion / 2026
         </span>
       </div>
 
@@ -330,7 +313,7 @@ function BlendedDraft() {
       aria-labelledby="hd-e-title"
     >
       <DraftTopbar
-        tone="light"
+        tone="dark"
         label="Draft E / Blended"
         nextHref="#draft-masthead-blend"
         nextLabel="Next draft"
@@ -338,33 +321,32 @@ function BlendedDraft() {
 
       <div className="hd-e-main">
         <div className="hd-e-copy">
-          <p className="hd-eyebrow hd-e-eyebrow">
+          <p className="hd-eyebrow hd-e-eyebrow hd-eyebrow--light">
             <span className="hd-dot" aria-hidden="true" />
             Portfolio / 2026
             <span className="hd-rule" aria-hidden="true" />
             Selected work
           </p>
 
-          <h2 id="hd-e-title" className="hd-title hd-title--stack">
+          <h2
+            id="hd-e-title"
+            className="hd-title hd-title--stack hd-title--light"
+          >
             Rishabh
             <br />
             <span>Bassi</span>.
           </h2>
 
-          <p className="hd-role hd-e-role">{ROLE}</p>
-          <p className="hd-lede">{LEDE}</p>
-          <DraftActions />
+          <p className="hd-role hd-e-role hd-role--light">{ROLE}</p>
+          <p className="hd-lede hd-lede--light">{LEDE}</p>
+          <DraftActions tone="dark" />
         </div>
 
         <figure className="hd-e-media">
-          <img
-            src={heroAvatar}
-            alt="3D portrait of Rishabh Bassi on a gray studio background"
-            loading="lazy"
-          />
+          <MotionMark />
           <figcaption className="hd-caption">
             <span className="hd-caption-dot" aria-hidden="true" />
-            Portrait / 2026
+            Motion / 2026
           </figcaption>
           <div className="hd-e-location">
             <LocationPill tone="glass" />
@@ -382,63 +364,39 @@ function MastheadBlendDraft() {
     <section
       id="draft-masthead-blend"
       className="hd-draft hd-f"
-      aria-labelledby="hd-f-title"
+      aria-label="Previous landing hero"
     >
       <DraftTopbar
-        tone="light"
-        label="Draft F / Masthead blend"
+        tone="dark"
+        label="Draft F / Previous landing"
+        nextHref="#draft-latest"
+        nextLabel="Next draft"
+      />
+
+      <div className="hd-f-classic">
+        <MastheadHeroClassic embedded />
+      </div>
+    </section>
+  );
+}
+
+function LatestLandingDraft() {
+  return (
+    <section
+      id="draft-latest"
+      className="hd-draft hd-g"
+      aria-label="Latest landing hero"
+    >
+      <DraftTopbar
+        tone="dark"
+        label="Draft G / Latest landing"
         nextHref="#draft-full"
         nextLabel="Back to draft A"
       />
 
-      <div className="hd-f-masthead">
-        <p className="hd-eyebrow">
-          <span className="hd-dot" aria-hidden="true" />
-          Portfolio / 2026
-          <span className="hd-rule" aria-hidden="true" />
-          Selected work
-        </p>
-
-        <h2 id="hd-f-title" className="hd-title hd-title--wide">
-          Rishabh <span>Bassi</span>.
-        </h2>
-
-        <p className="hd-role">{ROLE}</p>
+      <div className="hd-g-classic">
+        <MastheadHero embedded />
       </div>
-
-      <div className="hd-f-main">
-        <div className="hd-f-copy">
-          <p className="hd-c-lede hd-f-lede">{LEDE}</p>
-          <DraftActions />
-          <dl className="hd-c-meta hd-f-meta">
-            <div>
-              <dt>Based in</dt>
-              <dd>New Delhi, India</dd>
-            </div>
-            <div>
-              <dt>Focus</dt>
-              <dd>Data · Product · Interface</dd>
-            </div>
-          </dl>
-        </div>
-
-        <figure className="hd-f-media">
-          <img
-            src={heroAvatar}
-            alt="3D portrait of Rishabh Bassi on a gray studio background"
-            loading="lazy"
-          />
-          <figcaption className="hd-caption">
-            <span className="hd-caption-dot" aria-hidden="true" />
-            Portrait / 2026
-          </figcaption>
-          <div className="hd-f-location">
-            <LocationPill tone="glass" />
-          </div>
-        </figure>
-      </div>
-
-      <DraftTicker tone="ink" />
     </section>
   );
 }
@@ -450,7 +408,7 @@ export default function HeroDrafts() {
       .split("#");
     const anchor =
       anchorPart ||
-      (/^draft-(full|center|masthead|masthead-bleed|masthead-blend|blend)$/.test(
+      (/^draft-(full|center|masthead|masthead-bleed|masthead-blend|latest|blend)$/.test(
         routePart,
       )
         ? routePart
@@ -498,7 +456,11 @@ export default function HeroDrafts() {
           </a>
           <a href="#draft-masthead-blend">
             <span className="hd-switcher-letter">F</span>
-            <span className="hd-switcher-name">Masthead blend</span>
+            <span className="hd-switcher-name">Previous landing</span>
+          </a>
+          <a href="#draft-latest">
+            <span className="hd-switcher-letter">G</span>
+            <span className="hd-switcher-name">Latest landing</span>
           </a>
         </div>
       </nav>
@@ -509,6 +471,7 @@ export default function HeroDrafts() {
       <MastheadBleedDraft />
       <BlendedDraft />
       <MastheadBlendDraft />
+      <LatestLandingDraft />
     </main>
   );
 }

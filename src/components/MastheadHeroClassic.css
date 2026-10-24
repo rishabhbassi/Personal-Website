@@ -1,0 +1,96 @@
+/* The pre-cut masthead landing, preserved for /hero-drafts. */
+
+/* Anchor the inset bar to the preview section instead of the viewport. */
+.hero-container--masthead-embedded .hero-header.is-stuck {
+  position: absolute;
+}
+
+.hero-container--masthead-embedded .hero-main {
+  grid-template-areas:
+    "role portrait"
+    "copy portrait"
+    "footer portrait";
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.hero-container--masthead-embedded .hero-role-row {
+  grid-area: role;
+  display: flex;
+  align-items: center;
+  min-height: clamp(64px, 8.5vh, 88px);
+  padding: clamp(14px, 2vh, 20px) var(--copy-pad-right) clamp(14px, 2vh, 20px)
+    var(--hero-gutter);
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-container--masthead-embedded .hero-role-row .hero-role {
+  gap: clamp(14px, 1.6vw, 20px);
+  margin: 0;
+  font-size: clamp(0.6rem, 0.8vw, 0.76rem);
+  letter-spacing: 0.14em;
+}
+
+.hero-container--masthead-embedded .hero-role-row .hero-role::before {
+  width: clamp(30px, 3vw, 44px);
+}
+
+.hero-container--masthead-embedded .hero-copy-body {
+  align-self: end;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.hero-container--masthead-embedded .hero-copy-body::before {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .hero-container--masthead-embedded .hero-main {
+    grid-template-areas:
+      "role"
+      "copy"
+      "portrait"
+      "footer";
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto;
+  }
+
+  .hero-container--masthead-embedded .hero-role-row {
+    min-height: 58px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .hero-container--masthead-embedded .hero-role-row .hero-role {
+    gap: 12px;
+    font-size: 0.58rem;
+  }
+
+  .hero-container--masthead-embedded .hero-role-row .hero-role::before {
+    width: 24px;
+  }
+
+  .hero-container--masthead-embedded .hero-copy-body {
+    align-self: stretch;
+    padding-top: 22px;
+    padding-bottom: 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-container--masthead-embedded .hero-role-row {
+    min-height: 54px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .hero-container--masthead-embedded .hero-role-row .hero-role {
+    font-size: 0.54rem;
+    letter-spacing: 0.12em;
+  }
+
+  .hero-container--masthead-embedded .hero-copy-body {
+    padding-top: 18px;
+    padding-bottom: 20px;
+  }
+}
